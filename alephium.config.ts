@@ -19,8 +19,8 @@ const configuration: Configuration<Settings> = {
     },
 
     testnet: {
-      nodeUrl: (process.env.NODE_URL as string) ?? 'https://wallet-v20.testnet.alephium.org',
-      privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.PRIVATE_KEYS.split(','),
+      nodeUrl: (process.env.NODE_URL as string) ?? 'https://wallet.testnet.alephium.org',
+      privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.PRIVKEY_TESTNET.split(","),
       settings: defaultSettings
     },
 

@@ -1,0 +1,28 @@
+{
+  "version": "v2.5.0",
+  "name": "Destroy",
+  "bytecodeTemplate": "010103000000040c0c{0}010a",
+  "fieldsSig": {
+    "names": [
+      "walpheContract"
+    ],
+    "types": [
+      "ByteVec"
+    ],
+    "isMutable": [
+      false
+    ]
+  },
+  "functions": [
+    {
+      "name": "main",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ]
+}

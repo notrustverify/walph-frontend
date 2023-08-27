@@ -15,6 +15,7 @@ import { default as BuyScriptJson } from "../Buy.ral.json";
 import { default as DistributeScriptJson } from "../Distribute.ral.json";
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
+import { default as DestroyScriptJson } from "../Destroy.ral.json";
 
 export const Buy = new ExecutableScript<{
   walpheContract: HexString;
@@ -29,4 +30,7 @@ export const Open = new ExecutableScript<{ walpheContract: HexString }>(
 );
 export const Close = new ExecutableScript<{ walpheContract: HexString }>(
   Script.fromJson(CloseScriptJson)
+);
+export const Destroy = new ExecutableScript<{ walpheContract: HexString }>(
+  Script.fromJson(DestroyScriptJson)
 );

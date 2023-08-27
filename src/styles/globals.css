@@ -6,6 +6,7 @@
   display: flex;
   grid-template-columns: 1fr 1fr;
   column-gap: 2em;
+
 }
 
 .columns > * {
@@ -249,6 +250,8 @@ p {
   margin: 0.75rem 0;
   padding: 0;
   width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 pre {
@@ -511,3 +514,4 @@ blockquote footer {
   line-height: var(--line-height);
   padding: 1.5rem 0;
 }
+

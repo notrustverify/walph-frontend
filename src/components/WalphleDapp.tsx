@@ -69,7 +69,7 @@ export const WalphleDapp: FC<{
           <>
             <h2 className={styles.title}>Walphle lottery on {config.network}</h2>
             <p>Your address: {wallet?.account?.address ?? '???'}</p>
-            <table>
+            {/*<table>
               <thead>
                 <tr>
                   <td>Contract id</td>
@@ -82,7 +82,7 @@ export const WalphleDapp: FC<{
                   <td>{addressGroup}</td>
                 </tr>
               </tbody>
-            </table>
+  </table> */}
             <p>Pool status: <b>{getStateFields?.open ? "open" : "closed"}</b> - Pool size: <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b> </p>
             <p>Free slots: <b>{slotFree?.toString()}</b></p>
             <p>Last Winner: <b>{getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq' ? "-" : getStateFields?.lastWinner.toString()}</b></p>
@@ -90,7 +90,7 @@ export const WalphleDapp: FC<{
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
           <br/>
-            <input type="submit"  onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open} value="Buy ticket" />
+            <input type="submit"  onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open && slotFree > 0n } value="Buy ticket" />
           </>
         </form>
       </div>

@@ -1,3 +1,8 @@
+
+.truncate {
+  text-overflow: ellipsis;
+}
+
 .container {
   padding: 0 2rem;
 }
