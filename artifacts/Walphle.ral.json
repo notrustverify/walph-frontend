@@ -1,0 +1,252 @@
+{
+  "version": "v2.5.0",
+  "name": "Walphle",
+  "bytecode": "120a09121b4047405b40ad40e840ff4114412a010000000102a00002010000000102ce0002010000000102a00102000000000104b414402066da610efb5129c062e88e5fd65fe810f31efd1597021b2edf887a4360fa0800a50200000000010ace030c334c040003ce032d020d0201010101004035a00116002ace00320c7ba0000f7b00040d34117b16000d130a1312832c2f13077bb41600a9a00116002aa10105b416005fb4a0027a130a314d0f2ac4a0020d2aa102a001ce00344c01000701020101004023a000190d7bb4ce0145107bb4a001ce022c1340642da81600a001a001ce022c1340642d2ba81600a10d0ca1010ca10203a100065d01000000000ca0000d7ba001ce003413067b04a100075d01000000000ca0000d7bb4ce0145107b04a100075d01000000000da000190e7bb4ce0145107b03a100065d",
+  "codeHash": "65156d9dc9b2f9ef93fd363f9c2f83ef8ff36b221b3d5b8650e304aacf7882cb",
+  "fieldsSig": {
+    "names": [
+      "poolSize",
+      "poolOwner",
+      "poolFees",
+      "ratioAlphAlf",
+      "open",
+      "balance",
+      "numAttendees",
+      "attendees",
+      "lastWinner"
+    ],
+    "types": [
+      "U256",
+      "Address",
+      "U256",
+      "U256",
+      "Bool",
+      "U256",
+      "U256",
+      "[Address;10]",
+      "Address"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "eventsSig": [
+    {
+      "name": "TicketBought",
+      "fieldNames": [
+        "from",
+        "amount"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256"
+      ]
+    },
+    {
+      "name": "PoolOpen",
+      "fieldNames": [],
+      "fieldTypes": []
+    },
+    {
+      "name": "PoolClose",
+      "fieldNames": [],
+      "fieldTypes": []
+    }
+  ],
+  "functions": [
+    {
+      "name": "getPoolState",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "Bool"
+      ]
+    },
+    {
+      "name": "getPoolSize",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getBalance",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getNumALF",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "ratioAlphAlfRatio",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "buyTicket",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "amount"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "distributePrize",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "winner"
+      ],
+      "paramTypes": [
+        "Address"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "closePoolWhenFull",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "closePool",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "openPool",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ],
+  "constants": [],
+  "enums": [
+    {
+      "name": "ErrorCodes",
+      "fields": [
+        {
+          "name": "PoolFull",
+          "value": {
+            "type": "U256",
+            "value": "0"
+          }
+        },
+        {
+          "name": "PoolAlreadyClose",
+          "value": {
+            "type": "U256",
+            "value": "1"
+          }
+        },
+        {
+          "name": "PoolAlreadyOpen",
+          "value": {
+            "type": "U256",
+            "value": "2"
+          }
+        },
+        {
+          "name": "PoolClosed",
+          "value": {
+            "type": "U256",
+            "value": "3"
+          }
+        },
+        {
+          "name": "InvalidCaller",
+          "value": {
+            "type": "U256",
+            "value": "4"
+          }
+        },
+        {
+          "name": "NotEnoughALF",
+          "value": {
+            "type": "U256",
+            "value": "5"
+          }
+        },
+        {
+          "name": "PoolNotFull",
+          "value": {
+            "type": "U256",
+            "value": "6"
+          }
+        },
+        {
+          "name": "InvalidAmount",
+          "value": {
+            "type": "U256",
+            "value": "7"
+          }
+        }
+      ]
+    }
+  ]
+}
