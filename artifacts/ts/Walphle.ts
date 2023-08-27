@@ -37,29 +37,7 @@ export namespace WalphleTypes {
     open: boolean;
     balance: bigint;
     numAttendees: bigint;
-    attendees: [
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address,
-      Address
-    ];
+    attendees: [Address, Address];
     lastWinner: Address;
   };
 
@@ -184,7 +162,7 @@ export const Walphle = new Factory(
   Contract.fromJson(
     WalphleContractJson,
     "",
-    "1f1c08fd69938eaa752ff523f6488bdbbfdf199a701815423355ca714baf06ae"
+    "4581c31d83e81c1697c860f304fa76ec1ec4d296aefb37beae793f396e319ed6"
   )
 );
 
