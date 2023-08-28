@@ -3,13 +3,20 @@ services:
   web:
     build:
       context: ./
-      target: runner
-    volumes:
-      - .:/app
-    command: npm run devtesnet
+    labels:
+      - traefik.http.routers.walphle.entrypoints=websecure
+      - traefik.http.routers.walphle.rule=Host(`wyppnb4pau.notrustverify.ch`)
+      - traefik.http.routers.walphle.tls=true
+      - traefik.http.routers.walphle.tls.certresolver=letsEncrypt
+      - traefik.enable=true
+    networks:
+       - traefik-proxy
+    command: npm run devtestnet
     env_file:
       - .env
     ports:
       - "3000:3000"
-    environment:
-      NODE_ENV: production
+
+networks:
+   traefik-proxy:
+      external: true

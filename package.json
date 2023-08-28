@@ -4,7 +4,7 @@
   "license": "GPL",
   "scripts": {
     "dev": "NEXT_PUBLIC_NETWORK=devnet next dev",
-    "devtesnet": "NEXT_PUBLIC_NETWORK=testnet next dev",
+    "devtestnet": "NEXT_PUBLIC_NETWORK=testnet next dev",
     "start": "next start",
     "export": "next export",
     "build": "npm run devnet:build",
