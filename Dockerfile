@@ -8,4 +8,4 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "run", "devtestnet"]
+CMD ["npm", "run", "testnet:build"]
