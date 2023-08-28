@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FC, useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
@@ -38,17 +38,27 @@ export const WalphleDapp: FC<{
   }
 
 
-  const getPoolStatus = async () => {
+  const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
-    const walphleState = Walphle.at(walpheConfig.walpheContractAddress)
+      const walphleState = Walphle.at(walpheConfig.walpheContractAddress)
 
-    const initialState = await walphleState.fetchState()
-    console.log(initialState.fields)
-    setStateFields(initialState.fields)
+      const initialState = await walphleState.fetchState()
+      console.log(initialState.fields)
+      setStateFields(initialState.fields)
     }
-  }
+  }, [context])
+
+
+  useEffect(() => {
+    if (context.signerProvider?.nodeProvider) {
+      getPoolStatus()
+    }
+  }, [context.signerProvider?.nodeProvider, getPoolStatus])
+
+
+
 
 
   getPoolStatus()
