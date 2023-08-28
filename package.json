@@ -1,5 +1,5 @@
 {
-  "name": "alephium-nextjs-template",
+  "name": "whalphle-frontend",
   "version": "0.1.0",
   "license": "GPL",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@alephium/web3": "v0.18.2",
-    "@alephium/web3-react": "v0.17.0",
+    "@alephium/web3-react": "v0.18.0",
     "@next/font": "13.1.4",
     "detect-browser": "^5.3.0",
     "dotenv": "^16.3.1",

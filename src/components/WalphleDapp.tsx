@@ -78,6 +78,7 @@ export const WalphleDapp: FC<{
         <form onSubmit={handleBuyTicket}>
           <>
             <h2 className={styles.title}>Walphle lottery on {config.network}</h2>
+            <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
             <p>Your address: {wallet?.account?.address ?? '???'}</p>
             {/*<table>
               <thead>
