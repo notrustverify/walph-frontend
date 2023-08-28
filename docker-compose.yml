@@ -6,8 +6,10 @@ services:
       target: runner
     volumes:
       - .:/app
-    command: npm run devtestnet
+    command: npm run devtesnet
+    env_file:
+      - .env
     ports:
       - "3000:3000"
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
