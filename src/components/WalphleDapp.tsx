@@ -102,7 +102,7 @@ export const WalphleDapp: FC<{
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
           <br/>
-            <input type="submit" onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= 0n } value="Buy ticket" />
+            <input type="submit" onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= 0n } value={ongoingTxId ? "Waiting for tx": "Buy ticket"} />
           </>
         </form>
       </div>
