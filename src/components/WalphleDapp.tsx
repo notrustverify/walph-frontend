@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useAlephiumConnectContext } from '@alephium/web3-react'
-import { node, binToHex, addressFromContractId, contractIdFromAddress } from '@alephium/web3'
+import { node, binToHex, addressFromContractId, contractIdFromAddress, NodeProvider } from '@alephium/web3'
 import { WalphleConfig, walpheConfig } from '@/services/utils'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
@@ -40,6 +40,7 @@ export const WalphleDapp: FC<{
 
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
+   
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
       const walphleState = Walphle.at(walpheConfig.walpheContractAddress)
@@ -94,14 +95,14 @@ export const WalphleDapp: FC<{
                 </tr>
               </tbody>
   </table> */}
-            <p>Pool status: <b>{getStateFields?.open ? "open" : "closed"}</b> - Pool size: <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b> </p>
+            <p>Pool status: <b>{getStateFields?.open ? "open" : "draw in progress"}</b> - Pool size: <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b> </p>
             <p>Free slots: <b>{slotFree?.toString()}</b></p>
             <p>Last Winner: <b>{getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq' ? "-" : getStateFields?.lastWinner.toString()}</b></p>
             <br />
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
           <br/>
-            <input type="submit"  onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= 0n } value="Buy ticket" />
+            <input type="submit" onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= 0n } value="Buy ticket" />
           </>
         </form>
       </div>

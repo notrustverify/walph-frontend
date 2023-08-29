@@ -5,6 +5,7 @@
 
 .container {
   padding: 0 2rem;
+  
 }
 
 .main {
@@ -86,7 +87,6 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  padding: 4rem 0;
 }
 
 .center::before {
@@ -158,6 +158,11 @@
     rgba(var(--tile-end-rgb), 1)
   );
   background-clip: content-box;
+}
+
+.inline {
+  display: inline-table;
+  margin-right: 2em;
 }
 
 /* Enable hover only on non-touch devices */

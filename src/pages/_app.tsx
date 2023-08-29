@@ -11,7 +11,8 @@ export default function App({ Component, pageProps }: AppProps) {
       network={walpheConfig.network}
       addressGroup={walpheConfig.groupIndex}
     >
-          <br/><Component {...pageProps} />
+          <br/>
+          <Component {...pageProps} />
     </AlephiumWalletProvider>
   )
 }
