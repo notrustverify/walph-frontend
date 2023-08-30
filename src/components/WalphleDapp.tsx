@@ -22,25 +22,25 @@ export const WalphleDapp: FC<{
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
     if (wallet?.signer) {
-      const result = await buyTicket(wallet.signer,ticketAmount, config.walpheContractId)
+      const result = await buyTicket(wallet.signer, ticketAmount, config.walpheContractId)
       setOngoingTxId(result.txId)
     }
   }
 
-  const txStatusCallback = (status: node.TxStatus, numberOfChecks: number): Promise<any> => {
-    if ((status.type === 'Confirmed' && numberOfChecks > 0) || (status.type === 'TxNotFound' && numberOfChecks > 0)) {
-      setOngoingTxId(undefined)
-    }
+  const txStatusCallback = useCallback(
+    async (status: node.TxStatus, numberOfChecks: number): Promise<any> => {
+      if ((status.type === 'Confirmed' && numberOfChecks > 2) || (status.type === 'TxNotFound' && numberOfChecks > 3)) {
+        setOngoingTxId(undefined)
+      }
 
-    
-      
-    return Promise.resolve()
-  }
-
+      return Promise.resolve()
+    },
+    [setOngoingTxId]
+  )
 
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
-   
+
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
       const walphleState = Walphle.at(walpheConfig.walpheContractAddress)
@@ -51,30 +51,41 @@ export const WalphleDapp: FC<{
     }
   }, [context])
 
-
   useEffect(() => {
     if (context.signerProvider?.nodeProvider) {
       getPoolStatus()
     }
   }, [context.signerProvider?.nodeProvider, getPoolStatus])
 
-
-
-
-
   getPoolStatus()
-  
+
   const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
   console.log('ongoing..', ongoingTxId)
 
-  const poolFeesAmount = poolSize * Number(getStateFields?.poolFees)/100
+  const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
 
+  const buyTicketsButton = [1, 5, 10].map(function (amount) {
+    // for each element in the Roles array, display it https://stackoverflow.com/questions/37997893/promise-error-objects-are-not-valid-as-a-react-child
+    let message = 'tickets'
+    if (amount <= 1) {
+      message = 'ticket'
+    }
+    return (
+      // eslint-disable-next-line react/jsx-key
+      slotFree >= amount && !!ongoingTxId ? <input
+        style={{ display: 'inline-block', marginRight: '1em' }}
+        type="submit"
+        onClick={() => setBuyAmount(amount)}
+        disabled={!!ongoingTxId || !getStateFields?.open || slotFree < amount}
+        value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + amount + ' ' + message}
+      /> : ''
+  
+    )
+  })
   return (
-    
     <>
-
       <div className="columns">
         <form onSubmit={handleBuyTicket}>
           <>
@@ -95,14 +106,27 @@ export const WalphleDapp: FC<{
                 </tr>
               </tbody>
   </table> */}
-            <p>Pool status: <b>{getStateFields?.open ? "open" : "draw in progress"}</b> - Pool size: <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b> </p>
-            <p>Free slots: <b>{slotFree?.toString()}</b></p>
-            <p>Last Winner: <b>{getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq' ? "-" : getStateFields?.lastWinner.toString()}</b></p>
+            <p>
+              Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}
+              <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
+            </p>
+            <p>
+              Free slots: <b>{slotFree?.toString()}</b>
+            </p>
+            <p>
+              Last Winner:{' '}
+              <b>
+                {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
+                  ? '-'
+                  : getStateFields?.lastWinner.toString()}
+              </b>
+            </p>
             <br />
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
-          <br/>
-            <input type="submit" onClick={() => setBuyAmount("1")} disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= 0n } value={ongoingTxId ? "Waiting for tx": "Buy ticket"} />
+            <br />
+
+            <div style={{ width: '100%', textAlign: 'center' }}>{buyTicketsButton}</div>
           </>
         </form>
       </div>
@@ -112,4 +136,3 @@ export const WalphleDapp: FC<{
 function componentDidMount() {
   throw new Error('Function not implemented.')
 }
-

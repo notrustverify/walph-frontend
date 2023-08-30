@@ -33,7 +33,8 @@ export namespace WalphleTypes {
     poolSize: bigint;
     poolOwner: Address;
     poolFees: bigint;
-    ratioAlphAlf: bigint;
+    tokenIdToHold: HexString;
+    minTokenAmountToHold: bigint;
     open: boolean;
     balance: bigint;
     numAttendees: bigint;
@@ -61,6 +62,9 @@ export namespace WalphleTypes {
   export type PoolOpenEvent = Omit<ContractEvent, "fields">;
   export type PoolCloseEvent = Omit<ContractEvent, "fields">;
   export type DestroyEvent = ContractEvent<{ from: Address }>;
+  export type NewMinTokenAmountToHoldEvent = ContractEvent<{
+    newAmount: bigint;
+  }>;
 
   export interface CallMethodTable {
     getPoolState: {
@@ -91,7 +95,13 @@ export namespace WalphleTypes {
 }
 
 class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
-  eventIndex = { TicketBought: 0, PoolOpen: 1, PoolClose: 2, Destroy: 3 };
+  eventIndex = {
+    TicketBought: 0,
+    PoolOpen: 1,
+    PoolClose: 2,
+    Destroy: 3,
+    NewMinTokenAmountToHold: 4,
+  };
   consts = {
     ErrorCodes: {
       PoolFull: BigInt(0),
@@ -99,7 +109,7 @@ class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
       PoolAlreadyOpen: BigInt(2),
       PoolClosed: BigInt(3),
       InvalidCaller: BigInt(4),
-      NotEnoughALF: BigInt(5),
+      NotEnoughToken: BigInt(5),
       PoolNotFull: BigInt(6),
       InvalidAmount: BigInt(7),
     },
@@ -124,16 +134,6 @@ class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
       params: Omit<TestContractParams<WalphleTypes.Fields, never>, "testArgs">
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "getBalance", params);
-    },
-    getNumALF: async (
-      params: Omit<TestContractParams<WalphleTypes.Fields, never>, "testArgs">
-    ): Promise<TestContractResult<bigint>> => {
-      return testMethod(this, "getNumALF", params);
-    },
-    ratioAlphAlfRatio: async (
-      params: Omit<TestContractParams<WalphleTypes.Fields, never>, "testArgs">
-    ): Promise<TestContractResult<bigint>> => {
-      return testMethod(this, "ratioAlphAlfRatio", params);
     },
     buyTicket: async (
       params: TestContractParams<WalphleTypes.Fields, { amount: bigint }>
@@ -165,6 +165,11 @@ class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
     ): Promise<TestContractResult<null>> => {
       return testMethod(this, "destroyPool", params);
     },
+    changeMinAmountToHold: async (
+      params: TestContractParams<WalphleTypes.Fields, { amount: bigint }>
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "changeMinAmountToHold", params);
+    },
   };
 }
 
@@ -173,7 +178,7 @@ export const Walphle = new Factory(
   Contract.fromJson(
     WalphleContractJson,
     "",
-    "a7bed4d7a05a234b216ef86dcaab8712e7c1094f39c8b6d5de58ac63038724f2"
+    "b99f620af03e6c73061b807e3450001589c8c14dc2efce52dc2e258f940a79b2"
   )
 );
 
@@ -243,12 +248,26 @@ export class WalphleInstance extends ContractInstance {
     );
   }
 
+  subscribeNewMinTokenAmountToHoldEvent(
+    options: EventSubscribeOptions<WalphleTypes.NewMinTokenAmountToHoldEvent>,
+    fromCount?: number
+  ): EventSubscription {
+    return subscribeContractEvent(
+      Walphle.contract,
+      this,
+      options,
+      "NewMinTokenAmountToHold",
+      fromCount
+    );
+  }
+
   subscribeAllEvents(
     options: EventSubscribeOptions<
       | WalphleTypes.TicketBoughtEvent
       | WalphleTypes.PoolOpenEvent
       | WalphleTypes.PoolCloseEvent
       | WalphleTypes.DestroyEvent
+      | WalphleTypes.NewMinTokenAmountToHoldEvent
     >,
     fromCount?: number
   ): EventSubscription {

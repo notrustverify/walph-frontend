@@ -1,9 +1,7 @@
 import { Configuration } from '@alephium/cli'
 import { Number256 } from '@alephium/web3'
-import * as dotenv from 'dotenv'
 
 // Settings are usually for configuring
-dotenv.config()
 
 export type Settings = {
   issueTokenAmount: Number256
