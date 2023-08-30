@@ -8,17 +8,6 @@
 }
 
 
-.outer
-{
-    
-}
-
-.inner
-{
-    display: inline-block;
-}
-
-
 .description {
   display: inherit;
   justify-content: inherit;

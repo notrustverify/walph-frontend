@@ -1,5 +1,5 @@
 import { DUST_AMOUNT, ExecuteScriptResult, SignerProvider } from '@alephium/web3'
-import { Buy, BuyWithoutToken} from '../../artifacts/ts/scripts'
+import { Buy, BuyWithoutToken } from '../../artifacts/ts/scripts'
 
 export const buyTicket = async (
   signerProvider: SignerProvider,

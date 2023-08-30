@@ -67,17 +67,16 @@ export const WalphleDapp: FC<{
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
 
   const buyTicketsButton = [1, 5, 10].map(function (amount) {
-    // for each element in the Roles array, display it https://stackoverflow.com/questions/37997893/promise-error-objects-are-not-valid-as-a-react-child
     let message = 'tickets'
     if (amount <= 1) {
       message = 'ticket'
     }
     return (
       // eslint-disable-next-line react/jsx-key
-      slotFree >= amount && !!ongoingTxId ? <input
+      slotFree >= amount && !ongoingTxId ? <input
         style={{ display: 'inline-block', marginRight: '1em' }}
         type="submit"
-        onClick={() => setBuyAmount(amount)}
+        onClick={() => setBuyAmount(amount.toString())}
         disabled={!!ongoingTxId || !getStateFields?.open || slotFree < amount}
         value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + amount + ' ' + message}
       /> : ''
@@ -92,20 +91,6 @@ export const WalphleDapp: FC<{
             <h2 className={styles.title}>Walphle lottery on {config.network}</h2>
             <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
             <p>Your address: {wallet?.account?.address ?? '???'}</p>
-            {/*<table>
-              <thead>
-                <tr>
-                  <td>Contract id</td>
-                  <th>group</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr key={addressGroup} style={{ background: 'red', color: 'white' }}>
-                  <td>{config.walpheContractId}</td>
-                  <td>{addressGroup}</td>
-                </tr>
-              </tbody>
-  </table> */}
             <p>
               Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}
               <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
