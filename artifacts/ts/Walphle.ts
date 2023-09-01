@@ -48,6 +48,17 @@ export namespace WalphleTypes {
       Address,
       Address,
       Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
+      Address,
       Address
     ];
     lastWinner: Address;
@@ -178,7 +189,7 @@ export const Walphle = new Factory(
   Contract.fromJson(
     WalphleContractJson,
     "",
-    "0466a3ff92f2a4be552c47d45dd01bbba568c2caa9d8e07b3dfa81f1a3ee46de"
+    "27dec6aea169fa5f9d223c2297c0f3e9ecdf0ef966264e68a0ff12e32d635a83"
   )
 );
 

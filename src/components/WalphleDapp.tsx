@@ -30,7 +30,7 @@ export const WalphleDapp = () => {
     
   
     // TODO find a better way to get deployer addresses
-  const deployerAddresses = ["18vsJ3xDBnSt2aXRSQ7QRTPrVVkjZuTXtxvV1x8mvm3Nz","159UkjK8iDU9vxkwV7qt2B3HB2SdwntUA2RyjCYrh96Dh","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
+  const deployerAddresses = ["1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y","18oy42sSBJ8VThgEfdhBK9EELyG4BXpvzuN2ZiA8ezaNi","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
   
     const walpheContract = loadDeployments(network,deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(wallet.account.address))).contracts.Walphle.contractInstance 
     
