@@ -4,8 +4,9 @@ WORKDIR /app
 
 COPY package.json ./
 
-RUN npm install
+RUN npm install --global yarn
+RUN yarn
 
 COPY . .
 
-RUN npm run testnet:build
+RUN yarn run testnet:build
