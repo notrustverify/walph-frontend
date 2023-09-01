@@ -12,10 +12,10 @@ const configuration: Configuration<Settings> = {
   networks: {
     devnet: {
       nodeUrl: 'http://127.0.0.1:22973',
-      privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.PRIVKEY_TESTNET!.split(','),
+      privateKeys: [],
+      //privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.NEXT_PRIVKEY_DEVNET!.split(','),
       settings: defaultSettings
     },
-
     testnet: {
       nodeUrl: (process.env.NODE_URL as string) ?? 'https://wallet.testnet.alephium.org',
       privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.PRIVKEY_TESTNET!.split(","),
@@ -28,6 +28,7 @@ const configuration: Configuration<Settings> = {
       settings: defaultSettings
     }
   }
+  
 }
 
 export default configuration

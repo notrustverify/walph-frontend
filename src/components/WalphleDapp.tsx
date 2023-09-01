@@ -4,20 +4,43 @@ import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useAlephiumConnectContext } from '@alephium/web3-react'
-import { node, binToHex, addressFromContractId, contractIdFromAddress, NodeProvider } from '@alephium/web3'
-import { WalphleConfig, walpheConfig } from '@/services/utils'
+import { node, binToHex, addressFromContractId, contractIdFromAddress, NodeProvider, groupOfAddress, NetworkId } from '@alephium/web3'
+//import { WalphleConfig, walpheConfig } from '@/services/utils'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
+import { WalphleConfig } from '@/services/utils'
+import { loadDeployments } from 'artifacts/ts/deployments'
 
-export const WalphleDapp: FC<{
-  config: WalphleConfig
-}> = ({ config }) => {
+export const WalphleDapp = () => {
   const context = useAlephiumConnectContext()
   const wallet = useWallet()
-  const addressGroup = config.groupIndex
+
   const [ticketAmount, setBuyAmount] = useState('')
   const [getStateFields, setStateFields] = useState<WalphleTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
+
+
+  function getNetwork(): NetworkId {
+    const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
+    return network
+  }
+  
+  function getWalphleConfig(): WalphleConfig {
+    const network = getNetwork()
+    
+  
+    // TODO find a better way to get deployer addresses
+  const deployerAddresses = ["18vsJ3xDBnSt2aXRSQ7QRTPrVVkjZuTXtxvV1x8mvm3Nz","159UkjK8iDU9vxkwV7qt2B3HB2SdwntUA2RyjCYrh96Dh","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
+  
+    const walpheContract = loadDeployments(network,deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(wallet.account.address))).contracts.Walphle.contractInstance 
+    
+    const groupIndex = walpheContract.groupIndex
+    const walpheContractAddress = walpheContract.address
+    const walpheContractId = walpheContract.contractId
+    return { network, groupIndex, walpheContractAddress, walpheContractId }
+  }
+
+  const config = getWalphleConfig()
 
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,10 +63,11 @@ export const WalphleDapp: FC<{
 
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
+    // We specify up to 10 retries, with 1 second retry delay
 
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
-      const walphleState = Walphle.at(walpheConfig.walpheContractAddress)
+      const walphleState = Walphle.at(config.walpheContractAddress)
 
       const initialState = await walphleState.fetchState()
       console.log(initialState.fields)
@@ -66,6 +90,7 @@ export const WalphleDapp: FC<{
 
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
 
+  
   const buyTicketsButton = [1, 5, 10].map(function (amount) {
     let message = 'tickets'
     if (amount <= 1) {

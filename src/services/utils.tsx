@@ -1,5 +1,9 @@
-import { NetworkId } from '@alephium/web3'
+import { NetworkId , SignerProvider, groupOfAddress } from '@alephium/web3'
 import { loadDeployments } from '../../artifacts/ts/deployments'
+import { Walphle, WalphleInstance } from 'artifacts/ts'
+import { useWallet, useAlephiumConnectContext, Wallet } from '@alephium/web3-react'
+
+
 
 export interface WalphleConfig {
   network: NetworkId
@@ -13,13 +17,27 @@ function getNetwork(): NetworkId {
   return network
 }
 
+function getGroup(): number {
+  //TODO find a way to know the wallet group selected from the extension
+  return 0
+}
+
+/*
 function getWalphleConfig(): WalphleConfig {
   const network = getNetwork()
-  const walpheContract = loadDeployments(network).contracts.Walphle.contractInstance
+  
+
+  // TODO find a better way to get deployer addresses
+const deployerAddresses = ["18vsJ3xDBnSt2aXRSQ7QRTPrVVkjZuTXtxvV1x8mvm3Nz","159UkjK8iDU9vxkwV7qt2B3HB2SdwntUA2RyjCYrh96Dh","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
+
+  const walpheContract = loadDeployments(network,deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(userAddress))).contracts.Walphle.contractInstance 
+  
   const groupIndex = walpheContract.groupIndex
   const walpheContractAddress = walpheContract.address
   const walpheContractId = walpheContract.contractId
   return { network, groupIndex, walpheContractAddress, walpheContractId }
 }
 
+
 export const walpheConfig = getWalphleConfig()
+*/
