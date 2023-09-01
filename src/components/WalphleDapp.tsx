@@ -4,19 +4,21 @@ import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useAlephiumConnectContext } from '@alephium/web3-react'
-import { node, binToHex, addressFromContractId, contractIdFromAddress, NodeProvider, groupOfAddress, NetworkId } from '@alephium/web3'
+import {
+  node,
+  binToHex,
+  addressFromContractId,
+  contractIdFromAddress,
+  NodeProvider,
+  groupOfAddress,
+  NetworkId
+} from '@alephium/web3'
 //import { WalphleConfig, walpheConfig } from '@/services/utils'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
 import { WalphleConfig } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import * as fetchRetry from 'fetch-retry'
-
-
-const retryFetch = fetchRetry.default(fetch, {
-  retries: 10,
-  retryDelay: 1000
-})
 
 export const WalphleDapp = () => {
   const context = useAlephiumConnectContext()
@@ -25,22 +27,38 @@ export const WalphleDapp = () => {
   const [ticketAmount, setBuyAmount] = useState('')
   const [getStateFields, setStateFields] = useState<WalphleTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
+  const [count, setCount] = React.useState<number>(1)
 
+  const inc = (event) => {
+      setCount(count + 1)
+  }
+
+  const dec = () => {
+    if(count >= 1)
+      setCount(count - 1)
+  }
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
     return network
   }
-  
+
   function getWalphleConfig(): WalphleConfig {
     const network = getNetwork()
-    
-  
+
     // TODO find a better way to get deployer addresses
-  const deployerAddresses = ["1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y","18oy42sSBJ8VThgEfdhBK9EELyG4BXpvzuN2ZiA8ezaNi","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
-  
-    const walpheContract = loadDeployments(network,deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(wallet.account.address))).contracts.Walphle.contractInstance 
-    
+    const deployerAddresses = [
+      '1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y',
+      '18oy42sSBJ8VThgEfdhBK9EELyG4BXpvzuN2ZiA8ezaNi',
+      '19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1',
+      '19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB'
+    ]
+
+    const walpheContract = loadDeployments(
+      network,
+      deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(wallet.account.address))
+    ).contracts.Walphle.contractInstance
+
     const groupIndex = walpheContract.groupIndex
     const walpheContractAddress = walpheContract.address
     const walpheContractId = walpheContract.contractId
@@ -96,7 +114,6 @@ export const WalphleDapp = () => {
 
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
 
-  
   const buyTicketsButton = [1, 5, 10].map(function (amount) {
     let message = 'tickets'
     if (amount <= 1) {
@@ -104,14 +121,17 @@ export const WalphleDapp = () => {
     }
     return (
       // eslint-disable-next-line react/jsx-key
-      slotFree >= amount && !ongoingTxId ? <input
-        style={{ display: 'inline-block', marginRight: '1em' }}
-        type="submit"
-        onClick={() => setBuyAmount(amount.toString())}
-        disabled={!!ongoingTxId || !getStateFields?.open || slotFree < amount}
-        value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + amount + ' ' + message}
-      /> : ''
-  
+      slotFree >= amount && !ongoingTxId ? (
+        <input
+          style={{ display: 'inline-block', marginRight: '1em' }}
+          type="submit"
+          onClick={() => setBuyAmount(amount.toString())}
+          disabled={!!ongoingTxId || !getStateFields?.open || slotFree < amount}
+          value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + amount + ' ' + message}
+        />
+      ) : (
+        ''
+      )
     )
   })
   return (
@@ -142,7 +162,38 @@ export const WalphleDapp = () => {
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
 
-            <div style={{ width: '100%', textAlign: 'center' }}>{buyTicketsButton}</div>
+            {//<div style={{ width: '100%', textAlign: 'center' }}>{buyTicketsButton}</div>
+            }
+
+            <div>
+              <button className="button.flat" style={{ display: 'inline-block', marginRight: '1em' }} type="button" onClick={inc}>
+                +
+              </button>
+              <input
+                style={{
+                  display: 'inline-block',
+                  marginRight: '1em',
+                  maxWidth: '50%',
+                  width: '3em',
+                  textAlign: 'center'
+                }}
+                defaultValue={1}
+                value={count}
+                min={1}
+              />
+
+              <button type="button" onClick={dec}>
+                -
+              </button>
+
+              <input
+                style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
+                type="submit"
+                onClick={() => setBuyAmount(count.toString())}
+                disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count}
+                value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
+              />
+            </div>
           </>
         </form>
       </div>
