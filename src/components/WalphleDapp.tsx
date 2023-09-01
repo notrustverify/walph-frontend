@@ -29,14 +29,6 @@ export const WalphleDapp = () => {
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
 
-  const inc = (event) => {
-      setCount(count + 1)
-  }
-
-  const dec = () => {
-    if(count >= 1)
-      setCount(count - 1)
-  }
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
@@ -86,6 +78,8 @@ export const WalphleDapp = () => {
     [setOngoingTxId]
   )
 
+
+
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
 
@@ -111,6 +105,18 @@ export const WalphleDapp = () => {
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
   console.log('ongoing..', ongoingTxId)
+
+
+
+  const inc = (event) => {
+    if(count < poolSize)
+    setCount(count + 1)
+}
+
+const dec = () => {
+  if(count > 1)
+    setCount(count - 1)
+}
 
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
 
