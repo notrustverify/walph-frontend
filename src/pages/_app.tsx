@@ -10,8 +10,8 @@ export default function App({ Component, pageProps }: AppProps) {
       useTheme="minimal"
       network={
         process.env.NEXT_PUBLIC_NETWORK === undefined
-          ? networkIds['mainnet']
-          : networkIds[process.env.NEXT_PUBLIC_NETWORK]
+          ? 'mainnet'
+          : process.env.NEXT_PUBLIC_NETWORK
       }
     >
       <br />
