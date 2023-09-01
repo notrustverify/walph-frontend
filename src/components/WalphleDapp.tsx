@@ -10,6 +10,13 @@ import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
 import { WalphleConfig } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
+import * as fetchRetry from 'fetch-retry'
+
+
+const retryFetch = fetchRetry.default(fetch, {
+  retries: 10,
+  retryDelay: 1000
+})
 
 export const WalphleDapp = () => {
   const context = useAlephiumConnectContext()
@@ -63,7 +70,6 @@ export const WalphleDapp = () => {
 
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
-    // We specify up to 10 retries, with 1 second retry delay
 
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
