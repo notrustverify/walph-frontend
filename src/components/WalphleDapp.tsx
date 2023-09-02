@@ -9,14 +9,14 @@ import {
   groupOfAddress,
   NetworkId,
   SignerProvider,
+  Contract,
 } from '@alephium/web3'
 //import { WalphleConfig, walpheConfig } from '@/services/utils'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphleConfig, getDeployerAddresses, findToken } from '@/services/utils'
+import { WalphleConfig, getDeployerAddresses, findToken, getTokenIdToHold } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
-import { get } from 'http'
-import { NotEnougToken } from './NotEnoughToken'
+import { NotEnoughToken } from './NotEnoughToken'
 
 export const WalphleDapp = () => {
   const context = useAlephiumConnectContext()
@@ -27,6 +27,7 @@ export const WalphleDapp = () => {
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
   const { balance, updateBalanceForTx } = useBalance()
+
   let enoughToken = false
 
   function getNetwork(): NetworkId {
@@ -76,31 +77,33 @@ export const WalphleDapp = () => {
 
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = context.signerProvider?.nodeProvider
-
+    
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
       const walphleState = Walphle.at(config.walpheContractAddress)
 
       const initialState = await walphleState.fetchState()
       setStateFields(initialState.fields)
+      console.log(initialState)
     }
   }, [config?.walpheContractAddress, context.signerProvider?.nodeProvider])
 
 
   const checkTokenBalance = () => {
     
-
-    if (process.env.NEXT_PUBLIC_NO_HODLING === undefined || process.env.NEXT_PUBLIC_NO_HODLING === 'true' ){
+  
+    if (process.env.NEXT_PUBLIC_HAVE_HODL !== undefined && process.env.NEXT_PUBLIC_HAVE_HODL === 'true' ){
       
       if(balance.tokenBalances !== undefined){
-
-      const getTokenObject = findToken("47504df5a7b18dcecdbf1ea00b7e644d0a7c93919f2d2061ba153f241f03b801",balance.tokenBalances)
-        if(getTokenObject.amount <= 0){
+      const getTokenToHoldInfo = findToken(getTokenIdToHold().tokenId,balance.tokenBalances)[0]
+        if(getTokenToHoldInfo.amount >= getTokenIdToHold().minAmount)
           enoughToken = true
-        }
+        
     }
+  } else {
+    enoughToken = true
   }
-
+  console.log(process.env.NEXT_PUBLIC_HAVE_HODL, enoughToken)
   }
 
   useEffect(() => {
@@ -163,7 +166,7 @@ const dec = () => {
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
-            {enoughToken ? 
+            { enoughToken  ? 
             <div >
             <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
               <input
@@ -192,7 +195,7 @@ const dec = () => {
                 value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                 defaultValue={1}
 
-              />  </div>: NotEnougToken
+              />  </div>: <NotEnoughToken tokenName={getTokenIdToHold().tokenName}/>
             }
           </>
         </form>

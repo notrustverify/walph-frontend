@@ -23,12 +23,15 @@ function getGroup(): number {
   return 0
 }
 
+export function getTokenIdToHold(): {minAmount: number, tokenId: string, tokenName: string} {
+    return { minAmount: 1, tokenId: "47504df5a7b18dcecdbf1ea00b7e644d0a7c93919f2d2061ba153f241f03b801", tokenName: "ALF" }
+}
 
 export function findToken(tokenId: string, tokenBalances){
   return tokenBalances.filter(
     function(data){ 
-      console.log(data)
-      return data.id == tokenId
+      const tokenBalance = data.id == tokenId
+      return tokenBalance
      }
 )
 
