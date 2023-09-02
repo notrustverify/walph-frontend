@@ -87,6 +87,8 @@ export default function Home() {
           </div>
         )}
         {connectionStatus == "connected" && <WalphleDapp />}
+        <br/>
+        <p className={styles.center} >Proudly Powered by&nbsp;<Link href="https://notrustverify.ch">No Trust Verify</Link></p>
       </div>
     </>
   )
