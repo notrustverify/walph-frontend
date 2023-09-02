@@ -54,8 +54,7 @@ export default function Home() {
               </li>
               <li>
                 <strong>Win Delicious ALPH:</strong> Once the wALPHle is drawn, if your chosen address is selected,
-                you'll be showered with mouthwatering ALPH by getting a notification. If not get the chance a new chance
-                by participating again
+                you'll be showered with mouthwatering ALPH by getting a notification.
               </li>
             </ul>
 
@@ -68,10 +67,6 @@ export default function Home() {
               <li>
                 <strong>Easy to Play:</strong> Whether you're a seasoned gambler or new to the world of lotteries,
                 WALPHle Lottery's straightforward gameplay makes it accessible to all.
-              </li>
-              <li>
-                <strong>Exciting Prizes:</strong> With every bet, you have the chance to win exciting prizes, both
-                monetary and culinary, making every round a delightful surprise.
               </li>
               <li>
                 <strong>Community and Engagement:</strong> Join a vibrant community of players who share your passion
