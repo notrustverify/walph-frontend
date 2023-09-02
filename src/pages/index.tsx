@@ -3,9 +3,10 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { WalphleDapp } from '@/components/WalphleDapp'
 import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
+import Link from 'next/link'
 
 export default function Home() {
-  const wallet = useWallet()
+  const { account, connectionStatus } = useWallet()
 
   return (
     <>
@@ -15,9 +16,12 @@ export default function Home() {
           <title>WALPHle dApp</title>
           <meta name="description" content="Powered by No Trust Verify" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="shortcut icon" href="/images/favicon.ico" />
+          <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
+          <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
         </Head>
-        {wallet ? (
+        {connectionStatus == "connected" ? (
           ''
         ) : (
           <div className="container">
@@ -30,17 +34,17 @@ export default function Home() {
 
             <h2>How Does it Work?</h2>
             <p>
-              Entering the world of WALPHle Lottery with <a href="https://alephium.org"> Alephium</a> is as easy as
+              Entering the world of WALPHle Lottery with <Link href="https://alephium.org" prefetch={false}>Alephium</Link> is as easy as
               ordering your favorite breakfast treat. Here's a quick overview of how the magic unfolds:
             </p>
             <ul>
               <li>
                 <strong>Connect your Alephium wallet</strong>: just by clicking on the button "Connect Alephium",
                 download it here for{' '}
-                <a href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj">
+                <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false}>
                   Chrome
-                </a>{' '}
-                or <a href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/">Firefox</a>{' '}
+                </Link>{' '}
+                or <Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false}>Firefox</Link>{' '}
               </li>
               <li>
                 <strong>Buy a certain number of WALPHle ticket</strong>: 1 ticket in 1 ALPH{' '}
@@ -87,7 +91,7 @@ export default function Home() {
             </p>
           </div>
         )}
-        {!!wallet && <WalphleDapp />}
+        {(connectionStatus == "connecting" || connectionStatus == "connected" ) && <WalphleDapp />}
       </div>
     </>
   )
