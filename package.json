@@ -1,7 +1,7 @@
 {
   "name": "whalphle-frontend",
   "version": "0.1.0",
-  "license": "GPL",
+  "license": "GPL-3.0-only",
   "scripts": {
     "dev": "NEXT_PUBLIC_NETWORK=devnet next dev",
     "devtestnet": "NEXT_PUBLIC_NETWORK=testnet next dev",
