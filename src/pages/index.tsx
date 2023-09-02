@@ -86,7 +86,7 @@ export default function Home() {
             </p>
           </div>
         )}
-        {(connectionStatus == "connecting" || connectionStatus == "connected" ) && <WalphleDapp />}
+        {connectionStatus == "connected" && <WalphleDapp />}
       </div>
     </>
   )
