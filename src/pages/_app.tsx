@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { AlephiumWalletProvider } from '@alephium/web3-react'
-import { NetworkId, networkIds } from '@alephium/web3'
+import { NetworkId } from '@alephium/web3'
 
 export default function App({ Component, pageProps }: AppProps) {
   function useWalletProvider() {
@@ -11,7 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
     useEffect(() => {
       setWalletProvider(
         <AlephiumWalletProvider
-          theme="minimal"
+          theme="soft"
           network={
             process.env.NEXT_PUBLIC_NETWORK === undefined
               ? ('mainnet' as NetworkId)
