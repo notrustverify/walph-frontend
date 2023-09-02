@@ -22,6 +22,18 @@ function getGroup(): number {
   //TODO find a way to know the wallet group selected from the extension
   return 0
 }
+
+
+export function findToken(tokenId: string, tokenBalances){
+  return tokenBalances.filter(
+    function(data){ 
+      console.log(data)
+      return data.id == tokenId
+     }
+)
+
+}
+
 export function getDeployerAddresses(){
   return [
     '1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y',

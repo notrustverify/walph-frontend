@@ -3,17 +3,20 @@ import {  useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
 import { TxStatus } from './TxStatus'
-import { useWallet, useAlephiumConnectContext } from '@alephium/web3-react'
+import { useWallet, useAlephiumConnectContext, useBalance } from '@alephium/web3-react'
 import {
   node,
   groupOfAddress,
   NetworkId,
+  SignerProvider,
 } from '@alephium/web3'
 //import { WalphleConfig, walpheConfig } from '@/services/utils'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphleConfig, getDeployerAddresses } from '@/services/utils'
+import { WalphleConfig, getDeployerAddresses, findToken } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
+import { get } from 'http'
+import { NotEnougToken } from './NotEnoughToken'
 
 export const WalphleDapp = () => {
   const context = useAlephiumConnectContext()
@@ -23,6 +26,8 @@ export const WalphleDapp = () => {
   const [getStateFields, setStateFields] = useState<WalphleTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
+  const { balance, updateBalanceForTx } = useBalance()
+  let enoughToken = false
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
@@ -52,7 +57,7 @@ export const WalphleDapp = () => {
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
     if (account !== undefined && connectionStatus === "connected") {
-
+      
       const result = await buyTicket(context.signerProvider, ticketAmount, config.walpheContractId)
       setOngoingTxId(result.txId)
     }
@@ -81,14 +86,37 @@ export const WalphleDapp = () => {
     }
   }, [config?.walpheContractAddress, context.signerProvider?.nodeProvider])
 
+
+  const checkTokenBalance = () => {
+    
+
+    if (process.env.NEXT_PUBLIC_NO_HODLING === undefined || process.env.NEXT_PUBLIC_NO_HODLING === 'true' ){
+      
+      if(balance.tokenBalances !== undefined){
+
+      const getTokenObject = findToken("47504df5a7b18dcecdbf1ea00b7e644d0a7c93919f2d2061ba153f241f03b801",balance.tokenBalances)
+        if(getTokenObject.amount <= 0){
+          enoughToken = true
+        }
+    }
+  }
+
+  }
+
   useEffect(() => {
     if (context.signerProvider?.nodeProvider) {
       getPoolStatus()
+
     }
   }, [context.signerProvider?.nodeProvider, getPoolStatus])
 
   getPoolStatus()
 
+
+  if(balance !== undefined)
+    checkTokenBalance()
+  
+  
   const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
@@ -135,7 +163,7 @@ const dec = () => {
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
-
+            {enoughToken ? 
             <div >
             <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
               <input
@@ -154,7 +182,8 @@ const dec = () => {
               />
 
               <input style={{ display: 'inline-block', }} type="button" onClick={inc} value="+" defaultValue={"+"}  />
-
+              
+              
               <input
                 style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
                 type="submit"
@@ -163,8 +192,8 @@ const dec = () => {
                 value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                 defaultValue={1}
 
-              />
-            </div>
+              />  </div>: NotEnougToken
+            }
           </>
         </form>
       </div>
