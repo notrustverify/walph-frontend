@@ -2,10 +2,10 @@ import React from 'react'
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { WalphleDapp } from '@/components/WalphleDapp'
-import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
+import { AlephiumConnectButton, Wallet, useWallet } from '@alephium/web3-react'
 
 export default function Home() {
-  const wallet = useWallet()
+  const { account, connectionStatus } = useWallet()
 
   return (
     <>
@@ -17,7 +17,7 @@ export default function Home() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        {wallet ? (
+        {connectionStatus == "connected" ? (
           ''
         ) : (
           <div className="container">
@@ -87,7 +87,7 @@ export default function Home() {
             </p>
           </div>
         )}
-        {!!wallet && <WalphleDapp />}
+        {(connectionStatus == "connecting" || connectionStatus == "connected" ) && <WalphleDapp />}
       </div>
     </>
   )
