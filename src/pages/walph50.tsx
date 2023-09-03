@@ -5,6 +5,7 @@ import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
 import Link from 'next/link'
 import { WalphDapp50 } from '@/components/WalphleDapp50'
 import { Description } from '@/components/WalphDescription'
+import { Walph50HodlAlf } from 'artifacts/ts'
 
 export default function Home() {
   const { account, connectionStatus } = useWallet()

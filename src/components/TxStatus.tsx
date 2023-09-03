@@ -1,6 +1,8 @@
 import React, { useCallback, useRef } from 'react'
 import { useTxStatus } from '@alephium/web3-react'
 import { node } from "@alephium/web3"
+import Link from 'next/link'
+import { getExplorerUrl } from '@/services/utils'
 
 interface TxStatusAlertProps {
   txId: string
@@ -22,7 +24,7 @@ export const TxStatus = ({ txId, txStatusCallback }: TxStatusAlertProps) => {
         Transaction status: <code>{txStatus?.type || 'unknown'}</code>
       </h3>
       <h3 style={{ margin: 0 }}>
-        Transaction hash: <code>{txId}</code>
+        Transaction hash: <code><Link href={getExplorerUrl()+"/transactions/"+txId}>{txId}</Link></code>
       </h3>
     </>
   )

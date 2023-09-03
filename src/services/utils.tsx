@@ -27,6 +27,10 @@ export function getTokenNameToHold(): string {
     return getNetwork() == 'mainnet' ? process.env.NEXT_TOKEN_NAME : "TEST TOKEN"
 }
 
+export function getExplorerUrl(): string {
+  return getNetwork() == 'mainnet' ? "https://explorer.alephium.org" : "https://testnet.alephium.org" 
+}
+
 export function findToken(tokenId: string, tokenBalances){
   return tokenBalances.filter(
     function(data){ 
