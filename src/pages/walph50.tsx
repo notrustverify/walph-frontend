@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
-import { WalphDapp } from '@/components/WalphleDapp'
 import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
 import Link from 'next/link'
+import { WalphDapp50 } from '@/components/WalphleDapp50'
 import { Description } from '@/components/WalphDescription'
 
 export default function Home() {
@@ -26,9 +26,10 @@ export default function Home() {
         {connectionStatus == "connected" ? (
           ''
         ) : (
-          <Description />
+         <Description />
         )}
-        {connectionStatus == "connected" && <WalphDapp />}
+
+        {connectionStatus == "connected" && <WalphDapp50 />}
         <p className={styles.center} >Proudly Powered by&nbsp;<Link href="https://notrustverify.ch">No Trust Verify</Link></p>
       </div>
     </>

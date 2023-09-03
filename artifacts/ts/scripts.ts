@@ -13,36 +13,31 @@ import {
 } from "@alephium/web3";
 import { default as BuyScriptJson } from "../Buy.ral.json";
 import { default as BuyWithoutTokenScriptJson } from "../BuyWithoutToken.ral.json";
-import { default as ChangeMinAmountScriptJson } from "../ChangeMinAmount.ral.json";
 import { default as DistributeScriptJson } from "../Distribute.ral.json";
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
 import { default as DestroyScriptJson } from "../Destroy.ral.json";
 
 export const Buy = new ExecutableScript<{
-  walpheContract: HexString;
+  walphContract: HexString;
   amount: bigint;
   tokenId: HexString;
   tokenIdAmount: bigint;
 }>(Script.fromJson(BuyScriptJson));
 export const BuyWithoutToken = new ExecutableScript<{
-  walpheContract: HexString;
+  walphContract: HexString;
   amount: bigint;
 }>(Script.fromJson(BuyWithoutTokenScriptJson));
-export const ChangeMinAmount = new ExecutableScript<{
-  walpheContract: HexString;
-  newAmount: bigint;
-}>(Script.fromJson(ChangeMinAmountScriptJson));
 export const Distribute = new ExecutableScript<{
-  walpheContract: HexString;
+  walphContract: HexString;
   winner: Address;
 }>(Script.fromJson(DistributeScriptJson));
-export const Open = new ExecutableScript<{ walpheContract: HexString }>(
+export const Open = new ExecutableScript<{ walphContract: HexString }>(
   Script.fromJson(OpenScriptJson)
 );
-export const Close = new ExecutableScript<{ walpheContract: HexString }>(
+export const Close = new ExecutableScript<{ walphContract: HexString }>(
   Script.fromJson(CloseScriptJson)
 );
-export const Destroy = new ExecutableScript<{ walpheContract: HexString }>(
+export const Destroy = new ExecutableScript<{ walphContract: HexString }>(
   Script.fromJson(DestroyScriptJson)
 );

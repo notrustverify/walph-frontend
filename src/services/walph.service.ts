@@ -1,6 +1,5 @@
 import { DUST_AMOUNT, ExecuteScriptResult, SignerProvider } from '@alephium/web3'
 import { Buy, BuyWithoutToken } from '../../artifacts/ts/scripts'
-import { getTokenIdToHold } from './utils'
 
 export const buyTicket = async (
   signerProvider: SignerProvider,
@@ -13,7 +12,7 @@ export const buyTicket = async (
   if (tokenIdAmount <= 0n) {
     return await BuyWithoutToken.execute(signerProvider, {
       initialFields: {
-        walpheContract: walpheContractId,
+        walphContract: walpheContractId,
         amount: BigInt(amount) * 10n ** 18n
       },
       attoAlphAmount: BigInt(amount) * 10n ** 18n + 3n * DUST_AMOUNT
@@ -22,7 +21,7 @@ export const buyTicket = async (
 
   return await Buy.execute(signerProvider, {
     initialFields: {
-      walpheContract: walpheContractId,
+      walphContract: walpheContractId,
       amount: BigInt(amount) * 10n ** 18n,
       tokenId: tokenId,
       tokenIdAmount: BigInt(tokenIdAmount)

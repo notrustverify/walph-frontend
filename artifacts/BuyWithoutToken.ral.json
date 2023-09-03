@@ -4,7 +4,7 @@
   "bytecodeTemplate": "0101030001000ab417001600{1}a2{1}0d0c{0}0103",
   "fieldsSig": {
     "names": [
-      "walpheContract",
+      "walphContract",
       "amount"
     ],
     "types": [

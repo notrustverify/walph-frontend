@@ -5,39 +5,35 @@
 import { RunScriptResult, DeployContractExecutionResult } from "@alephium/cli";
 import { NetworkId } from "@alephium/web3";
 import {
-  Walphle,
-  WalphleInstance,
-  Walphle50HodlAlf,
-  Walphle50HodlAlfInstance,
+  Walph,
+  WalphInstance,
+  Walph50HodlAlf,
+  Walph50HodlAlfInstance,
 } from ".";
 import { default as testnetDeployments } from "../.deployments.testnet.json";
-import { default as devnetDeployments } from "../.deployments.devnet.json";
 
 export type Deployments = {
   deployerAddress: string;
   contracts: {
-    Walphle: DeployContractExecutionResult<WalphleInstance>;
-    Walphle50HodlAlf?: DeployContractExecutionResult<Walphle50HodlAlfInstance>;
+    Walph: DeployContractExecutionResult<WalphInstance>;
+    Walph50HodlAlf: DeployContractExecutionResult<Walph50HodlAlfInstance>;
   };
 };
 
 function toDeployments(json: any): Deployments {
   const contracts = {
-    Walphle: {
-      ...json.contracts["Walphle"],
-      contractInstance: Walphle.at(
-        json.contracts["Walphle"].contractInstance.address
+    Walph: {
+      ...json.contracts["Walph"],
+      contractInstance: Walph.at(
+        json.contracts["Walph"].contractInstance.address
       ),
     },
-    Walphle50HodlAlf:
-      json.contracts["Walphle50HodlAlf"] === undefined
-        ? undefined
-        : {
-            ...json.contracts["Walphle50HodlAlf"],
-            contractInstance: Walphle50HodlAlf.at(
-              json.contracts["Walphle50HodlAlf"].contractInstance.address
-            ),
-          },
+    Walph50HodlAlf: {
+      ...json.contracts["Walph50HodlAlf"],
+      contractInstance: Walph50HodlAlf.at(
+        json.contracts["Walph50HodlAlf"].contractInstance.address
+      ),
+    },
   };
   return {
     ...json,
@@ -49,12 +45,7 @@ export function loadDeployments(
   networkId: NetworkId,
   deployerAddress?: string
 ): Deployments {
-  const deployments =
-    networkId === "testnet"
-      ? testnetDeployments
-      : networkId === "devnet"
-      ? devnetDeployments
-      : undefined;
+  const deployments = networkId === "testnet" ? testnetDeployments : undefined;
   if (deployments === undefined) {
     throw Error("The contract has not been deployed to the " + networkId);
   }

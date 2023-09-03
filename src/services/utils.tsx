@@ -1,12 +1,12 @@
 import { NetworkId , SignerProvider, groupOfAddress } from '@alephium/web3'
 import { loadDeployments } from '../../artifacts/ts/deployments'
-import { Walphle, WalphleInstance } from 'artifacts/ts'
+import { Walph, WalphInstance } from 'artifacts/ts'
 import { useWallet, Wallet } from '@alephium/web3-react'
 import { Deployments } from '@alephium/cli'
 
 
 
-export interface WalphleConfig {
+export interface WalphConfig {
   network: NetworkId
   groupIndex: number
   walpheContractAddress: string
@@ -23,8 +23,8 @@ function getGroup(): number {
   return 0
 }
 
-export function getTokenIdToHold(): {minAmount: number, tokenId: string, tokenName: string} {
-    return { minAmount: 1, tokenId: "47504df5a7b18dcecdbf1ea00b7e644d0a7c93919f2d2061ba153f241f03b801", tokenName: "ALF" }
+export function getTokenNameToHold(): string {
+    return getNetwork() == 'mainnet' ? process.env.NEXT_TOKEN_NAME : "TEST TOKEN"
 }
 
 export function findToken(tokenId: string, tokenBalances){
@@ -45,23 +45,3 @@ export function getDeployerAddresses(){
     '19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB'
   ]
 }
-
-/*
-function getWalphleConfig(): WalphleConfig {
-  const network = getNetwork()
-  
-
-  // TODO find a better way to get deployer addresses
-const deployerAddresses = ["18vsJ3xDBnSt2aXRSQ7QRTPrVVkjZuTXtxvV1x8mvm3Nz","159UkjK8iDU9vxkwV7qt2B3HB2SdwntUA2RyjCYrh96Dh","19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1","19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB"]
-
-  const walpheContract = loadDeployments(network,deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(userAddress))).contracts.Walphle.contractInstance 
-  
-  const groupIndex = walpheContract.groupIndex
-  const walpheContractAddress = walpheContract.address
-  const walpheContractId = walpheContract.contractId
-  return { network, groupIndex, walpheContractAddress, walpheContractId }
-}
-
-
-export const walpheConfig = getWalphleConfig()
-*/

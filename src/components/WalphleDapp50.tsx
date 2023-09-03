@@ -11,19 +11,19 @@ import {
   SignerProvider,
   Contract,
 } from '@alephium/web3'
-//import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
-import { Walph, WalphTypes } from 'artifacts/ts'
+//import { WalphConfig, walpheConfig } from '@/services/utils'
+import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
 import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
 
-export const WalphDapp = () => {
+export const WalphDapp50 = () => {
 
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState('')
-  const [getStateFields, setStateFields] = useState<WalphTypes.Fields>()
+  const [getStateFields, setStateFields] = useState<Walph50HodlAlfTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
   const { balance, updateBalanceForTx } = useBalance()
@@ -44,7 +44,7 @@ export const WalphDapp = () => {
     const walpheContract = loadDeployments(
       network,
       deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-    ).contracts.Walph.contractInstance
+    ).contracts.Walph50HodlAlf.contractInstance
 
     const groupIndex = walpheContract.groupIndex
     const walpheContractAddress = walpheContract.address
@@ -80,7 +80,7 @@ export const WalphDapp = () => {
     
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
-      const WalphState = Walph.at(config.walpheContractAddress)
+      const WalphState = Walph50HodlAlf.at(config.walpheContractAddress)
 
       const initialState = await WalphState.fetchState()
       setStateFields(initialState.fields)
@@ -94,15 +94,17 @@ export const WalphDapp = () => {
   
     if (getStateFields?.minTokenAmountToHold > 0n ){
       
+      
       if(balance.tokenBalances !== undefined){
-        const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold,balance.tokenBalances)[0]
-          if(getTokenToHoldInfo.amount >= getStateFields?.minTokenAmountToHold)
-            enoughToken = true
-          
-      }
+      const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold,balance.tokenBalances)[0]
+        if(getTokenToHoldInfo.amount >= getStateFields?.minTokenAmountToHold)
+          enoughToken = true
+        
+    }
   } else {
     enoughToken = true
   }
+
   }
 
   useEffect(() => {
@@ -141,11 +143,11 @@ const dec = () => {
   return (
     <>
       <div className="columns">
-        <form onSubmit={handleBuyTicket}>
-          <>
-     
 
-           <a href={"/walph50"} >Switch to a bigger pool</a>
+        <form onSubmit={handleBuyTicket}>
+        <a href={"/"} >Switch to a smaller pool (no {getTokenNameToHold()} needed) </a>
+          <>
+          
 
             <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
             <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
