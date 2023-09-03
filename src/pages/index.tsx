@@ -4,6 +4,7 @@ import styles from '@/styles/Home.module.css'
 import { WalphleDapp } from '@/components/WalphleDapp'
 import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
 import Link from 'next/link'
+import { WalphleDapp50 } from '@/components/WalphleDapp50'
 
 export default function Home() {
   const { account, connectionStatus } = useWallet()
@@ -12,6 +13,7 @@ export default function Home() {
     <>
       <div className={styles.container}>
         <AlephiumConnectButton />
+        
         <Head>
           <title>WALPHle dApp</title>
           <meta name="description" content="Powered by No Trust Verify" />

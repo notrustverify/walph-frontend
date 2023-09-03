@@ -3,4 +3,5 @@
 /* eslint-disable */
 
 export * from "./Walphle";
+export * from "./Walphle50HodlAlf";
 export * from "./scripts";

@@ -200,7 +200,7 @@
       "useAssetsInContract": false,
       "isPublic": true,
       "paramNames": [
-        "amount"
+        "newAmount"
       ],
       "paramTypes": [
         "U256"

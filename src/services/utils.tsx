@@ -1,7 +1,7 @@
 import { NetworkId , SignerProvider, groupOfAddress } from '@alephium/web3'
 import { loadDeployments } from '../../artifacts/ts/deployments'
 import { Walphle, WalphleInstance } from 'artifacts/ts'
-import { useWallet, useAlephiumConnectContext, Wallet } from '@alephium/web3-react'
+import { useWallet, Wallet } from '@alephium/web3-react'
 import { Deployments } from '@alephium/cli'
 
 

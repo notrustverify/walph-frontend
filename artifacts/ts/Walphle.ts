@@ -182,7 +182,7 @@ class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
       return testMethod(this, "destroyPool", params);
     },
     changeMinAmountToHold: async (
-      params: TestContractParams<WalphleTypes.Fields, { amount: bigint }>
+      params: TestContractParams<WalphleTypes.Fields, { newAmount: bigint }>
     ): Promise<TestContractResult<null>> => {
       return testMethod(this, "changeMinAmountToHold", params);
     },
