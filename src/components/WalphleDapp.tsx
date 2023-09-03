@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import {  useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
@@ -8,106 +8,58 @@ import {
   node,
   groupOfAddress,
   NetworkId,
+  SignerProvider,
   Contract,
 } from '@alephium/web3'
-//import { WalphleConfig, walpheConfig } from '@/services/utils'
-import { Walphle, WalphleTypes, Walphle50HodlAlf, Walphle50HodlAlfTypes } from 'artifacts/ts'
+//import { Walphle50HodlAlf, Walphle50HodlAlfTypes } from 'artifacts/ts'
+import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
 import { WalphleConfig, getDeployerAddresses, findToken, getTokenIdToHold } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
-import { Configuration } from '@alephium/cli'
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 
 export const WalphleDapp = () => {
 
+  const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState('')
-  const [getStateFields, setStateFields] = useState<WalphleTypes.State>()
+  const [getStateFields, setStateFields] = useState<WalphleTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
-  const [walphleInfo, setWalphleInfo] = useState<WalphleConfig>()
-
-  const { account, connectionStatus, signer } = useWallet()
   const { balance, updateBalanceForTx } = useBalance()
-  const [poolState, setPoolState] = useState<boolean>(true)
-  const [loadingContract, setLoadingContract] = useState(false)
-  const router = useRouter()
 
   let enoughToken = false
-  const rendered = useRef(0)
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
     return network
   }
 
-  
-
-  const getWalphleConfig = useCallback( () => {
+  function getWalphleConfig(): WalphleConfig {
     const network = getNetwork()
 
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
-
-
     if (account !== undefined && connectionStatus === "connected"){
-      if(poolState){
     const walpheContract = loadDeployments(
       network,
       deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
     ).contracts.Walphle.contractInstance
-      
 
     const groupIndex = walpheContract.groupIndex
     const walpheContractAddress = walpheContract.address
     const walpheContractId = walpheContract.contractId
-
     return { network, groupIndex, walpheContractAddress, walpheContractId }
-      }
-
-      const walpheContract = loadDeployments(
-        network,
-        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.Walphle50HodlAlf.contractInstance
-        
-  
-      const groupIndex = walpheContract.groupIndex
-      const walpheContractAddress = walpheContract.address
-      const walpheContractId = walpheContract.contractId
-      return { network, groupIndex, walpheContractAddress, walpheContractId }
+    }
   }
-  },[account, connectionStatus, poolState])
 
-  const getConfig = useCallback( () => {
-
-    setWalphleInfo(getWalphleConfig())
-
-  },[getWalphleConfig]) 
-  //getConfig()
-
-  /*
-  if(rendered.current <= 0){
-    setWalphleInfo(getWalphleConfig())
-    rendered.current = rendered.current + 1
-  }*/
-
-  const changePool = (() => {
-    setPoolState(!poolState)
-    setWalphleInfo(getWalphleConfig())
-    console.log(poolState)
-
-  })
-
-
-  if(walphleInfo !== undefined)
-  console.log("config "+ walphleInfo.walpheContractId)
+  const config = getWalphleConfig()
 
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
     if (account !== undefined && connectionStatus === "connected") {
       
-      const result = await buyTicket(signer, ticketAmount, walphleInfo?.walpheContractId, getStateFields?.fields?.tokenIdToHold, getStateFields?.fields?.minTokenAmountToHold)
+      const result = await buyTicket(signer, ticketAmount, config.walpheContractId, getStateFields?.tokenIdToHold, getStateFields?.minTokenAmountToHold)
       setOngoingTxId(result.txId)
     }
   }
@@ -126,22 +78,21 @@ export const WalphleDapp = () => {
   const getPoolStatus = useCallback(async () => {
     const nodeProvider = signer?.nodeProvider
     
-    if (nodeProvider && walphleInfo !== undefined) {
+    if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
-      const walphleState = Walphle.at(walphleInfo.walpheContractAddress)
+      const walphleState = Walphle.at(config.walpheContractAddress)
 
       const initialState = await walphleState.fetchState()
+      setStateFields(initialState.fields)
       console.log(initialState)
-      setStateFields(initialState)
-
     }
-  }, [signer?.nodeProvider, walphleInfo])
+  }, [config?.walpheContractAddress, signer?.nodeProvider])
 
 
   const checkTokenBalance = () => {
     
   
-    if (getStateFields?.fields?.minTokenAmountToHold > 0){
+    if (getStateFields?.minTokenAmountToHold > 0n ){
       
       if(balance.tokenBalances !== undefined){
       const getTokenToHoldInfo = findToken(getTokenIdToHold().tokenId,balance.tokenBalances)[0]
@@ -156,12 +107,11 @@ export const WalphleDapp = () => {
 
   useEffect(() => {
     if (signer?.nodeProvider) {
-      getWalphleConfig()
-      getConfig()
+      getPoolStatus()
 
     }
-  }, [signer?.nodeProvider, getConfig, getWalphleConfig])
- 
+  }, [signer?.nodeProvider, getPoolStatus])
+
   getPoolStatus()
 
 
@@ -169,9 +119,9 @@ export const WalphleDapp = () => {
     checkTokenBalance()
   
   
-  const slotFree = (Number(getStateFields?.fields?.poolSize) - Number(getStateFields?.fields?.balance)) / 10 ** 18
-  const ticketPrice = Number(getStateFields?.fields?.ticketPrice) / 10 ** 18
-  const poolSize = Number(getStateFields?.fields?.poolSize) / 10 ** 18 * ticketPrice
+  const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
+
+  const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
   console.log('ongoing..', ongoingTxId)
 
 
@@ -186,39 +136,33 @@ const dec = () => {
     setCount(count - 1)
 }
 
-  const poolFeesAmount = (poolSize * Number(getStateFields?.fields.poolFees)) / 100
+  const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
  
   return (
     <>
-   
       <div className="columns">
         <form onSubmit={handleBuyTicket}>
           <>
-          <input
-                style={{ display: 'inline-block', marginTop: "1em" }}
-                type="button"
-                value={getStateFields?.contractId == walphleInfo?.walpheContractId ? "Switch Pool - 50 tickets" : " Switch Pool - 21 tickets"}
-                onClick={changePool}
-                disabled={getStateFields?.contractId !== walphleInfo?.walpheContractId}
+     
 
-              />
-            <h2 className={styles.title}>Walphle lottery on {walphleInfo?.network}</h2>
+           <a href={"/walph50"} >Switch to a bigger pool</a>
+
+            <h2 className={styles.title}>Walphle lottery on {config?.network}</h2>
             <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
             <p>Your address: {account?.address ?? '???'}</p>
-            {getStateFields?.contractId == walphleInfo?.walpheContractId ?  <p>
-              Pool status: <b>{getStateFields?.fields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}
-              <b>{poolSize?.toString()}</b> - Ticket Price: <b>{ticketPrice} ALPH</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
-            </p> : <p><h3>Loading new pool. Please wait</h3></p>
-            }
-            
-              {getStateFields?.contractId == walphleInfo?.walpheContractId ? <p>Free slot: <b>{slotFree?.toString()}</b></p>: ""}
-           
+            <p>
+              Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}
+              <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
+            </p>
+            <p>
+              Free slots: <b>{slotFree?.toString()}</b>
+            </p>
             <p>
               Last Winner:{' '}
               <b>
-                {getStateFields?.fields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
+                {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
                   ? '-'
-                  : getStateFields?.fields?.lastWinner.toString()}
+                  : getStateFields?.lastWinner.toString()}
               </b>
             </p>
             <br />
@@ -250,10 +194,9 @@ const dec = () => {
                 style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
                 type="submit"
                 onClick={() => setBuyAmount(count.toString())}
-                disabled={!!ongoingTxId || !getStateFields?.fields?.open || slotFree < count || getStateFields?.contractId !== walphleInfo?.walpheContractId}
+                disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count}
                 value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                 defaultValue={1}
-
 
               />  </div>: <NotEnoughToken tokenName={getTokenIdToHold().tokenName}/>
             }
@@ -263,3 +206,4 @@ const dec = () => {
     </>
   )
 }
+
