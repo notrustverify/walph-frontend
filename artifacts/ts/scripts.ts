@@ -13,6 +13,7 @@ import {
 } from "@alephium/web3";
 import { default as BuyScriptJson } from "../Buy.ral.json";
 import { default as BuyWithoutTokenScriptJson } from "../BuyWithoutToken.ral.json";
+import { default as ChangeMinAmountScriptJson } from "../ChangeMinAmount.ral.json";
 import { default as DistributeScriptJson } from "../Distribute.ral.json";
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
@@ -28,6 +29,10 @@ export const BuyWithoutToken = new ExecutableScript<{
   walpheContract: HexString;
   amount: bigint;
 }>(Script.fromJson(BuyWithoutTokenScriptJson));
+export const ChangeMinAmount = new ExecutableScript<{
+  walpheContract: HexString;
+  newAmount: bigint;
+}>(Script.fromJson(ChangeMinAmountScriptJson));
 export const Distribute = new ExecutableScript<{
   walpheContract: HexString;
   winner: Address;

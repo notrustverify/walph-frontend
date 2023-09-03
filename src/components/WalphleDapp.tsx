@@ -3,26 +3,32 @@ import {  useState } from 'react'
 import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walphle.service'
 import { TxStatus } from './TxStatus'
-import { useWallet, useAlephiumConnectContext } from '@alephium/web3-react'
+import { useWallet, useBalance } from '@alephium/web3-react'
 import {
   node,
   groupOfAddress,
   NetworkId,
+  SignerProvider,
+  Contract,
 } from '@alephium/web3'
-//import { WalphleConfig, walpheConfig } from '@/services/utils'
+//import { Walphle50HodlAlf, Walphle50HodlAlfTypes } from 'artifacts/ts'
 import { Walphle, WalphleTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphleConfig, getDeployerAddresses } from '@/services/utils'
+import { WalphleConfig, getDeployerAddresses, findToken, getTokenIdToHold } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
+import { NotEnoughToken } from './NotEnoughToken'
+import Link from 'next/link'
 
 export const WalphleDapp = () => {
-  const context = useAlephiumConnectContext()
 
-  const { account, connectionStatus } = useWallet()
+  const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState('')
   const [getStateFields, setStateFields] = useState<WalphleTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
+  const { balance, updateBalanceForTx } = useBalance()
+
+  let enoughToken = false
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
@@ -52,8 +58,8 @@ export const WalphleDapp = () => {
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
     if (account !== undefined && connectionStatus === "connected") {
-
-      const result = await buyTicket(context.signerProvider, ticketAmount, config.walpheContractId)
+      
+      const result = await buyTicket(signer, ticketAmount, config.walpheContractId, getStateFields?.tokenIdToHold, getStateFields?.minTokenAmountToHold)
       setOngoingTxId(result.txId)
     }
   }
@@ -70,25 +76,49 @@ export const WalphleDapp = () => {
   )
 
   const getPoolStatus = useCallback(async () => {
-    const nodeProvider = context.signerProvider?.nodeProvider
-
+    const nodeProvider = signer?.nodeProvider
+    
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
       const walphleState = Walphle.at(config.walpheContractAddress)
 
       const initialState = await walphleState.fetchState()
       setStateFields(initialState.fields)
+      console.log(initialState)
     }
-  }, [config?.walpheContractAddress, context.signerProvider?.nodeProvider])
+  }, [config?.walpheContractAddress, signer?.nodeProvider])
+
+
+  const checkTokenBalance = () => {
+    
+  
+    if (getStateFields?.minTokenAmountToHold > 0n ){
+      
+      if(balance.tokenBalances !== undefined){
+      const getTokenToHoldInfo = findToken(getTokenIdToHold().tokenId,balance.tokenBalances)[0]
+        if(getTokenToHoldInfo.amount >= getTokenIdToHold().minAmount)
+          enoughToken = true
+        
+    }
+  } else {
+    enoughToken = true
+  }
+  }
 
   useEffect(() => {
-    if (context.signerProvider?.nodeProvider) {
+    if (signer?.nodeProvider) {
       getPoolStatus()
+
     }
-  }, [context.signerProvider?.nodeProvider, getPoolStatus])
+  }, [signer?.nodeProvider, getPoolStatus])
 
   getPoolStatus()
 
+
+  if(balance !== undefined)
+    checkTokenBalance()
+  
+  
   const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
@@ -113,6 +143,10 @@ const dec = () => {
       <div className="columns">
         <form onSubmit={handleBuyTicket}>
           <>
+     
+
+           <a href={"/walph50"} >Switch to a bigger pool</a>
+
             <h2 className={styles.title}>Walphle lottery on {config?.network}</h2>
             <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
             <p>Your address: {account?.address ?? '???'}</p>
@@ -135,7 +169,7 @@ const dec = () => {
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
-
+            { enoughToken  ? 
             <div >
             <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
               <input
@@ -154,7 +188,8 @@ const dec = () => {
               />
 
               <input style={{ display: 'inline-block', }} type="button" onClick={inc} value="+" defaultValue={"+"}  />
-
+              
+              
               <input
                 style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
                 type="submit"
@@ -163,13 +198,12 @@ const dec = () => {
                 value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                 defaultValue={1}
 
-              />
-            </div>
+              />  </div>: <NotEnoughToken tokenName={getTokenIdToHold().tokenName}/>
+            }
           </>
         </form>
       </div>
     </>
   )
 }
-
 

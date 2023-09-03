@@ -12,6 +12,7 @@ export default function Home() {
     <>
       <div className={styles.container}>
         <AlephiumConnectButton />
+        
         <Head>
           <title>WALPHle dApp</title>
           <meta name="description" content="Powered by No Trust Verify" />
@@ -87,7 +88,6 @@ export default function Home() {
           </div>
         )}
         {connectionStatus == "connected" && <WalphleDapp />}
-        <br/>
         <p className={styles.center} >Proudly Powered by&nbsp;<Link href="https://notrustverify.ch">No Trust Verify</Link></p>
       </div>
     </>

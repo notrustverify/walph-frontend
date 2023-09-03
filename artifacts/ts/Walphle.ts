@@ -34,6 +34,7 @@ export namespace WalphleTypes {
     poolOwner: Address;
     poolFees: bigint;
     tokenIdToHold: HexString;
+    ticketPrice: bigint;
     minTokenAmountToHold: bigint;
     open: boolean;
     balance: bigint;
@@ -106,6 +107,10 @@ export namespace WalphleTypes {
 }
 
 class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
+  getInitialFieldsWithDefaultValues() {
+    return this.contract.getInitialFieldsWithDefaultValues() as WalphleTypes.Fields;
+  }
+
   eventIndex = {
     TicketBought: 0,
     PoolOpen: 1,
@@ -177,7 +182,7 @@ class Factory extends ContractFactory<WalphleInstance, WalphleTypes.Fields> {
       return testMethod(this, "destroyPool", params);
     },
     changeMinAmountToHold: async (
-      params: TestContractParams<WalphleTypes.Fields, { amount: bigint }>
+      params: TestContractParams<WalphleTypes.Fields, { newAmount: bigint }>
     ): Promise<TestContractResult<null>> => {
       return testMethod(this, "changeMinAmountToHold", params);
     },
@@ -189,7 +194,7 @@ export const Walphle = new Factory(
   Contract.fromJson(
     WalphleContractJson,
     "",
-    "27dec6aea169fa5f9d223c2297c0f3e9ecdf0ef966264e68a0ff12e32d635a83"
+    "71e3ccf3dd8578cf3501dce49dc5be3945d24bd14fba8b0ec4b3b137790b51f8"
   )
 );
 
