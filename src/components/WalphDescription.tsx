@@ -25,10 +25,10 @@ export const Description = () => {
               <li>
                 <strong>Connect your Alephium wallet</strong>: just by clicking on the button "Connect Alephium",
                 download it here for{' '}
-                <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false}>
+                <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false} rel="noopener noreferrer" target="_blank">
                   Chrome
                 </Link>{' '}
-                or <Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false}>Firefox</Link>{' '}
+                or <Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link>{' '}
               </li>
               <li>
                 <strong>Buy a certain number of Walph ticket</strong>: 1 ticket is 1 ALPH{' '}
