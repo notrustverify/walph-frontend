@@ -96,8 +96,8 @@ export const WalphDapp50 = () => {
       
       
       if(balance.tokenBalances !== undefined){
-      const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold,balance.tokenBalances)[0]
-        if(getTokenToHoldInfo.amount >= getStateFields?.minTokenAmountToHold)
+      const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold,balance.tokenBalances)
+        if(getTokenToHoldInfo.length > 0 && getTokenToHoldInfo[0].amount >= getStateFields?.minTokenAmountToHold)
           enoughToken = true
         
     }
