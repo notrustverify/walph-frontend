@@ -50,11 +50,6 @@ export const Description = () => {
                 <strong>Easy to Play:</strong> Whether you're a seasoned gambler or new to the world of lotteries,
                 Walph Lottery's straightforward gameplay makes it accessible to all.
               </li>
-              <li>
-                <strong>Community and Engagement:</strong> Join a vibrant community of players who share your passion
-                for Walphs and the thrill of winning. Our chat rooms and forums are buzzing with excitement around the
-                clock.
-              </li>
             </ul>
 
             <p>
