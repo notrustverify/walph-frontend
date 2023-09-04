@@ -17,7 +17,9 @@ export const Description = () => {
             <h2>How Does it Work?</h2>
             <p>
               Entering the world of Walph Lottery with <Link href="https://alephium.org" prefetch={false}>Alephium</Link> is as easy as
-              ordering your favorite breakfast treat. Here's a quick overview of how the magic unfolds:
+              ordering your favorite breakfast treat.
+              <br/>
+              Here's a quick overview of how the magic unfolds:
             </p>
             <ul>
               <li>
@@ -29,7 +31,7 @@ export const Description = () => {
                 or <Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false}>Firefox</Link>{' '}
               </li>
               <li>
-                <strong>Buy a certain number of Walph ticket</strong>: 1 ticket in 1 ALPH{' '}
+                <strong>Buy a certain number of Walph ticket</strong>: 1 ticket is 1 ALPH{' '}
               </li>
               <li>
                 <strong>Wait for the pool to be full</strong>: means that all the tickets have been bought
@@ -44,6 +46,7 @@ export const Description = () => {
             <ul>
               <li>
                 <strong>Fun and Whimsy:</strong>  We believe that gaming should be an enjoyable experience, and what could be more enjoyable than a good waffle?
+                <br/>
                 Our game adds a touch of fantasy to your gaming adventures.
               </li>
               <li>
@@ -56,10 +59,11 @@ export const Description = () => {
               <strong>Join the Walph Today!</strong>
             </p>
             <p>
-              Are you ready to add a dash of sweetness to your gaming routine? Dive into the world of Walph Lottery
-              and discover the perfect blend of entertainment, anticipation, and delicious reward. Don't miss out on
-              your chance to win big while savoring the excitement of every draw. Start playing now, and let the Walph
-              magic begin!
+              Are you ready to add a dash of sweetness to your gaming routine?
+              <br/>
+              Dive into the world of Walph and discover the perfect blend of entertainment, anticipation, and delicious reward.
+              <br/>
+              Don't miss out on your chance to win big while savoring the excitement of every draw. Start playing now, and let the Walph magic begin!
             </p>
           </div>
     </>
