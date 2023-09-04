@@ -9,9 +9,9 @@ export const Description = () => {
      <div className="container">
             <h2>What is Walph Lottery?</h2>
             <p>
-              Walph Lottery is a one-of-a-kind online gaming experience that combines the thrill of traditional
-              lotteries with the irresistible charm of Walph. It's the ultimate fusion of luck and indulgence,
-              designed to captivate players of all backgrounds and preferences.
+             Walph Lottery is a one-of-a-kind online gaming experience that combines the excitement of traditional lotteries with cutting-edge blockchain technology, guaranteeing transparent, secure and fair draws.
+             <br/>
+              All in a fun, easy-to-use dApp to make it as accessible as possible.
             </p>
 
             <h2>How Does it Work?</h2>
@@ -43,8 +43,8 @@ export const Description = () => {
             <h2>Why Choose Walph Lottery?</h2>
             <ul>
               <li>
-                <strong>Fun and Whimsy:</strong> We believe that gaming should be a delightful experience, and what's
-                more delightful than Walphs? Our game adds a touch of whimsy to your gaming adventures.
+                <strong>Fun and Whimsy:</strong>  We believe that gaming should be an enjoyable experience, and what could be more enjoyable than a good waffle?
+                Our game adds a touch of fantasy to your gaming adventures.
               </li>
               <li>
                 <strong>Easy to Play:</strong> Whether you're a seasoned gambler or new to the world of lotteries,
