@@ -53,7 +53,7 @@ export const Description = () => {
             </ul>
 
             <p>
-              <strong>Join the Walph Lottery Community Today!</strong>
+              <strong>Join the Walph Today!</strong>
             </p>
             <p>
               Are you ready to add a dash of sweetness to your gaming routine? Dive into the world of Walph Lottery
