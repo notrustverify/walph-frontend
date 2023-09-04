@@ -16,7 +16,7 @@ export const Description = () => {
 
             <h2>How Does it Work?</h2>
             <p>
-              Entering the world of Walph Lottery with <Link href="https://alephium.org" prefetch={false}>Alephium</Link> is as easy as
+              Entering the world of Walph Lottery with <Link href="https://alephium.org" prefetch={false} rel="noopener noreferrer" target="_blank">Alephium</Link> is as easy as
               ordering your favorite breakfast treat.
               <br/>
               Here's a quick overview of how the magic unfolds:
