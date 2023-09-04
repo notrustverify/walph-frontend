@@ -13,7 +13,7 @@ export const NotEnoughToken = ({ tokenName }: Token) => {
     <>
     You cannot access this pool.
       <br/>
-      Hodling <strong>{tokenName}</strong> is necessary to buy tickets. Consider getting some on <Link href="https://ayin.app">Ayin DEX</Link>
+      Hodling <strong>{tokenName}</strong> is necessary to buy tickets. Consider getting some on <Link href="https://ayin.app" rel="noopener noreferrer" target="_blank">Ayin DEX</Link>
     </>
   )
 }
