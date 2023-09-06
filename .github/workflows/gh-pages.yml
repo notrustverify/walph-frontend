@@ -33,7 +33,7 @@ jobs:
         env:
           UPLOAD_SENTRY_SOURCEMAPS: false
 
-      - run: npm run export
+      #- run: npm run export
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
