@@ -27,8 +27,8 @@ jobs:
           cache: "npm"
 
       - run: npm i
-      - run: |
-          echo 'module.exports.basePath = "/nextjs-template"' >> next.config.js
+      #- run: |
+       #   echo 'module.exports.basePath = "/nextjs-template"' >> next.config.js
       - run: npm run testnet:build
         env:
           UPLOAD_SENTRY_SOURCEMAPS: false
