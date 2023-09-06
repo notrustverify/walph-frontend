@@ -34,6 +34,10 @@ jobs:
           UPLOAD_SENTRY_SOURCEMAPS: false
 
       - run: npm run export
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./dist
 
      # Deployment job
   deploy:
