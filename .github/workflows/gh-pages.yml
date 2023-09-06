@@ -21,7 +21,7 @@ jobs:
           node-version: "16"
           cache: "npm"
 
-      - run: npm ci
+      - run: npm i
       - run: |
           echo 'module.exports.basePath = "/nextjs-template"' >> next.config.js
       - run: npm run testnet:build
