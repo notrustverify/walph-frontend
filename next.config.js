@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  output: 'export'
+  output: 'export',
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback.fs = false
