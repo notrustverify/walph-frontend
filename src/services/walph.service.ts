@@ -15,7 +15,7 @@ export const buyTicket = async (
         walphContract: walpheContractId,
         amount: BigInt(amount) * 10n ** 18n
       },
-      attoAlphAmount: BigInt(amount) * 10n ** 18n + 3n * DUST_AMOUNT
+      attoAlphAmount: BigInt(amount) * 10n ** 18n + 4n * DUST_AMOUNT
     })
   }
 
@@ -26,7 +26,7 @@ export const buyTicket = async (
       tokenId: tokenId,
       tokenIdAmount: BigInt(tokenIdAmount)
     },
-    attoAlphAmount: BigInt(amount) * 10n ** 18n + 3n * DUST_AMOUNT,
+    attoAlphAmount: BigInt(amount) * 10n ** 18n + 5n * DUST_AMOUNT,
     tokens: [{ id: tokenId, amount: BigInt(tokenIdAmount) }]
   })
 }

@@ -1,15 +1,15 @@
 {
-  "version": "v2.5.0",
-  "name": "Distribute",
-  "bytecodeTemplate": "01010300000005{1}0d0c{0}0104",
+  "version": "v2.5.5",
+  "name": "Provision",
+  "bytecodeTemplate": "01010300010009b417001600{1}a20c0c{0}0104",
   "fieldsSig": {
     "names": [
       "walphContract",
-      "winner"
+      "amount"
     ],
     "types": [
       "ByteVec",
-      "Address"
+      "U256"
     ],
     "isMutable": [
       false,
