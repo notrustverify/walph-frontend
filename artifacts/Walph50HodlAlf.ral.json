@@ -1,8 +1,8 @@
 {
   "version": "v2.5.5",
   "name": "Walph50HodlAlf",
-  "bytecode": "403c0a09121b409740d740ee41034119412c4140010000000102a00102010000000102ce0002010000000102a002020101010400404db41701a00216002ace00320c7ba0010f7b16000c130a131283880c2f13077ba0000c334c071601ce03a5a00034117b16011600a9a00216002aa10205160116005f1600ce042d17020c170316031602314c121601a0037a1332314d102ac4a0030d2aa10316030d2a17034a2aa002ce00344c01000501020102004025b41701a001190d7b1601ce0145107b1601a002ce022c1340642da81600a002a002ce022c1340642d2ba81600a1360ca1020ca10303a101065d01000000000ca0010d7ba002ce003413067b04a101075d01000000000ca0010d7bb4ce0145107b04a101075d01000000000da001190e7bb4ce0145107b03a101065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a1000916005e",
-  "codeHash": "1ba3c8f8e2ac6a7122e4921393ee7f142e64223d0c989579a5b82236e282d34a",
+  "bytecode": "403c0b1d406d4076407f4088409c41324147415d41704184000000010112a0030c3313067b57405640444e7117000c1600a003880200030002004032b4b245107ba001190d7ba002ce003413067b00007a1332314d102ac3a136a002ce022c1340642d1700a00216002b17010ca102ce011600a8a0361601a80ca10303a101065d0aa0365e010000000102a00102010000000102ce0002010000000102a0020201010001000ab41700b4ce0145107b1600ce00a90101010400405eb41701a00216002ace00320c7ba0010f7b16000c130a131283880c2f13077ba0000c334c071601ce03a5a00034117ba00216002aa10216011600a905160116005f1600ce042d17020c170316031602314c121601a0037a1332314d102ac4a0030d2aa10316030d2a17034a2aa002ce00344c12a002ce003413067ba003ce00ce042d2f13067b04a101b2a002a2000101000000000ca0010d7bb4ce0145107b04a101075d01000000000da001190e7bb4ce0145107b03a101065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a1000916005e",
+  "codeHash": "e649dfb437f3b6f8c204dd5f06eb30f8e4211c0eca88d62addd229c2c9eb5018",
   "fieldsSig": {
     "names": [
       "poolSize",
@@ -83,9 +83,40 @@
       "fieldTypes": [
         "U256"
       ]
+    },
+    {
+      "name": "Winner",
+      "fieldNames": [
+        "address"
+      ],
+      "fieldTypes": [
+        "Address"
+      ]
     }
   ],
   "functions": [
+    {
+      "name": "random",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "distributePrize",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
     {
       "name": "getPoolState",
       "usePreapprovedAssets": false,
@@ -123,6 +154,16 @@
       ]
     },
     {
+      "name": "addAlph",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
       "name": "buyTicket",
       "usePreapprovedAssets": true,
       "useAssetsInContract": true,
@@ -136,32 +177,6 @@
       "paramIsMutable": [
         false
       ],
-      "returnTypes": []
-    },
-    {
-      "name": "distributePrize",
-      "usePreapprovedAssets": false,
-      "useAssetsInContract": true,
-      "isPublic": true,
-      "paramNames": [
-        "winner"
-      ],
-      "paramTypes": [
-        "Address"
-      ],
-      "paramIsMutable": [
-        false
-      ],
-      "returnTypes": []
-    },
-    {
-      "name": "closePoolWhenFull",
-      "usePreapprovedAssets": false,
-      "useAssetsInContract": false,
-      "isPublic": true,
-      "paramNames": [],
-      "paramTypes": [],
-      "paramIsMutable": [],
       "returnTypes": []
     },
     {

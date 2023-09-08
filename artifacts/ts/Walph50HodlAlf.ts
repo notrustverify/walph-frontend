@@ -106,6 +106,7 @@ export namespace Walph50HodlAlfTypes {
   export type NewMinTokenAmountToHoldEvent = ContractEvent<{
     newAmount: bigint;
   }>;
+  export type WinnerEvent = ContractEvent<{ address: Address }>;
 
   export interface CallMethodTable {
     getPoolState: {
@@ -149,6 +150,7 @@ class Factory extends ContractFactory<
     PoolClose: 2,
     Destroy: 3,
     NewMinTokenAmountToHold: 4,
+    Winner: 5,
   };
   consts = {
     ErrorCodes: {
@@ -168,6 +170,22 @@ class Factory extends ContractFactory<
   }
 
   tests = {
+    random: async (
+      params: Omit<
+        TestContractParams<Walph50HodlAlfTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<bigint>> => {
+      return testMethod(this, "random", params);
+    },
+    distributePrize: async (
+      params: Omit<
+        TestContractParams<Walph50HodlAlfTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "distributePrize", params);
+    },
     getPoolState: async (
       params: Omit<
         TestContractParams<Walph50HodlAlfTypes.Fields, never>,
@@ -192,26 +210,18 @@ class Factory extends ContractFactory<
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "getBalance", params);
     },
-    buyTicket: async (
-      params: TestContractParams<Walph50HodlAlfTypes.Fields, { amount: bigint }>
-    ): Promise<TestContractResult<null>> => {
-      return testMethod(this, "buyTicket", params);
-    },
-    distributePrize: async (
-      params: TestContractParams<
-        Walph50HodlAlfTypes.Fields,
-        { winner: Address }
-      >
-    ): Promise<TestContractResult<null>> => {
-      return testMethod(this, "distributePrize", params);
-    },
-    closePoolWhenFull: async (
+    addAlph: async (
       params: Omit<
         TestContractParams<Walph50HodlAlfTypes.Fields, never>,
         "testArgs"
       >
     ): Promise<TestContractResult<null>> => {
-      return testMethod(this, "closePoolWhenFull", params);
+      return testMethod(this, "addAlph", params);
+    },
+    buyTicket: async (
+      params: TestContractParams<Walph50HodlAlfTypes.Fields, { amount: bigint }>
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "buyTicket", params);
     },
     closePool: async (
       params: Omit<
@@ -252,8 +262,8 @@ class Factory extends ContractFactory<
 export const Walph50HodlAlf = new Factory(
   Contract.fromJson(
     Walph50HodlAlfContractJson,
-    "",
-    "1ba3c8f8e2ac6a7122e4921393ee7f142e64223d0c989579a5b82236e282d34a"
+    "=6-2=2-2+2a=3-1+a=2-2+83=3-1+c4095=2+a=1-1=3-1+f=2+5=1-1=2-2+6a=3-1+d=2-2+91=11-1+4=30+0016007e0207726e6420697320=734",
+    "c0bcc87cba708307a4298516adc750753d66fae486323566c983789495a0d6e6"
   )
 );
 
@@ -336,6 +346,19 @@ export class Walph50HodlAlfInstance extends ContractInstance {
     );
   }
 
+  subscribeWinnerEvent(
+    options: EventSubscribeOptions<Walph50HodlAlfTypes.WinnerEvent>,
+    fromCount?: number
+  ): EventSubscription {
+    return subscribeContractEvent(
+      Walph50HodlAlf.contract,
+      this,
+      options,
+      "Winner",
+      fromCount
+    );
+  }
+
   subscribeAllEvents(
     options: EventSubscribeOptions<
       | Walph50HodlAlfTypes.TicketBoughtEvent
@@ -343,6 +366,7 @@ export class Walph50HodlAlfInstance extends ContractInstance {
       | Walph50HodlAlfTypes.PoolCloseEvent
       | Walph50HodlAlfTypes.DestroyEvent
       | Walph50HodlAlfTypes.NewMinTokenAmountToHoldEvent
+      | Walph50HodlAlfTypes.WinnerEvent
     >,
     fromCount?: number
   ): EventSubscription {

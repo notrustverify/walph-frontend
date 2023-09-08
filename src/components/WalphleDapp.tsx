@@ -117,8 +117,9 @@ export const WalphDapp = () => {
   if(balance !== undefined)
     checkTokenBalance()
   
-  
-  const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
+  const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
+  const slotFree = (Number(getStateFields?.poolSize)/ticketPriceHint
+   - Number(getStateFields?.balance)) / 10 ** 18
 
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
@@ -150,14 +151,16 @@ const dec = () => {
 
             <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
             <p>Your address: {account?.address ?? '???'}</p>
+
             <p>
-              Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}
-              <b>{poolSize?.toString()}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
+              Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees: <b>{poolFeesAmount} ALPH</b>{' '}
             </p>
             <p>
               Free slots: <b>{slotFree?.toString()}</b>
             </p>
             <p>
+            <h3>Pool prize: {Number(getStateFields?.poolSize) / 10 ** 18 } ALPH</h3>
+
               Last Winner:{' '}
               <b>
                 {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
@@ -168,9 +171,10 @@ const dec = () => {
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
-
+            <p>Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong></p>
+            <br/>
             { enoughToken  ? 
-            <div >
+            <div>
             <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
               <input
                 style={{
@@ -193,12 +197,13 @@ const dec = () => {
               {slotFree - count  < 1 ? <input
                 style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
                 type="submit"
-                onClick={() => setBuyAmount(count.toString())}
+                onClick={() => setBuyAmount((count * ticketPriceHint).toString())}
                 disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize }
                 value={ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}
                 defaultValue={1}
 
-              /> : <input
+              /> 
+              : <input
               style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
               type="submit"
               onClick={() =>  {
@@ -210,9 +215,11 @@ const dec = () => {
               value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
               defaultValue={1}
 
-            />  }
+            /> 
+             }
                </div>: <NotEnoughToken tokenName={getTokenNameToHold()}/>
             }
+
             
           </>
         </form>
