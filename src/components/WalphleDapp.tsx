@@ -149,7 +149,6 @@ const dec = () => {
            <a href={"/walph50"} >Switch to a bigger pool</a>
 
             <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
-            <b> ONLY FOR INTERNAL USE - DO NOT SHARE</b>
             <p>Your address: {account?.address ?? '???'}</p>
             <p>
               Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool size:{' '}

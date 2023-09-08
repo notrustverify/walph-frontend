@@ -1,4 +1,4 @@
-import { DUST_AMOUNT, ExecuteScriptResult, SignerProvider } from '@alephium/web3'
+import { DUST_AMOUNT, ExecuteScriptResult, ONE_ALPH, SignerProvider } from '@alephium/web3'
 import { Buy, BuyWithoutToken } from '../../artifacts/ts/scripts'
 
 export const buyTicket = async (
@@ -15,7 +15,7 @@ export const buyTicket = async (
         walphContract: walpheContractId,
         amount: BigInt(amount) * 10n ** 18n
       },
-      attoAlphAmount: BigInt(amount) * 10n ** 18n + 4n * DUST_AMOUNT
+      attoAlphAmount: BigInt(amount) * ONE_ALPH + 5n * DUST_AMOUNT
     })
   }
 

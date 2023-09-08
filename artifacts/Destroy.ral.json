@@ -1,7 +1,7 @@
 {
   "version": "v2.5.5",
   "name": "Destroy",
-  "bytecodeTemplate": "010103000000040c0c{0}0108",
+  "bytecodeTemplate": "010103000000040c0c{0}0109",
   "fieldsSig": {
     "names": [
       "walphContract"
