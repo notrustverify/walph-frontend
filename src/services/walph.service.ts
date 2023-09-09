@@ -15,7 +15,7 @@ export const buyTicket = async (
         walphContract: walpheContractId,
         amount: BigInt(amount) * 10n ** 18n
       },
-      attoAlphAmount: BigInt(amount) * ONE_ALPH + 5n * DUST_AMOUNT
+      attoAlphAmount: BigInt(amount) * 10n ** 18n + 5n * DUST_AMOUNT
     })
   }
 

@@ -16,7 +16,6 @@ import { default as BuyWithoutTokenScriptJson } from "../BuyWithoutToken.ral.jso
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
 import { default as DestroyScriptJson } from "../Destroy.ral.json";
-import { default as ProvisionScriptJson } from "../Provision.ral.json";
 
 export const Buy = new ExecutableScript<{
   walphContract: HexString;
@@ -37,7 +36,3 @@ export const Close = new ExecutableScript<{ walphContract: HexString }>(
 export const Destroy = new ExecutableScript<{ walphContract: HexString }>(
   Script.fromJson(DestroyScriptJson)
 );
-export const Provision = new ExecutableScript<{
-  walphContract: HexString;
-  amount: bigint;
-}>(Script.fromJson(ProvisionScriptJson));
