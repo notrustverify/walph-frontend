@@ -22,7 +22,7 @@ import Link from 'next/link'
 export const WalphDapp50 = () => {
 
   const { account, connectionStatus, signer } = useWallet()
-  const [ticketAmount, setBuyAmount] = useState('')
+  const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<Walph50HodlAlfTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
@@ -55,11 +55,12 @@ export const WalphDapp50 = () => {
 
   const config = getWalphConfig()
 
+
   const handleBuyTicket = async (e: React.FormEvent) => {
     e.preventDefault()
     if (account !== undefined && connectionStatus === "connected") {
       
-      const result = await buyTicket(signer, ticketAmount, config.walpheContractId, getStateFields?.tokenIdToHold, getStateFields?.minTokenAmountToHold)
+      const result = await buyTicket(signer, (ticketAmount * ticketPriceHint).toString(), config.walpheContractId, getStateFields?.tokenIdToHold, getStateFields?.minTokenAmountToHold)
       setOngoingTxId(result.txId)
     }
   }
@@ -120,7 +121,7 @@ export const WalphDapp50 = () => {
   if(balance !== undefined)
     checkTokenBalance()
   
-  
+   const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
   const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
@@ -159,6 +160,8 @@ const dec = () => {
             <p>
               Free slots: <b>{slotFree?.toString()}</b>
             </p>
+            <h3>Pool prize: {Number(getStateFields?.poolSize) / 10 ** 18 } ALPH</h3>
+
             <p>
               Last Winner:{' '}
               <b>
@@ -172,7 +175,7 @@ const dec = () => {
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />
             { enoughToken  ? 
-            <div >
+            <div>
             <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
               <input
                 style={{
@@ -184,23 +187,38 @@ const dec = () => {
           
                 }}
                 defaultValue={1}
-                value={count}
+                value={count.toString()}
                 min={1}
+                max={1}
+                
                 
               />
-
               <input style={{ display: 'inline-block', }} type="button" onClick={inc} value="+" defaultValue={"+"}  />
               
-              
-              <input
+              {slotFree - count  < 1 ? <input
                 style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
                 type="submit"
-                onClick={() => setBuyAmount(count.toString())}
-                disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count}
-                value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
+                onClick={() => setBuyAmount(count)}
+                disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize }
+                value={ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}
                 defaultValue={1}
 
-              />  </div>: <NotEnoughToken tokenName={getTokenNameToHold()}/>
+              /> 
+              : <input
+              style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
+              type="submit"
+              onClick={() =>  {
+                setBuyAmount(count)
+                
+              }
+            }
+              disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize }
+              value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
+              defaultValue={1}
+
+            /> 
+             }
+               </div>: <NotEnoughToken tokenName={getTokenNameToHold()}/>
             }
           </>
         </form>
