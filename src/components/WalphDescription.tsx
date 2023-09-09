@@ -31,7 +31,7 @@ export const Description = () => {
                 or <Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link>{' '}
               </li>
               <li>
-                <strong>Buy a certain number of Walph ticket</strong>: 1 ticket is 1 ALPH{' '}
+                <strong>Buy Walph tickets</strong>
               </li>
               <li>
                 <strong>Wait for the pool to be full</strong>: means that all the tickets have been bought

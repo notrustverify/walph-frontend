@@ -122,7 +122,7 @@ export const WalphDapp50 = () => {
     checkTokenBalance()
   
    const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
-  const slotFree = (Number(getStateFields?.poolSize) - Number(getStateFields?.balance)) / 10 ** 18
+   const slotFree = Number((getStateFields?.poolSize  - getStateFields?.balance) / getStateFields?.ticketPrice)
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
   console.log('ongoing..', ongoingTxId)

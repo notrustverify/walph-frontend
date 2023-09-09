@@ -24,7 +24,7 @@ function getGroup(): number {
 }
 
 export function getTokenNameToHold(): string {
-    return getNetwork() == 'mainnet' ? process.env.NEXT_TOKEN_NAME : "TEST TOKEN"
+    return getNetwork() == 'mainnet' ? process.env.NEXT_TOKEN_NAME : "ALF"
 }
 
 export function getExplorerUrl(): string {
