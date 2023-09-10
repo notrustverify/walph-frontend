@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export * from "./Walf";
 export * from "./Walph";
 export * from "./Walph50HodlAlf";
 export * from "./scripts";

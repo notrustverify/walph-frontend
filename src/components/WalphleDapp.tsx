@@ -148,6 +148,8 @@ const dec = () => {
      
 
            <a href={"/walph50"} >Switch to a bigger pool</a>
+           &nbsp; - &nbsp;
+           <a href={"/walf"} >Switch to a ALF pool</a>
 
             <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
             <p>Your address: {account?.address ?? '???'}</p>
