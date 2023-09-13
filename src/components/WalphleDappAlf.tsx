@@ -143,7 +143,7 @@ const dec = () => {
 
            <a href={"/"} >Switch to a smaller pool (no {getTokenNameToHold()} needed) </a>
            &nbsp; - &nbsp;
-           <a href={"/walph50"} >Switch to a bigger pool</a>
+           <a href={"/walph50"} >Switch to a larger pool</a>
             <h2 className={styles.title}>Walf lottery on {config?.network}</h2>
             <p>Your address: {account?.address ?? '???'}</p>
 

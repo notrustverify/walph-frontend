@@ -147,7 +147,7 @@ const dec = () => {
           <>
      
 
-           <a href={"/walph50"} >Switch to a bigger pool</a>
+           <a href={"/walph50"} >Switch to a larger pool</a>
            &nbsp; - &nbsp;
            <a href={"/walf"} >Switch to a ALF pool</a>
 
