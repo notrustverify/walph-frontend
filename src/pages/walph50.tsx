@@ -16,7 +16,7 @@ export default function Home() {
         <AlephiumConnectButton />
         
         <Head>
-          <title>WALPHle dApp</title>
+          <title>wALPH dApp</title>
           <meta name="description" content="Powered by No Trust Verify" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="manifest" href="./manifest.json" />

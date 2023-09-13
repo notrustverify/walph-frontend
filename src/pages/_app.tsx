@@ -4,6 +4,7 @@ import type { AppProps } from 'next/app'
 import { AlephiumWalletProvider } from '@alephium/web3-react'
 import { NetworkId } from '@alephium/web3'
 
+
 export default function App({ Component, pageProps }: AppProps) {
   function useWalletProvider() {
     const [walletProvider, setWalletProvider] = useState(null)
