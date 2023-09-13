@@ -7,18 +7,18 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-      <meta name="description" content="Try your chance to win some ALPH on a decentralized application on running on Alephium, powered by No Trust Verify" />
+      <meta name="description" content="Try your chance to win some ALPH on a decentralized application on running Alephium, powered by No Trust Verify" />
 
       <meta property="og:type" content="website" />
           <meta property="og:url" content="https://walph.io/" />
-          <meta property="og:title" content="wALPH dApp powered by No Trust Verify" />
-          <meta property="og:description" content="Try your chance to win some ALPH on a decentralized application on running on Alephium" />
+          <meta property="og:title" content="walph dApp powered by No Trust Verify" />
+          <meta property="og:description" content="Try your chance to win some ALPH on a decentralized application running on Alephium" />
           <meta property="og:image" content="/images/apple-touch-icon.png" />
           
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content="https://walph.io/" />
-          <meta property="twitter:title" content="wALPH dApp powered by No Trust Verify" />
-          <meta property="twitter:description" content="Try your chance to win some ALPH on a decentralized application on running on Alephium" />
+          <meta property="twitter:title" content="walph dApp powered by No Trust Verify" />
+          <meta property="twitter:description" content="Try your chance to win some ALPH on a decentralized application running on Alephium" />
           <meta property="twitter:image" content="/images/apple-touch-icon.png" />
       </Head>
       <body>
