@@ -198,8 +198,8 @@ class Factory extends ContractFactory<WalphInstance, WalphTypes.Fields> {
 export const Walph = new Factory(
   Contract.fromJson(
     WalphContractJson,
-    "=4-2=2-2+2a=3-1+4=3+d40=1+6=3-1+f=2-2+49=3-1+e=2-1=2+4=1+8=1-1=2-2+9b=11-1+4=30+0016007e0207726e6420697320=754",
-    "4b6f88cbfc08c2fe50c54185ce1b65065d6d8f62a37b5da7dce0ffac707b2538"
+    "=4-2=2-2+2a=3-1+a=2-2+83=3-1+c4095=2-2+3a=3-1+f=2+6=1-1=2-2+78=2-2+8c=11-1+4=30+0016007e0207726e6420697320=724",
+    "65921bdefb5599c6f8dc43dc27f4eb5826a18651fd6a2e7ef7e144b15755f84c"
   )
 );
 

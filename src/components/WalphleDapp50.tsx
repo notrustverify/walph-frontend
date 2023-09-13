@@ -147,6 +147,8 @@ const dec = () => {
 
         <form onSubmit={handleBuyTicket}>
         <a href={"/"} >Switch to a smaller pool (no {getTokenNameToHold()} needed) </a>
+           &nbsp; - &nbsp;
+           <a href={"/walf"} >Switch to a ALF pool</a>
           <>
           
 
@@ -170,7 +172,7 @@ const dec = () => {
                   : getStateFields?.lastWinner.toString()}
               </b>
             </p>
-            <br />
+            <p>Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong></p>
 
             {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
             <br />

@@ -19,6 +19,7 @@ export default function Home() {
           <title>WALPHle dApp</title>
           <meta name="description" content="Powered by No Trust Verify" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="manifest" href="./manifest.json" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
           <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
           <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>

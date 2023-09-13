@@ -20,7 +20,7 @@ export type Deployments = {
   contracts: {
     Walph: DeployContractExecutionResult<WalphInstance>;
     Walph50HodlAlf: DeployContractExecutionResult<Walph50HodlAlfInstance>;
-    Walf?: DeployContractExecutionResult<WalfInstance>;
+    Walf: DeployContractExecutionResult<WalfInstance>;
   };
 };
 
@@ -38,15 +38,12 @@ function toDeployments(json: any): Deployments {
         json.contracts["Walph50HodlAlf"].contractInstance.address
       ),
     },
-    Walf:
-      json.contracts["Walf"] === undefined
-        ? undefined
-        : {
-            ...json.contracts["Walf"],
-            contractInstance: Walf.at(
-              json.contracts["Walf"].contractInstance.address
-            ),
-          },
+    Walf: {
+      ...json.contracts["Walf"],
+      contractInstance: Walf.at(
+        json.contracts["Walf"].contractInstance.address
+      ),
+    },
   };
   return {
     ...json,
