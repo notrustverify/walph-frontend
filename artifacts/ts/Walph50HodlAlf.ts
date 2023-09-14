@@ -38,6 +38,7 @@ export namespace Walph50HodlAlfTypes {
     minTokenAmountToHold: bigint;
     open: boolean;
     balance: bigint;
+    feesBalance: bigint;
     numAttendees: bigint;
     attendees: [
       Address,
@@ -118,6 +119,10 @@ export namespace Walph50HodlAlfTypes {
       result: CallContractResult<bigint>;
     };
     getBalance: {
+      params: Omit<CallContractParams<{}>, "args">;
+      result: CallContractResult<bigint>;
+    };
+    getTicketPrice: {
       params: Omit<CallContractParams<{}>, "args">;
       result: CallContractResult<bigint>;
     };
@@ -210,6 +215,22 @@ class Factory extends ContractFactory<
     ): Promise<TestContractResult<bigint>> => {
       return testMethod(this, "getBalance", params);
     },
+    getTicketPrice: async (
+      params: Omit<
+        TestContractParams<Walph50HodlAlfTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<bigint>> => {
+      return testMethod(this, "getTicketPrice", params);
+    },
+    withdraw: async (
+      params: Omit<
+        TestContractParams<Walph50HodlAlfTypes.Fields, never>,
+        "testArgs"
+      >
+    ): Promise<TestContractResult<null>> => {
+      return testMethod(this, "withdraw", params);
+    },
     buyTicket: async (
       params: TestContractParams<Walph50HodlAlfTypes.Fields, { amount: bigint }>
     ): Promise<TestContractResult<null>> => {
@@ -254,8 +275,8 @@ class Factory extends ContractFactory<
 export const Walph50HodlAlf = new Factory(
   Contract.fromJson(
     Walph50HodlAlfContractJson,
-    "=6-2=2-2+2a=3+44=1+8d=2-1=1+6=3-1+f=2-2=1-3+7=2-1=1+c=3+241=1+5=2-2+99=11-1+4=30+0016007e0207726e6420697320=750",
-    "57419208b37782b4506881bc9cb1efecbbcb3796c4b53da39635eab337e3b714"
+    "=6-2=2-2+2a=3-1+5=3-1+e=3-1+7=2-2+904099=3-1+e=2-2+79=3-1+e=2-2+a4=2-2+b7=2+c=1-1=11-1+4=30+0016007e0207726e6420697320=850",
+    "59484989f1f9cdb10172a19199b067a202aa6debce0632c482fb68cae6569c2a"
   )
 );
 
@@ -400,6 +421,17 @@ export class Walph50HodlAlfInstance extends ContractInstance {
         Walph50HodlAlf,
         this,
         "getBalance",
+        params === undefined ? {} : params,
+        getContractByCodeHash
+      );
+    },
+    getTicketPrice: async (
+      params?: Walph50HodlAlfTypes.CallMethodParams<"getTicketPrice">
+    ): Promise<Walph50HodlAlfTypes.CallMethodResult<"getTicketPrice">> => {
+      return callMethod(
+        Walph50HodlAlf,
+        this,
+        "getTicketPrice",
         params === undefined ? {} : params,
         getContractByCodeHash
       );

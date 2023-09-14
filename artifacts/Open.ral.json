@@ -1,7 +1,7 @@
 {
   "version": "v2.5.6",
   "name": "Open",
-  "bytecodeTemplate": "010103000000040c0c{0}0107",
+  "bytecodeTemplate": "010103000000040c0c{0}0109",
   "fieldsSig": {
     "names": [
       "walphContract"

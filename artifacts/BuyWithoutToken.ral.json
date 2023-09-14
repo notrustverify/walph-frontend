@@ -1,7 +1,7 @@
 {
   "version": "v2.5.6",
   "name": "BuyWithoutToken",
-  "bytecodeTemplate": "0101030001000ab417001600{1}a2{1}0d0c{0}0105",
+  "bytecodeTemplate": "0101030001000ab417001600{1}a2{1}0d0c{0}0107",
   "fieldsSig": {
     "names": [
       "walphContract",
