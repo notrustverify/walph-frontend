@@ -18,6 +18,7 @@ import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold } from
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
+import { NumTicket } from './NumTickets'
 
 export const WalfDapp = () => {
 
@@ -146,7 +147,7 @@ const dec = () => {
            <a href={"/walph50"} >Switch to a larger pool</a>
             <h2 className={styles.title}>Walf lottery on {config?.network}</h2>
             <p>Your address: {account?.address ?? '???'}</p>
-
+            <NumTicket address={account?.address} attendees={getStateFields?.attendees.slice(0, Number(getStateFields?.numAttendees)+1)} />
             <p>
               Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees: <b>{poolFeesAmount} ALF</b>{' '}
             </p>
