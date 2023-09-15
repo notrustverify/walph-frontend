@@ -135,6 +135,8 @@ export const WalfDapp = () => {
             <NumTicket
               address={account?.address}
               attendees={getStateFields?.attendees.slice(0, numAttendees)}
+              ticketPrice={ticketPriceHint}
+              tokenTicker='ALF'
             />
             <p>
               Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}

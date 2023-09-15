@@ -138,7 +138,7 @@ export const WalphDapp = () => {
           <a href={'/walf'}>Switch to a ALF pool</a>
           <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
           <p>Your address: {account?.address ?? '???'}</p>
-          <NumTicket address={account?.address} attendees={getStateFields?.attendees.slice(0, numAttendees)} />
+          <NumTicket address={account?.address} attendees={getStateFields?.attendees.slice(0, numAttendees)} ticketPrice={ticketPriceHint} tokenTicker={"ALPH"} />
           <p>
             Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
             <b>{poolFeesAmount} ALPH</b>{' '}

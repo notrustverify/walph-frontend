@@ -141,6 +141,8 @@ export const WalphDapp50 = () => {
             <NumTicket
               address={account?.address}
               attendees={getStateFields?.attendees.slice(0, numAttendees)}
+              ticketPrice={ticketPriceHint}
+              tokenTicker='ALPH'
             />
 
             <p>
