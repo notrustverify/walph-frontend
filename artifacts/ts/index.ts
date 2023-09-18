@@ -5,4 +5,5 @@
 export * from "./Walf";
 export * from "./Walph";
 export * from "./Walph50HodlAlf";
+export * from "./WalphTimed";
 export * from "./scripts";

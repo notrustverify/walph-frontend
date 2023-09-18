@@ -1,8 +1,8 @@
 {
   "version": "v2.5.6",
-  "name": "Walph",
-  "bytecode": "40200c1d40684071407a4083408c40b34178418d41a341b641ca000000010112a0040c3313067b57405640444e7117000c1600a00488020003020400402db4b245107ba00216012ace003413067b00007a1315314d112ac3a11aa002ce022c1340642d1702a00216022b17030ca1020ca104a01a1603a81600a01a1601a70aa01a5e010000000102a00102010000000102ce0002010000000102a00202010000000102ce0402010200000013b4ce0145107ba0030c3313067bce01a0030e13c3038d7ea4c680002c2ba80ca10301010105004075b41701a00216002ace00320c7ba0010f7b16000c130a131283880c2f13077b1600ce043413077ba0000c334c071601ce03a5a00034117b1600ce042d17020c170316031602314c121601a0047a1315314d112ac4a0040d2aa10416030d2a17034a2a05160116005fa00216002a1704a0031600ce022c1340642d2aa1031604ce00344c181604ce003413067ba004ce00ce042d2f13067bb2a00213c3038d7ea4c680002aa216011600a21601160000014a07a00216002aa10216011600a901000000000ca0010d7bb4ce0145107b04a101075d01000000000da001190e7bb4ce0145107b03a101065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a1000916005e",
-  "codeHash": "21d42ee19715e3db2d7bda4508d06fa645bda9c17ca3ea6430c3d4025e1270eb",
+  "name": "WalphTimed",
+  "bytecode": "405c0d1d40ce40d740e040e940f24119416041f24207421d42304244000000010112a0050c3313067b57405640444e7117000c1600a005880200030003004045b4b245107ba0030c3313067ba0050c3313097b00007a134050314d13062ac3a156a0561503000000000000000000000000000000000000000000000000000000000000000046130a7ba003ce022c1340642d1700a00316002b17010ca1030ca1050c17021602a005324c0e1503000000000000000000000000000000000000000000000000000000000000000016027a134050314d13062ac416020d2a17024a2ea0561601a80aa0565e010000000102a00202010000000102ce0002010000000102a00302010000000102ce0402010200000013b4ce0145107ba0040c3313067bce01a0040e13c3038d7ea4c680002c2ba80ca104010200010040215617001600a0003313087ba0030c324c0716001342581343e82c2aa1004a0c16001342581343e82c2aa100b2a00313c3038d7ea4c680002aa200011206a0035e0101010400405ab4170156a00031130b7ba00316002ace00320c7ba0020f7b16000c130a131283880c2f13077b1600ce043413077ba0010c334c071601ce03a5a00134117b1600ce042d17020c170316031602314c121601a0057a134050314d13062ac4a0050d2aa10516030d2a17034a2a05160116005fa0041600ce022c1340642d2aa1041600a0032aa10316011600a901000000000ca0020d7bb4ce0145107b04a102075d01000000000da002190e7bb4ce0145107b03a102065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a1010916005e",
+  "codeHash": "168de2e657cf5b3dc58ac705e86070714a778e8207ea068efc8f2b35b69e029e",
   "fieldsSig": {
     "names": [
       "poolSize",
@@ -10,6 +10,7 @@
       "poolFees",
       "tokenIdToHold",
       "ticketPrice",
+      "drawTimestamp",
       "minTokenAmountToHold",
       "open",
       "balance",
@@ -25,11 +26,12 @@
       "ByteVec",
       "U256",
       "U256",
+      "U256",
       "Bool",
       "U256",
       "U256",
       "U256",
-      "[Address;21]",
+      "[Address;80]",
       "Address"
     ],
     "isMutable": [
@@ -38,6 +40,7 @@
       false,
       false,
       false,
+      true,
       true,
       true,
       true,
@@ -95,6 +98,15 @@
       "fieldTypes": [
         "Address"
       ]
+    },
+    {
+      "name": "PoolDrawn",
+      "fieldNames": [
+        "amount"
+      ],
+      "fieldTypes": [
+        "U256"
+      ]
     }
   ],
   "functions": [
@@ -115,18 +127,9 @@
       "usePreapprovedAssets": true,
       "useAssetsInContract": false,
       "isPublic": false,
-      "paramNames": [
-        "lastAttendee",
-        "amount"
-      ],
-      "paramTypes": [
-        "Address",
-        "U256"
-      ],
-      "paramIsMutable": [
-        false,
-        false
-      ],
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
       "returnTypes": []
     },
     {
@@ -179,6 +182,16 @@
     },
     {
       "name": "withdraw",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "draw",
       "usePreapprovedAssets": false,
       "useAssetsInContract": true,
       "isPublic": true,
@@ -309,6 +322,34 @@
           "value": {
             "type": "U256",
             "value": "7"
+          }
+        },
+        {
+          "name": "TimestampNotReached",
+          "value": {
+            "type": "U256",
+            "value": "8"
+          }
+        },
+        {
+          "name": "NoAttendees",
+          "value": {
+            "type": "U256",
+            "value": "9"
+          }
+        },
+        {
+          "name": "NotValidAddress",
+          "value": {
+            "type": "U256",
+            "value": "10"
+          }
+        },
+        {
+          "name": "TimestampReached",
+          "value": {
+            "type": "U256",
+            "value": "11"
           }
         }
       ]

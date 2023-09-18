@@ -13,11 +13,13 @@ import {
 } from "@alephium/web3";
 import { default as BuyScriptJson } from "../Buy.ral.json";
 import { default as BuyWithoutTokenScriptJson } from "../BuyWithoutToken.ral.json";
+import { default as BuyTimedWithoutTokenScriptJson } from "../BuyTimedWithoutToken.ral.json";
 import { default as BuyTicketTokenScriptJson } from "../BuyTicketToken.ral.json";
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
 import { default as DestroyScriptJson } from "../Destroy.ral.json";
 import { default as WithdrawFeesScriptJson } from "../WithdrawFees.ral.json";
+import { default as DrawScriptJson } from "../Draw.ral.json";
 
 export const Buy = new ExecutableScript<{
   walphContract: HexString;
@@ -29,6 +31,10 @@ export const BuyWithoutToken = new ExecutableScript<{
   walphContract: HexString;
   amount: bigint;
 }>(Script.fromJson(BuyWithoutTokenScriptJson));
+export const BuyTimedWithoutToken = new ExecutableScript<{
+  walphContract: HexString;
+  amount: bigint;
+}>(Script.fromJson(BuyTimedWithoutTokenScriptJson));
 export const BuyTicketToken = new ExecutableScript<{
   walfContract: HexString;
   amount: bigint;
@@ -45,4 +51,7 @@ export const Destroy = new ExecutableScript<{ walphContract: HexString }>(
 );
 export const WithdrawFees = new ExecutableScript<{ walphContract: HexString }>(
   Script.fromJson(WithdrawFeesScriptJson)
+);
+export const Draw = new ExecutableScript<{ walphContract: HexString }>(
+  Script.fromJson(DrawScriptJson)
 );

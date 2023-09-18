@@ -3,6 +3,7 @@ import { loadDeployments } from '../../artifacts/ts/deployments'
 import { Walph, WalphInstance } from 'artifacts/ts'
 import { useWallet, Wallet } from '@alephium/web3-react'
 import { Deployments } from '@alephium/cli'
+import { time } from 'console'
 
 
 
@@ -40,6 +41,18 @@ export function findToken(tokenId: string, tokenBalances){
 )
 
 }
+
+const rtf = new Intl.RelativeTimeFormat('en', {
+  numeric: 'auto',
+});
+export function getRelativeTime(timestamp) {
+  
+  console.log(timestamp)
+  const difference = Math.round((timestamp - Date.now())/60000)
+
+  return rtf.format(difference, 'minute');
+}
+
 
 export function getDeployerAddresses(){
   return [

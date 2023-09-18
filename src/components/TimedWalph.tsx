@@ -1,26 +1,27 @@
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
 import styles from '../styles/Home.module.css'
-import { buyTicket } from '@/services/walph.service'
+import { buyTicket } from '@/services/timedWalph'
 import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
 import { node, groupOfAddress, NetworkId, SignerProvider, Contract } from '@alephium/web3'
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
-import { Walph, WalphTypes } from 'artifacts/ts'
+import { WalphTimed, WalphTimedTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold } from '@/services/utils'
+import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTime } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
 import { NumTicket } from './NumTickets'
 
-export const WalphDapp = () => {
+export const TimedWalph = () => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
-  const [getStateFields, setStateFields] = useState<WalphTypes.Fields>()
+  const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
   const { balance, updateBalanceForTx } = useBalance()
+  const [nextDraw, setNextDraw] = useState<string>('')
 
   let enoughToken = false
 
@@ -38,7 +39,7 @@ export const WalphDapp = () => {
       const walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.Walph.contractInstance
+      ).contracts.WalphTimed.contractInstance
 
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
@@ -79,12 +80,21 @@ export const WalphDapp = () => {
 
     if (nodeProvider) {
       web3.setCurrentNodeProvider(nodeProvider)
-      const WalphState = Walph.at(config.walpheContractAddress)
+      const WalphState = WalphTimed.at(config.walpheContractAddress)
 
       const initialState = await WalphState.fetchState()
       setStateFields(initialState.fields)
     }
   }, [config?.walpheContractAddress, signer?.nodeProvider])
+
+  const nextDrawState =  useCallback(() => {
+    setNextDraw(getRelativeTime(Number(getStateFields?.drawTimestamp)))
+},[getStateFields?.drawTimestamp])
+
+useEffect(() => {
+    if(getStateFields !== undefined)
+    nextDrawState()
+  }, [getStateFields, nextDrawState])
 
   const checkTokenBalance = () => {
     if (getStateFields?.minTokenAmountToHold > 0n) {
@@ -113,9 +123,11 @@ export const WalphDapp = () => {
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
 
-  const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
+  const poolFeesPercent = (Number(getStateFields?.poolFees))
 
   const numAttendees = Number(getStateFields?.numAttendees)
+
+
 
   const inc = () => {
     if (count < poolSize) setCount(count + 1)
@@ -133,23 +145,20 @@ export const WalphDapp = () => {
     <>
       <div className="columns">
         <form onSubmit={handleBuyTicket}>
-          <a href={'/walph50'}>Switch to a larger pool</a>
-          &nbsp; - &nbsp;
-          <a href={'/blitz'}>Switch to a Blitz pool</a>
+          <a href={'/'}>Switch to a standard pool</a>
           &nbsp; - &nbsp;
           <a href={'/walf'}>Switch to a ALF pool</a>
-          
-          <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
+          <h2 className={styles.title}>BlitzWalph lottery on {config?.network}</h2>
           <p>Your address: {account?.address ?? '???'}</p>
           <NumTicket address={account?.address} attendees={getStateFields?.attendees.slice(0, numAttendees)} ticketPrice={ticketPriceHint} tokenTicker={"ALPH"} />
           <p>
             Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
-            <b>{poolFeesAmount} ALPH</b>{' '}
+            <b>{poolFeesPercent}%</b>{' '}
           </p>
-          <p>
-            Slots remaining: <b>{slotFree?.toString()}</b>
-          </p>
-          <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
+          <h3>
+            Next draw: {nextDraw}
+          </h3>
+          <h3>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
           Last Winner:{' '}
           <b>
             {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'

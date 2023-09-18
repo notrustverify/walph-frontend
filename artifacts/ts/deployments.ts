@@ -11,9 +11,10 @@ import {
   Walph50HodlAlfInstance,
   Walf,
   WalfInstance,
+  WalphTimed,
+  WalphTimedInstance,
 } from ".";
 import { default as testnetDeployments } from "../.deployments.testnet.json";
-import { default as devnetDeployments } from "../.deployments.devnet.json";
 
 export type Deployments = {
   deployerAddress: string;
@@ -21,6 +22,7 @@ export type Deployments = {
     Walph: DeployContractExecutionResult<WalphInstance>;
     Walph50HodlAlf: DeployContractExecutionResult<Walph50HodlAlfInstance>;
     Walf: DeployContractExecutionResult<WalfInstance>;
+    WalphTimed: DeployContractExecutionResult<WalphTimedInstance>;
   };
 };
 
@@ -44,6 +46,12 @@ function toDeployments(json: any): Deployments {
         json.contracts["Walf"].contractInstance.address
       ),
     },
+    WalphTimed: {
+      ...json.contracts["WalphTimed"],
+      contractInstance: WalphTimed.at(
+        json.contracts["WalphTimed"].contractInstance.address
+      ),
+    },
   };
   return {
     ...json,
@@ -55,12 +63,7 @@ export function loadDeployments(
   networkId: NetworkId,
   deployerAddress?: string
 ): Deployments {
-  const deployments =
-    networkId === "testnet"
-      ? testnetDeployments
-      : networkId === "devnet"
-      ? devnetDeployments
-      : undefined;
+  const deployments = networkId === "testnet" ? testnetDeployments : undefined;
   if (deployments === undefined) {
     throw Error("The contract has not been deployed to the " + networkId);
   }

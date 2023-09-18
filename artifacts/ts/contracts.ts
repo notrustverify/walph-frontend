@@ -3,12 +3,12 @@
 /* eslint-disable */
 
 import { Contract, ContractFactory } from "@alephium/web3";
-import { Walf, Walph, Walph50HodlAlf } from ".";
+import { Walf, Walph, Walph50HodlAlf, WalphTimed } from ".";
 
 let contracts: ContractFactory<any>[] | undefined = undefined;
 export function getContractByCodeHash(codeHash: string): Contract {
   if (contracts === undefined) {
-    contracts = [Walf, Walph, Walph50HodlAlf];
+    contracts = [Walf, Walph, Walph50HodlAlf, WalphTimed];
   }
   const c = contracts.find(
     (c) =>
