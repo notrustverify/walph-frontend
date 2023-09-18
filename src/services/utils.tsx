@@ -49,7 +49,9 @@ export function getRelativeTime(timestamp) {
   
   console.log(timestamp)
   const difference = Math.round((timestamp - Date.now())/60000)
-
+  if (difference <= 0){
+    return "in progress"
+  }
   return rtf.format(difference, 'minute');
 }
 
