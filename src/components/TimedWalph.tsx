@@ -8,7 +8,7 @@ import { node, groupOfAddress, NetworkId, SignerProvider, Contract } from '@alep
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { WalphTimed, WalphTimedTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTime } from '@/services/utils'
+import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTimeString } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
@@ -22,6 +22,7 @@ export const TimedWalph = () => {
   const [count, setCount] = React.useState<number>(1)
   const { balance, updateBalanceForTx } = useBalance()
   const [nextDraw, setNextDraw] = useState<string>('')
+  const [fullDrawDate, setFullDrawDate] = useState<string>('')
 
   let enoughToken = false
 
@@ -87,9 +88,17 @@ export const TimedWalph = () => {
     }
   }, [config?.walpheContractAddress, signer?.nodeProvider])
 
+
+  const browserLang = navigator.language;
+  console.log(browserLang)
   const nextDrawState =  useCallback(() => {
-    setNextDraw(getRelativeTime(Number(getStateFields?.drawTimestamp)))
-},[getStateFields?.drawTimestamp])
+    const timestampDraw = Number(getStateFields?.drawTimestamp)
+    const dateInfo = getRelativeTimeString(timestampDraw,browserLang)
+    setNextDraw(dateInfo[0])
+    setFullDrawDate(dateInfo[1])
+
+    
+},[browserLang, getStateFields?.drawTimestamp])
 
 useEffect(() => {
     if(getStateFields !== undefined)
@@ -156,7 +165,7 @@ useEffect(() => {
             <b>{poolFeesPercent}%</b>{' '}
           </p>
           <h3>
-            Next draw: {nextDraw}
+            Next draw: {nextDraw} <small> at {fullDrawDate}</small>
           </h3>
           <h3>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
           Last Winner:{' '}
