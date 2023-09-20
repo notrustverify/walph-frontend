@@ -317,8 +317,8 @@ class Factory extends ContractFactory<
 export const WalphTimed = new Factory(
   Contract.fromJson(
     WalphTimedContractJson,
-    "=6-2=2-2+2a=3-1+b=3-1+4=3-1+d=3-1+6=1-3+0ff=2+2=2-1+17=1-2=3-1+3=2-1=1+8=2-2+2e=3-1+14255=11-1+4=30+0016007e0207726e6420697320=1126",
-    "fc3e7e2e350a12faf24736f9e8e1c38d013ad208fc1c57c3ab3cf7bb81bfae33"
+    "=6-2=2-2+2a=3-1+b=3-1+4=3-1+d=3-1+6=2-5+bf=1+0e6=2-2+31=3-1+3=2-2+d8=2-2+ee=3-1+14215=11-1+4=30+0016007e0207726e6420697320=998",
+    "42ea2dac648a0b60b8d344b3f0a9cf64745b03bd650aca25a1e04de87fad3ed3"
   )
 );
 
