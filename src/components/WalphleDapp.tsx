@@ -13,6 +13,28 @@ import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
 import { NumTicket } from './NumTickets'
+import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
+import { CssBaseline } from '@mui/material/'
+import walphTheme from '../services/walphTheme'
+import Box from '@mui/material/Box'
+import Grid from '@mui/material/Unstable_Grid2'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add'
+import Fab from '@mui/material/Fab'
+import PoolSelector from './PoolSelector'
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#eec459',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  borderRadius: '10px',
+}))
+
+const theme = createTheme(walphTheme)
 
 export const WalphDapp = () => {
   const { account, connectionStatus, signer } = useWallet()
@@ -130,83 +152,202 @@ export const WalphDapp = () => {
   console.log('ongoing..', ongoingTxId)
 
   return (
-    <>
-      <div className="columns">
-        <form onSubmit={handleBuyTicket}>
-          <a href={'/walph50'}>Switch to a larger pool</a>
-          &nbsp; - &nbsp;
-          <a href={'/blitz'}>Switch to a Blitz pool</a>
-          &nbsp; - &nbsp;
-          <a href={'/walf'}>Switch to a ALF pool</a>
-          
-          <h2 className={styles.title}>Walph lottery on {config?.network}</h2>
-          <p>Your address: {account?.address ?? '???'}</p>
-          <NumTicket address={account?.address} attendees={getStateFields?.attendees.slice(0, numAttendees)} ticketPrice={ticketPriceHint} tokenTicker={"ALPH"} />
-          <p>
-            Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
-            <b>{poolFeesAmount} ALPH</b>{' '}
-          </p>
-          <p>
-            Slots remaining: <b>{slotFree?.toString()}</b>
-          </p>
-          <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
-          Last Winner:{' '}
-          <b>
-            {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
-              ? '-'
-              : getStateFields?.lastWinner.toString()}
-          </b>
-          {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
-          <br />
-          <p>
-            Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong>
-          </p>
-          <br />
-          {enoughToken ? (
-            <div>
-              <input style={{ display: 'inline-block' }} type="button" onClick={dec} value="-" />
-              <input
-                style={{
-                  display: 'inline-block',
-                  maxWidth: '50%',
-                  width: '3em',
-                  textAlign: 'center',
-                  border: '0'
-                }}
-                defaultValue={1}
-                value={count.toString()}
-                min={1}
-                max={1}
-              />
-              <input style={{ display: 'inline-block' }} type="button" onClick={inc} value="+" defaultValue={'+'} />
 
-              {slotFree - count < 1 ? (
-                <input
-                  style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
-                  type="submit"
-                  onClick={() => setBuyAmount(count)}
-                  disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
-                  value={ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}
-                  defaultValue={1}
-                />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      
+<br/>
+      <Box sx={{ paddingTop: 2 }} >
+      
+        <Grid container spacing={0}
+        sx={{ paddingTop: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              position: "relative",
+              maxWidth: "50%",
+              marginLeft: "auto",
+              marginRight: "auto"
+            }} >
+              
+          <Grid xs>
+          
+   
+            <Item >
+           
+
+        <Typography align="left"
+        
+        sx={{
+          fontWeight: 500,
+          fontSize: 18,
+          paddingLeft: 3,
+          paddingBottom: 1,
+          paddingTop: 3
+        }}
+        >
+             <NumTicket
+                address={account?.address}
+                attendees={getStateFields?.attendees.slice(0, numAttendees)}
+                ticketPrice={ticketPriceHint}
+                tokenTicker={'ALPH'}
+              /></Typography>
+
+              <br/>
+              <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 20,
+                paddingLeft: 1,
+                paddingRight: 1
+              }}
+              >
+                Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
+                <b>{poolFeesAmount} ALPH</b>{' '}
+              
+              </Typography>
+                <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 30,
+                paddingLeft: 1,
+                paddingRight: 1
+              }}
+              >
+              <p>
+                Slots remaining: <b>{slotFree?.toString()}</b>
+              </p>
+              <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
+
+
+              </Typography>
+              
+
+              <Typography
+              sx={{
+                fontWeight: 500,
+                fontSize: 25,
+                paddingLeft: 1,
+                paddingRight: 1
+              }}>
+
+              Last Winner:{' '}
+              <b>
+                {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
+                  ? '-'
+                  : getStateFields?.lastWinner.toString()}
+              </b>
+              {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
+              <br />
+              <p>
+                Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong>
+              </p>
+              </Typography>
+              <br />
+              <form onSubmit={handleBuyTicket} 
+                  
+                  style={{
+                      border: "none",
+                      display: "inline-block",
+                      boxShadow: "none",
+                      margin: "auto",
+                      padding: "auto"
+                  }}  
+                  
+                  >
+              {enoughToken ? (
+                <div>
+                  <Fab
+                    variant="extended"
+                    size="small"
+                    onClick={() => {
+                      dec()
+                    }}
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: 30,
+                      paddingLeft: 1,
+                      paddingRight: 1
+                    }}
+                  >
+                    -
+                  </Fab>
+                  <Typography
+                    align="center"
+                    display="inline"
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: 24,
+                      paddingLeft: 1,
+                      paddingRight: 1
+                    }}
+                  >
+                    {count.toString()}
+                  </Typography>
+
+                  <Fab
+                    variant="extended"
+                    size="small"
+                    onClick={() => {
+                      inc()
+                    }}
+                    sx={{
+                      fontWeight: 500,
+                      fontSize: 30,
+                      paddingLeft: 1,
+                      paddingRight: 1
+                    }}
+                  >
+                    +
+                  </Fab>
+                  
+                  {slotFree - count <1 ? (
+                    <Button
+                      variant="contained"
+                      style={{ 
+                      display: 'inline-block', marginRight: '1em', 
+                      marginLeft: '1em',
+                      backgroundColor: "#8E0CC4", 
+                      borderRadius: "10px",
+                      fontSize:16
+                    }}
+
+                      onClick={() => setBuyAmount(count)}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                    >
+                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
+                    </Button>
+                  ) : (
+                   
+                    <Button
+                      variant="contained"
+                      style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', backgroundColor: "#8E0CC4", borderRadius: "10px", fontSize:16 }}
+                      onClick={() => {
+                        setBuyAmount(count)
+                        
+                      }}
+                      
+                      
+                      type='submit'
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
+                    >
+                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>
+                    </Button>
+                    
+                  )}
+                 
+                </div>
+
               ) : (
-                <input
-                  style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em' }}
-                  type="submit"
-                  onClick={() => {
-                    setBuyAmount(count)
-                  }}
-                  disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
-                  value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
-                  defaultValue={1}
-                />
+                <NotEnoughToken tokenName={getTokenNameToHold()} />
               )}
-            </div>
-          ) : (
-            <NotEnoughToken tokenName={getTokenNameToHold()} />
-          )}
-        </form>
-      </div>
-    </>
+               </form>
+              <br/>
+            </Item>
+          </Grid>
+        </Grid>
+      </Box>
+    </ThemeProvider>
   )
 }

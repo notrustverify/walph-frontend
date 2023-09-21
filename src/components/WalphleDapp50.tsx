@@ -13,7 +13,7 @@ import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
 import Link from 'next/link'
 import { NumTicket } from './NumTickets'
-
+import Countdown from 'react-countdown'
 export const WalphDapp50 = () => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
