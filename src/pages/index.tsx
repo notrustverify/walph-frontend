@@ -1,6 +1,5 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import React from 'react'
-import Item from '@mui/material/ListItem'
 import Box from '@mui/material/Box'
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -10,22 +9,15 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { CssBaseline } from '@mui/material/';
 import Typography from '@mui/material/Typography';
-import walphTheme from "../services/walphTheme";
+import { walphTheme, Item, WalphButton } from "../services/walphTheme";
 import { Image } from 'mui-image'
+import { Footer } from '@/components/Footer';
+const theme = createTheme(walphTheme)
 
 export default function Home() {
     const { account, connectionStatus } = useWallet()
-   
-    const Item = styled(Paper)(({ theme }) => ({
-        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#eec459',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        borderRadius: "10px"
-      }));
+  
       
-    const theme = createTheme(walphTheme)
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
@@ -44,9 +36,12 @@ export default function Home() {
             <br/>
             <div style={{ display: "inline-flex"  }} >
 
-            <Typography variant="h2" gutterBottom  >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration="0" style={{ marginTop: -50 }}/> 
+            <Typography variant="h2" gutterBottom  >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration="0" style={{
+                  borderRadius: '60%',
+                  margin: '28px' ,
+                  marginTop: -40, backgroundColor: "#8E0CC4" }}/> 
             </div>
-            <Typography variant="h5">Experience a decentralized lottery powered by Alephium, <br/> offering transparent
+            <Typography variant="h4">Experience a decentralized lottery powered by Alephium, <br/> offering transparent
             fair and secure draw</Typography> &nbsp; 
             
     </div>
@@ -55,82 +50,95 @@ export default function Home() {
     }
     <Box sx={{ width: '100%' }} padding={5}>
 
-    <h2>ALPH walph</h2>
+    <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>ALPH walph</Typography>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid xs={6}>
           <Item>
-            <big>Pot size: <strong>210 ALPH</strong></big>
-            <br/>
-            <big>Ticket price: <strong>10 ALPH</strong></big>
+            <Typography variant='h5'>Pot size: <strong>210 ALPH</strong></Typography>
+            <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>No token required</p>
-            <Button onClick={ () => {window.location.href ='/walph'} } variant="contained" disabled={ connectionStatus != "connected" } >Participate</Button>
+            <WalphButton onClick={ () => {window.location.href ='/walph'} } variant="contained"  disabled={ connectionStatus != "connected" } >Join</WalphButton>
 
           </Item>
         </Grid>
         <Grid xs={6}>
        <Item> 
-            <big>Pot size: <strong>500 ALPH</strong></big>
-            <br/>
-            <big>Ticket price: <strong>10 ALPH</strong></big>
+            <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
+            <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>ALF needed</p>
-            <Button variant="contained"  disabled={ connectionStatus != "connected" }>Participate</Button>
+            <WalphButton variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
+        </Item>
+        </Grid>
+      </Grid>
+
+      {
+    //blitz pool
+    }
+      <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>Blitz walph</Typography>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid xs={6}>
+          <Item>
+            <Typography variant='h5'>Pot size: <strong>210 ALPH</strong></Typography>
+            <br/>
+            <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
+            <p>Draw every <strong>6 hours</strong></p>
+            <WalphButton variant="contained" 
+           
+           onClick={ () => {window.location.href ='/blitz'}}
+            disabled={ connectionStatus != "connected" }>Join</WalphButton>
+
+          </Item>
+        </Grid>
+        <Grid xs={6}>
+       <Item> 
+            <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
+            <br/>
+            <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
+            <p>Draw every <strong>6 hours</strong></p>
+            <WalphButton variant="contained"   disabled={ true }>Coming Soon</WalphButton>
         </Item>
         </Grid>
       </Grid>
 
 
-      <h2>Blitz walph</h2>
+      {
+    //token pool
+    }
+        <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>Token walph</Typography>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid xs={6}>
+        <Grid xs={4}>
           <Item>
-            <big>Pot size: <strong>210 ALPH</strong></big>
+            <Typography variant='h5'>Pot size: <strong>210 ALF</strong></Typography>
             <br/>
-            <big>Ticket price: <strong>10 ALPH</strong></big>
-            <p>Draw every <strong>6 hours</strong></p>
-            <Button variant="contained"  disabled={ connectionStatus != "connected" }>Participate</Button>
-
-          </Item>
-        </Grid>
-        <Grid xs={6}>
-       <Item> 
-            <big>Pot size: <strong>500 ALPH</strong></big>
-            <br/>
-            <big>Ticket price: <strong>10 ALPH</strong></big>
-            <p>Draw every <strong>6 hours</strong></p>
-            <Button variant="contained"  disabled={ true }>Coming Soon</Button>
-        </Item>
-        </Grid>
-      </Grid>
-
-
-
-        <h2>Token walph</h2>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid xs={6}>
-          <Item>
-            <big>Pot size: <strong>210 ALF</strong></big>
-            <br/>
-            <big>Ticket price: <strong>10 ALF</strong></big>
+            <Typography variant='h5'>Ticket price: <strong>10 ALF</strong></Typography>
             <p>No token required</p>
-            <Button variant="contained"  disabled={ connectionStatus != "connected" }>Participate</Button>
+            <WalphButton variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
           </Item>
         </Grid>
-        <Grid xs={6}>
+        <Grid xs={4}>
        <Item> 
-            <big>Pot size: <strong>210 PACA</strong></big>
+            <Typography variant='h5'>Pot size: <strong>2.1 ETH</strong></Typography>
             <br/>
-            <big>Ticket price: <strong>10 PACA</strong></big>
-            <p>ALF needed</p>
-            <Button variant="contained" disabled={true} >Coming Soon</Button>
+            <Typography variant='h5'>Ticket price: <strong>0.01 ETH</strong></Typography>
+            <p>No token required</p>
+            <WalphButton variant="contained" disabled={true} >Coming Soon</WalphButton>
         </Item>
+        </Grid>
+
+        <Grid xs={4}>
+          <Item>
+            <Typography variant='h5'>Pot size: <strong>210 PACA</strong></Typography>
+            <br/>
+            <Typography variant='h5'>Ticket price: <strong>10 PACA</strong></Typography>
+            <p>No token required</p>
+            <WalphButton variant="contained"  disabled={ true }>Coming soon</WalphButton>
+          </Item>
         </Grid>
       </Grid>
     </Box>
 
 
-    <div style={{ textAlign: "center" }} >
-    <p>Proudly Powered by&nbsp;<Link href="https://notrustverify.ch">No Trust Verify</Link></p>
-    </div>
+   <Footer />
     </ThemeProvider>
     )
   }

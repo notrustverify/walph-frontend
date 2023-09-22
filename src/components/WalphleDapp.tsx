@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walph.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
@@ -11,28 +10,14 @@ import { web3 } from '@alephium/web3'
 import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NotEnoughToken } from './NotEnoughToken'
-import Link from 'next/link'
 import { NumTicket } from './NumTickets'
-import { styled, ThemeProvider, createTheme } from '@mui/material/styles'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material/'
-import walphTheme from '../services/walphTheme'
+import { walphTheme, Item, WalphButton } from '../services/walphTheme'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Unstable_Grid2'
-import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import AddIcon from '@mui/icons-material/Add'
 import Fab from '@mui/material/Fab'
-import PoolSelector from './PoolSelector'
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#eec459',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-  borderRadius: '10px',
-}))
 
 const theme = createTheme(walphTheme)
 
@@ -175,7 +160,7 @@ export const WalphDapp = () => {
    
             <Item >
            
-
+     
         <Typography align="left"
         
         sx={{
@@ -183,7 +168,7 @@ export const WalphDapp = () => {
           fontSize: 18,
           paddingLeft: 3,
           paddingBottom: 1,
-          paddingTop: 3
+          paddingTop: 3,
         }}
         >
              <NumTicket
@@ -223,7 +208,7 @@ export const WalphDapp = () => {
               </Typography>
               
 
-              <Typography
+              <Typography 
               sx={{
                 fontWeight: 500,
                 fontSize: 25,
@@ -235,11 +220,13 @@ export const WalphDapp = () => {
               <b>
                 {getStateFields?.lastWinner.toString() === 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq'
                   ? '-'
-                  : getStateFields?.lastWinner.toString()}
+                  : 
+                  getStateFields?.lastWinner.toString() == account?.address ? 
+                  "You 🫵": getStateFields?.lastWinner.toString()}
               </b>
               {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
               <br />
-              <p>
+              <p style={{ paddingBottom: 1 }}>
                 Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong>
               </p>
               </Typography>
@@ -263,15 +250,11 @@ export const WalphDapp = () => {
                     onClick={() => {
                       dec()
                     }}
-                    sx={{
-                      fontWeight: 500,
-                      fontSize: 30,
-                      paddingLeft: 1,
-                      paddingRight: 1
-                    }}
+                    
                   >
-                    -
+                   <div style={{ paddingBottom: 7, fontSize: 20 }}>-</div> 
                   </Fab>
+                  
                   <Typography
                     align="center"
                     display="inline"
@@ -282,7 +265,8 @@ export const WalphDapp = () => {
                       paddingRight: 1
                     }}
                   >
-                    {count.toString()}
+
+                  {count.toString()}
                   </Typography>
 
                   <Fab
@@ -291,37 +275,31 @@ export const WalphDapp = () => {
                     onClick={() => {
                       inc()
                     }}
-                    sx={{
-                      fontWeight: 500,
-                      fontSize: 30,
-                      paddingLeft: 1,
-                      paddingRight: 1
-                    }}
+                    
                   >
-                    +
+                    <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
                   </Fab>
                   
                   {slotFree - count <1 ? (
-                    <Button
+                    <WalphButton
                       variant="contained"
                       style={{ 
                       display: 'inline-block', marginRight: '1em', 
                       marginLeft: '1em',
-                      backgroundColor: "#8E0CC4", 
                       borderRadius: "10px",
                       fontSize:16
                     }}
-
+                      type='submit'
                       onClick={() => setBuyAmount(count)}
                       disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
-                    </Button>
+                    </WalphButton>
                   ) : (
                    
-                    <Button
+                    <WalphButton
                       variant="contained"
-                      style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', backgroundColor: "#8E0CC4", borderRadius: "10px", fontSize:16 }}
+                      style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', borderRadius: "10px", fontSize:16 }}
                       onClick={() => {
                         setBuyAmount(count)
                         
@@ -333,7 +311,7 @@ export const WalphDapp = () => {
                       value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>
-                    </Button>
+                    </WalphButton>
                     
                   )}
                  

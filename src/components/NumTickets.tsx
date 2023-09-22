@@ -15,7 +15,7 @@ export const NumTicket = ({ attendees, address, ticketPrice, tokenTicker }: Atte
   return (
     <>
 
-        You bought <strong>{countNumTicket}</strong> {countNumTicket > 0 ? 'tickets': 'ticket'} ( {countNumTicket * ticketPrice ?? 0} {tokenTicker} ) in this walph pool
+        You have <strong>{countNumTicket}</strong> {countNumTicket > 0 ? 'tickets': 'ticket'} ( {countNumTicket * ticketPrice ?? 0} {tokenTicker} )
     </>
   )
 }

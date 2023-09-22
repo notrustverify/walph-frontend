@@ -6,14 +6,26 @@ import Link from 'next/link'
 import { TimedWalph } from '@/components/TimedWalph'
 import { Description } from '@/components/WalphDescription'
 import { Walph50HodlAlf } from 'artifacts/ts'
+import { walphTheme } from "../services/walphTheme";
+import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
+import PoolSelector from '@/components/PoolSelector'
+import { CssBaseline } from '@mui/material/';
+import { Footer } from '@/components/Footer'
 
 export default function Home() {
   const { account, connectionStatus } = useWallet()
+  const theme = createTheme(walphTheme)
 
   return (
     <>
-      <div className={styles.container}>
-        <AlephiumConnectButton />
+      <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className={styles.container}>
+        <div style={{
+          display:"inline-flex"
+        }}>
+       <AlephiumConnectButton /> &nbsp; <PoolSelector/>     
+        </div>
         
         <Head>
           <title>walph dApp</title>
@@ -24,15 +36,11 @@ export default function Home() {
           <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
           <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
         </Head>
-        {connectionStatus == "connected" ? (
-          ''
-        ) : (
-         <Description />
-        )}
-
+        
         {connectionStatus == "connected" && <TimedWalph />}
-        <p className={styles.center} >Proudly Powered by&nbsp;<Link href="https://notrustverify.ch">No Trust Verify</Link></p>
-      </div>
+        <Footer />
+        </div>
+      </ThemeProvider>
     </>
   )
 }
