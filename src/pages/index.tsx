@@ -12,6 +12,10 @@ import Typography from '@mui/material/Typography';
 import { walphTheme, Item, WalphButton } from "../services/walphTheme";
 import { Image } from 'mui-image'
 import { Footer } from '@/components/Footer';
+import { HtmlHead } from '@/components/HtmlHead'
+
+
+
 const theme = createTheme(walphTheme)
 
 export default function Home() {
@@ -21,15 +25,8 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-        <Head>
-          <title>walph dApp</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="manifest" href="./manifest.json" />
-          <link rel="shortcut icon" href="/images/favicon.ico" />
-          <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
-          <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
-        </Head>
+            <HtmlHead />
+
 
     <div style={{ paddingLeft: "2em"  }} >
             <AlephiumConnectButton />
@@ -66,7 +63,7 @@ export default function Home() {
             <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>ALF needed</p>
-            <WalphButton variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
+            <WalphButton  onClick={ () => {window.location.href ='/walph50'} }variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
         </Item>
         </Grid>
       </Grid>
@@ -112,7 +109,7 @@ export default function Home() {
             <br/>
             <Typography variant='h5'>Ticket price: <strong>10 ALF</strong></Typography>
             <p>No token required</p>
-            <WalphButton variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
+            <WalphButton variant="contained" onClick={ () => {window.location.href ='/walf'}}  disabled={ connectionStatus != "connected" }>Join</WalphButton>
           </Item>
         </Grid>
         <Grid xs={4}>
