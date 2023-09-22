@@ -20,12 +20,13 @@ export const TxStatus = ({ txId, txStatusCallback }: TxStatusAlertProps) => {
 
   return (
     <>
-      <h3 style={{ margin: 0 }}>
+    
+      <h6 style={{ margin: "1em" }}>
         Transaction status: <code>{txStatus?.type || 'unknown'}</code>
-      </h3>
-      <h3 style={{ margin: 0 }}>
+      </h6>
+      <h6 style={{ margin: 0 }}>
         Transaction hash: <code><Link href={getExplorerUrl()+"/transactions/"+txId} rel="noopener noreferrer" target="_blank">{txId.slice(0,20)+"..."}</Link></code>
-      </h3>
+      </h6>
     </>
   )
 }

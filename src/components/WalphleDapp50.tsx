@@ -20,6 +20,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
+import ConfettiExplosion from 'react-confetti-explosion'
 
 const theme = createTheme(walphTheme)
 
@@ -98,6 +99,7 @@ export const WalphDapp50 = () => {
   }, [config?.walpheContractAddress, signer?.nodeProvider])
 
   const checkTokenBalance = () => {
+    console.log(getStateFields?.tokenIdToHold)
     if (getStateFields?.minTokenAmountToHold > 0n) {
       if (balance.tokenBalances !== undefined) {
         const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold, balance.tokenBalances)
@@ -135,6 +137,12 @@ export const WalphDapp50 = () => {
 
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
   const numAttendees = Number(getStateFields?.numAttendees)
+
+
+
+  let lastWinner = getStateFields?.lastWinner.toString()
+  if (lastWinner == "tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq")
+      lastWinner = '-'
 
   return (
   
@@ -224,6 +232,23 @@ export const WalphDapp50 = () => {
                   getStateFields?.lastWinner.toString() == account?.address ? 
                   "You 🫵": getStateFields?.lastWinner.toString()}
               </b>
+
+              <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      position: 'relative',
+                      maxWidth: '50%',
+                      marginLeft: 'auto',
+                      marginRight: 'auto'
+                    }}
+                  >
+                    {lastWinner === account?.address && (
+                      <ConfettiExplosion force={0.6} duration={3000} particleCount={250} width={1600} />
+                    )}
+                  </div>
+
               {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
               <br />
               <p style={{ paddingBottom: 1 }}>

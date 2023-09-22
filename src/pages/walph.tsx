@@ -4,7 +4,6 @@ import styles from '@/styles/Home.module.css'
 import { WalphDapp } from '@/components/WalphleDapp'
 import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
 import Link from 'next/link'
-import { Description } from '@/components/WalphDescription'
 import { walphTheme } from "../services/walphTheme";
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import PoolSelector from '@/components/PoolSelector'
