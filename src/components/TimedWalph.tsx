@@ -21,10 +21,10 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import ConfettiExplosion from 'react-confetti-explosion'
+import { WalphCountdown } from './Countdown'
 
 const theme = createTheme(walphTheme)
-
-
+const dateNow = Date.now()
 export const TimedWalph = () => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
@@ -101,7 +101,6 @@ export const TimedWalph = () => {
 
 
   const browserLang = navigator.language;
-  console.log(browserLang)
   const nextDrawState =  useCallback(() => {
     const timestampDraw = Number(getStateFields?.drawTimestamp)
     const dateInfo = getRelativeTimeString(timestampDraw,browserLang)
@@ -202,6 +201,7 @@ useEffect(() => {
                 attendees={getStateFields?.attendees.slice(0, numAttendees)}
                 ticketPrice={ticketPriceHint}
                 tokenTicker={'ALPH'}
+                poolSeat={numAttendees}
               /></Typography>
 
               <br/>
@@ -225,8 +225,14 @@ useEffect(() => {
                 paddingRight: 1
               }}
               >
-
-              <h3>Next draw: {nextDraw} <small> at {fullDrawDate}</small></h3>
+              <h4>Draw in&nbsp; 
+                
+                {
+                  getStateFields?.drawTimestamp ? 
+                <WalphCountdown drawTimestamp={Number(getStateFields?.drawTimestamp)} />
+                : ''
+                }
+                </h4>
               <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
 
 

@@ -178,9 +178,10 @@ export const WalphDapp = () => {
         >
              <NumTicket
                 address={account?.address}
-                attendees={getStateFields?.attendees.slice(0, numAttendees)}
+                attendees={getStateFields?.attendees.slice(0,numAttendees)}
                 ticketPrice={ticketPriceHint}
                 tokenTicker={'ALPH'}
+                poolSeat={Number((getStateFields?.poolSize) / getStateFields?.ticketPrice)}
               /></Typography>
 
               <br/>

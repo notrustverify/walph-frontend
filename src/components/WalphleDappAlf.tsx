@@ -169,6 +169,7 @@ export const WalfDapp = () => {
                   attendees={getStateFields?.attendees.slice(0, numAttendees)}
                   ticketPrice={ticketPriceHint}
                   tokenTicker={'ALF'}
+                  poolSeat={Number((getStateFields?.poolSize) / getStateFields?.ticketPrice)}
                 />
               </Typography>
 
