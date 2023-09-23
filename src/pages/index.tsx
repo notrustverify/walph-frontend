@@ -76,7 +76,6 @@ export default function Home() {
         <Grid xs={6}>
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 ALPH</strong></Typography>
-            <br/>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>Draw every <strong>6 hours</strong></p>
             <WalphButton variant="contained" 
@@ -89,7 +88,6 @@ export default function Home() {
         <Grid xs={6}>
        <Item> 
             <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
-            <br/>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>Draw every <strong>6 hours</strong></p>
             <WalphButton variant="contained"   disabled={ true }>Coming Soon</WalphButton>
@@ -106,7 +104,6 @@ export default function Home() {
         <Grid xs={4}>
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 ALF</strong></Typography>
-            <br/>
             <Typography variant='h5'>Ticket price: <strong>10 ALF</strong></Typography>
             <p>No token required</p>
             <WalphButton variant="contained" onClick={ () => {window.location.href ='/walf'}}  disabled={ connectionStatus != "connected" }>Join</WalphButton>
@@ -115,7 +112,6 @@ export default function Home() {
         <Grid xs={4}>
        <Item> 
             <Typography variant='h5'>Pot size: <strong>2.1 ETH</strong></Typography>
-            <br/>
             <Typography variant='h5'>Ticket price: <strong>0.01 ETH</strong></Typography>
             <p>No token required</p>
             <WalphButton variant="contained" disabled={true} >Coming Soon</WalphButton>
@@ -125,7 +121,6 @@ export default function Home() {
         <Grid xs={4}>
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 PACA</strong></Typography>
-            <br/>
             <Typography variant='h5'>Ticket price: <strong>10 PACA</strong></Typography>
             <p>No token required</p>
             <WalphButton variant="contained"  disabled={ true }>Coming soon</WalphButton>

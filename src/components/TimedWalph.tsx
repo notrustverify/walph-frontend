@@ -100,21 +100,6 @@ export const TimedWalph = () => {
   }, [config?.walpheContractAddress, signer?.nodeProvider])
 
 
-  const browserLang = navigator.language;
-  const nextDrawState =  useCallback(() => {
-    const timestampDraw = Number(getStateFields?.drawTimestamp)
-    const dateInfo = getRelativeTimeString(timestampDraw,browserLang)
-    setNextDraw(dateInfo[0])
-    setFullDrawDate(dateInfo[1])
-
-    
-},[browserLang, getStateFields?.drawTimestamp])
-
-useEffect(() => {
-    if(getStateFields !== undefined)
-    nextDrawState()
-  }, [getStateFields, nextDrawState])
-
   const checkTokenBalance = () => {
     if (getStateFields?.minTokenAmountToHold > 0n) {
       if (balance.tokenBalances !== undefined) {
@@ -142,7 +127,7 @@ useEffect(() => {
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
 
-  const poolFeesPercent = (Number(getStateFields?.poolFees))
+  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance)/10 ** 18/100 //TODO correct this shit
 
   const numAttendees = Number(getStateFields?.numAttendees)
 
@@ -217,6 +202,7 @@ useEffect(() => {
                 <b>{poolFeesPercent} ALPH</b>{' '}
               
               </Typography>
+
                 <Typography
               sx={{
                 fontWeight: 500,
