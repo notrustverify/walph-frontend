@@ -23,23 +23,9 @@ export default function Home() {
             <HtmlHead />
 
             <div className={styles.container}>
-        <div style={{
-          display:"inline-flex"
-        }}>
-       <AlephiumConnectButton /> &nbsp; <PoolSelector/>     
-        </div>
-        
-        <Head>
-          <title>walph dApp</title>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link rel="manifest" href="./manifest.json" />
-          <link rel="shortcut icon" href="/images/favicon.ico" />
-          <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"/>
-          <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"/>
-        </Head>
 
-        {connectionStatus == "connected" && <TimedWalph />}
+  
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph /> : ''}
         <Footer />
         </div>
       </ThemeProvider>

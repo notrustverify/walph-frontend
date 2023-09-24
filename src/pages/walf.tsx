@@ -22,13 +22,8 @@ export default function Home() {
             <HtmlHead />
 
       <div className={styles.container}>
-        <div style={{
-          display:"inline-flex"
-        }}>
-       <AlephiumConnectButton /> &nbsp; <PoolSelector/>     
-        </div>
 
-        {connectionStatus == "connected" && <WalfDapp />}
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <WalfDapp /> : ''}
         <Footer />
       </div>
 

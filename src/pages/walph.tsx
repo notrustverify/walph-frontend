@@ -24,13 +24,7 @@ export default function WalphAlph() {
             <HtmlHead />
 
       <div className={styles.container}>
-        <div style={{
-          display:"inline-flex"
-        }}>
-       <AlephiumConnectButton /> &nbsp; <PoolSelector/>     
-        </div>
-
-        {connectionStatus == "connected" && <WalphDapp />}
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <WalphDapp /> : ''}
         <Footer />
       </div>
 

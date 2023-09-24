@@ -29,11 +29,10 @@ export default function Home() {
 
 
     <div style={{ paddingLeft: "2em"  }} >
-            <AlephiumConnectButton />
             <br/>
             <div style={{ display: "inline-flex"  }} >
 
-            <Typography variant="h2" gutterBottom  >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration="0" style={{
+            <Typography variant="h2" gutterBottom sx={{ color: "#FEC26C", fontWeight: 900  }} >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration="0" style={{
                   borderRadius: '60%',
                   margin: '28px' ,
                   marginTop: -40, backgroundColor: "#8E0CC4" }}/> 
@@ -90,7 +89,7 @@ export default function Home() {
             <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
             <p>Draw every <strong>6 hours</strong></p>
-            <WalphButton variant="contained"   disabled={ true }>Coming Soon</WalphButton>
+            <WalphButton variant="contained"   disabled={ true }>Soon</WalphButton>
         </Item>
         </Grid>
       </Grid>
@@ -100,8 +99,8 @@ export default function Home() {
     //token pool
     }
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>Token walph</Typography>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        <Grid xs={4}>
+      <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid xs={6}>
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 ALF</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 ALF</strong></Typography>
@@ -109,21 +108,21 @@ export default function Home() {
             <WalphButton variant="contained" onClick={ () => {window.location.href ='/walf'}}  disabled={ connectionStatus != "connected" }>Join</WalphButton>
           </Item>
         </Grid>
-        <Grid xs={4}>
+        <Grid xs={6}>
        <Item> 
             <Typography variant='h5'>Pot size: <strong>2.1 ETH</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>0.01 ETH</strong></Typography>
             <p>No token required</p>
-            <WalphButton variant="contained" disabled={true} >Coming Soon</WalphButton>
+            <WalphButton variant="contained" disabled={true} >Soon</WalphButton>
         </Item>
         </Grid>
 
-        <Grid xs={4}>
+        <Grid xs={6}>
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 PACA</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 PACA</strong></Typography>
             <p>No token required</p>
-            <WalphButton variant="contained"  disabled={ true }>Coming soon</WalphButton>
+            <WalphButton variant="contained"  disabled={ true }>Soon</WalphButton>
           </Item>
         </Grid>
       </Grid>
