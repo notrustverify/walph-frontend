@@ -4,6 +4,7 @@ import { Walph, WalphInstance } from 'artifacts/ts'
 import { useWallet, Wallet } from '@alephium/web3-react'
 import { Deployments } from '@alephium/cli'
 import { time } from 'console'
+import configuration from 'alephium.config'
 
 
 
@@ -25,7 +26,7 @@ function getGroup(): number {
 }
 
 export function getTokenNameToHold(): string {
-    return getNetwork() == 'mainnet' ? process.env.NEXT_TOKEN_NAME : "ALF"
+    return getNetwork() == 'mainnet' ? "ALF" : "ALF"
 }
 
 export function getExplorerUrl(): string {
@@ -75,10 +76,5 @@ export function getRelativeTimeString(
 
 
 export function getDeployerAddresses(){
-  return [
-    '1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y',
-    '18oy42sSBJ8VThgEfdhBK9EELyG4BXpvzuN2ZiA8ezaNi',
-    '19LjHzaohNvgq2tNZXxXZsVEHq5NuTuDS7Kth85Qo8zm1',
-    '19YzSyYrwAH7VwVM5KPuAKmK89Chvk9gXup6753VZGUcB'
-  ]
+  return configuration.networks[process.env.NEXT_PUBLIC_NETWORK].settings.addressesDeploy
 }

@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walph.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
-import { node, groupOfAddress, NetworkId, SignerProvider, Contract } from '@alephium/web3'
+import { node, groupOfAddress, NetworkId, SignerProvider, Contract, NodeProvider } from '@alephium/web3'
 //import { WalphConfig, walpheConfig } from '@/services/utils'
 import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
@@ -21,9 +21,16 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import ConfettiExplosion from 'react-confetti-explosion'
+import configuration from 'alephium.config'
+import * as fetchRetry from 'fetch-retry'
 
 const theme = createTheme(walphTheme)
 
+const retryFetch = fetchRetry.default(fetch, {
+  retries: 10,
+  retryDelay: 1000
+})
+const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
 export const WalphDapp50 = () => {
   const { account, connectionStatus, signer } = useWallet()
@@ -86,20 +93,17 @@ export const WalphDapp50 = () => {
   )
 
   const getPoolStatus = useCallback(async () => {
-    const nodeProvider = signer?.nodeProvider
 
-    if (nodeProvider) {
+    if (config !== undefined && connectionStatus == "connected") {
       web3.setCurrentNodeProvider(nodeProvider)
       const WalphState = Walph50HodlAlf.at(config.walpheContractAddress)
 
       const initialState = await WalphState.fetchState()
       setStateFields(initialState.fields)
-      console.log(initialState)
     }
-  }, [config?.walpheContractAddress, signer?.nodeProvider])
+  }, [config, connectionStatus])
 
   const checkTokenBalance = () => {
-    console.log(getStateFields?.tokenIdToHold)
     if (getStateFields?.minTokenAmountToHold > 0n) {
       if (balance.tokenBalances !== undefined) {
         const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold, balance.tokenBalances)
@@ -245,7 +249,7 @@ export const WalphDapp50 = () => {
                       marginRight: 'auto'
                     }}
                   >
-                    {lastWinner === account?.address && (
+                    { ( lastWinner === account?.address && connectionStatus == "connected" ) && (
                       <ConfettiExplosion force={0.6} duration={3000} particleCount={250} width={1600} />
                     )}
                   </div>

@@ -4,7 +4,7 @@ import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/walf.service'
 import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
-import { node, groupOfAddress, NetworkId, SignerProvider, Contract } from '@alephium/web3'
+import { node, groupOfAddress, NetworkId, SignerProvider, Contract, NodeProvider } from '@alephium/web3'
 //import { Walf50HodlAlf, Walf50HodlAlfTypes } from 'artifacts/ts'
 import { Walf, WalfTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
@@ -21,8 +21,15 @@ import Grid from '@mui/material/Unstable_Grid2'
 import Typography from '@mui/material/Typography'
 import Fab from '@mui/material/Fab'
 import ConfettiExplosion from 'react-confetti-explosion'
+import * as fetchRetry from 'fetch-retry'
+import configuration from 'alephium.config'
 
 const theme = createTheme(walphTheme)
+const retryFetch = fetchRetry.default(fetch, {
+  retries: 10,
+  retryDelay: 1000
+})
+const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
 export const WalfDapp = () => {
   const { account, connectionStatus, signer } = useWallet()
@@ -84,16 +91,15 @@ export const WalfDapp = () => {
   )
 
   const getPoolStatus = useCallback(async () => {
-    const nodeProvider = signer?.nodeProvider
 
-    if (nodeProvider) {
+    if (config !== undefined && connectionStatus == "connected") {
       web3.setCurrentNodeProvider(nodeProvider)
-      const WalfState = Walf.at(config.walpheContractAddress)
+      const WalphState = Walf.at(config.walpheContractAddress)
 
-      const initialState = await WalfState.fetchState()
+      const initialState = await WalphState.fetchState()
       setStateFields(initialState.fields)
     }
-  }, [config?.walpheContractAddress, signer?.nodeProvider])
+  }, [config, connectionStatus])
 
   const checkTokenBalance = () => {
     if (balance.tokenBalances !== undefined) {
@@ -226,7 +232,7 @@ export const WalfDapp = () => {
                       marginRight: 'auto'
                     }}
                   >
-                    {getStateFields?.lastWinner.toString() == account?.address && (
+                    { ( getStateFields?.lastWinner.toString() === account?.address && connectionStatus == "connected" ) && (
                       <ConfettiExplosion force={0.6} duration={3000} particleCount={250} width={1600} />
                     )}
                   </div>

@@ -13,11 +13,11 @@ import { walphTheme, Item, WalphButton } from "../services/walphTheme";
 import { Image } from 'mui-image'
 import { Footer } from '@/components/Footer';
 import { HtmlHead } from '@/components/HtmlHead'
+import { getDeployerAddresses } from '@/services/utils';
 
 
 
 const theme = createTheme(walphTheme)
-
 export default function Home() {
     const { account, connectionStatus } = useWallet()
   
@@ -32,7 +32,7 @@ export default function Home() {
             <br/>
             <div style={{ display: "inline-flex"  }} >
 
-            <Typography variant="h2" gutterBottom sx={{ color: "#FEC26C", fontWeight: 900  }} >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration="0" style={{
+            <Typography variant="h2" gutterBottom sx={{ color: "#FEC26C", fontWeight: 900  }} >Welcome to Walph</Typography><Image src="./images/waffle_nobg.png" width={150} alt="waffle icon" shift="right" duration={0} style={{
                   borderRadius: '60%',
                   margin: '28px' ,
                   marginTop: -40, backgroundColor: "#8E0CC4" }}/> 
