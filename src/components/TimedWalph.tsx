@@ -226,8 +226,7 @@ export const TimedWalph = () => {
                 : ''
                 }
                 </h4>
-              <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
-
+              <h3>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
 
               </Typography>
               
