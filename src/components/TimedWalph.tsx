@@ -160,9 +160,9 @@ export const TimedWalph = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <br/>
-      <Box sx={{ paddingTop: 2 }} >
+      <Box >
       <Grid container spacing={0}
-        sx={{ paddingTop: 2,
+        sx={{ marginTop: -2,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -184,8 +184,7 @@ export const TimedWalph = () => {
           fontWeight: 500,
           fontSize: 18,
           paddingLeft: 3,
-          paddingBottom: 1,
-          paddingTop: 3,
+          paddingTop: 1,
         }}
         >
              <NumTicket
@@ -202,11 +201,13 @@ export const TimedWalph = () => {
                 fontWeight: 500,
                 fontSize: 20,
                 paddingLeft: 1,
-                paddingRight: 1
+                paddingRight: 1,
+                marginBottom: 2
+
               }}
               >
-                Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesPercent} ALPH</b>{' '}
+                Pool status: <b>{getStateFields?.open ? 'open' : 'in progress'}</b> - Pool fees:{' '}
+                <b>{poolFeesPercent} ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
 
@@ -215,18 +216,18 @@ export const TimedWalph = () => {
                 fontWeight: 500,
                 fontSize: 30,
                 paddingLeft: 1,
-                paddingRight: 1
+                paddingRight: 1,
+                marginTop: -3
               }}
               >
               <h4>Draw in&nbsp; 
-                
                 {
                   getStateFields?.drawTimestamp ? 
                 <WalphCountdown drawTimestamp={Number(getStateFields?.drawTimestamp)} />
                 : ''
                 }
                 </h4>
-              <h3>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
+              <h3 style={{ marginTop: -20 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
 
               </Typography>
               
@@ -261,7 +262,7 @@ export const TimedWalph = () => {
                   </div>
               {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
               <br />
-              <p style={{ paddingBottom: 1 }}>
+              <p >
                 Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong>
               </p>
               </Typography>

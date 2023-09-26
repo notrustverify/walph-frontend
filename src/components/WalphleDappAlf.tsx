@@ -143,12 +143,12 @@ export const WalfDapp = () => {
       <CssBaseline />
 
       <br />
-      <Box sx={{ paddingTop: 2 }}>
+      <Box>
         <Grid
           container
           spacing={0}
           sx={{
-            paddingTop: 2,
+          marginTop: -2,
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
@@ -167,7 +167,7 @@ export const WalfDapp = () => {
                   fontSize: 18,
                   paddingLeft: 3,
                   paddingBottom: 1,
-                  paddingTop: 3
+                  paddingTop: 1
                 }}
               >
                 <NumTicket
@@ -185,24 +185,28 @@ export const WalfDapp = () => {
                   fontWeight: 500,
                   fontSize: 20,
                   paddingLeft: 1,
-                  paddingRight: 1
+                  paddingRight: 1,
+                  marginBottom: 2
+
                 }}
               >
                 Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesAmount} ALF</b>{' '}
+                <b>{poolFeesAmount} ALF</b> - group: <b>{config?.groupIndex}</b>{' '}
               </Typography>
               <Typography
                 sx={{
                   fontWeight: 500,
                   fontSize: 30,
                   paddingLeft: 1,
-                  paddingRight: 1
+                  paddingRight: 1,
+                  marginTop: -3
+
                 }}
               >
                 <p>
                   Slots remaining: <b>{slotFree?.toString()}</b>
                 </p>
-                <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 9} ALF</h3>
+                <h3 style={{ marginTop: -20 }}>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 9} ALF</h3>
               </Typography>
 
               <Typography

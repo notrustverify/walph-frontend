@@ -154,10 +154,11 @@ export const WalphDapp50 = () => {
       <CssBaseline />
       
 <br/>
-      <Box sx={{ paddingTop: 2 }} >
+      <Box >
       
         <Grid container spacing={0}
-        sx={{ paddingTop: 2,
+        sx={{
+              marginTop: -2,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -180,7 +181,7 @@ export const WalphDapp50 = () => {
           fontSize: 18,
           paddingLeft: 3,
           paddingBottom: 1,
-          paddingTop: 3,
+          paddingTop: 1,
         }}
         >
              <NumTicket
@@ -197,11 +198,13 @@ export const WalphDapp50 = () => {
                 fontWeight: 500,
                 fontSize: 20,
                 paddingLeft: 1,
-                paddingRight: 1
+                paddingRight: 1,
+                marginBottom: 2
+
               }}
               >
                 Pool status: <b>{getStateFields?.open ? 'open' : 'draw in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesAmount} ALPH</b>{' '}
+                <b>{poolFeesAmount} ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
                 <Typography
@@ -209,13 +212,14 @@ export const WalphDapp50 = () => {
                 fontWeight: 500,
                 fontSize: 30,
                 paddingLeft: 1,
-                paddingRight: 1
+                paddingRight: 1,
+                marginTop: -3
               }}
               >
               <p>
                 Slots remaining: <b>{slotFree?.toString()}</b>
               </p>
-              <h3>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
+              <h3 style={{ marginTop: -20 }}>Prize pot: {Number(getStateFields?.poolSize) / 10 ** 18} ALPH</h3>
 
 
               </Typography>
