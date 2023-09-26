@@ -128,9 +128,9 @@ export default function Home() {
 
         <Grid xs={6}>
           <Item>
-            <Typography variant='h5'>Pot size: <strong>210 CBDC</strong></Typography>
-            <Typography variant='h5'>Ticket price: <strong>10 CBDC</strong></Typography>
-            <p>Iris scan required</p>
+            <Typography variant='h5'>Pot size: <strong>210 AYIN</strong></Typography>
+            <Typography variant='h5'>Ticket price: <strong>10 AYIN</strong></Typography>
+            <p></p>
             <WalphButton variant="contained"  disabled={ true }>Soon</WalphButton>
           </Item>
         </Grid>
