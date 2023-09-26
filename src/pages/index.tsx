@@ -74,9 +74,9 @@ export default function Home() {
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid xs={6}>
           <Item>
-            <Typography variant='h5'>Pot size: <strong>210 ALPH</strong></Typography>
+            <Typography variant='h5'>Draw every <strong>6 hours</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
-            <p>Draw every <strong>6 hours</strong></p>
+            <p></p>
             <WalphButton variant="contained" 
            
            onClick={ () => {window.location.href ='/blitz'}}
