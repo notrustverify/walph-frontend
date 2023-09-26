@@ -134,6 +134,7 @@ export const WalphDapp = () => {
   const numAttendees = Number(getStateFields?.numAttendees)
 
   let lastWinner = getStateFields?.lastWinner.toString()
+  const lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
   if (lastWinner == "tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq")
       lastWinner = '-'
 
@@ -237,7 +238,7 @@ export const WalphDapp = () => {
               Last Winner:{' '}
               <b>
                 {  lastWinner === account?.address ? 
-                  "You 🫵": lastWinner}
+                  "You 🫵": lastWinnerTrunc}
               </b>
               <div
                     style={{

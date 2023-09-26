@@ -8,7 +8,7 @@ interface timeWalph {
 
 export const WalphCountdown = ( { drawTimestamp }: timeWalph ) => {
     const dateNow = Date.now()
-    const Completionist = () => <span>Draw in progress</span>;
+    const Completionist = () => <span>in progress</span>;
 
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {

@@ -134,7 +134,7 @@ export const WalfDapp = () => {
   }
 
   const poolFeesAmount = (poolSize * Number(getStateFields?.poolFees)) / 100
-
+  const lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
   if (count > slotFree) setCount(slotFree)
   const numAttendees = Number(getStateFields?.numAttendees)
 
@@ -223,7 +223,7 @@ export const WalfDapp = () => {
                     ? '-'
                     : getStateFields?.lastWinner.toString() == account?.address
                     ? 'You 🫵'
-                    : getStateFields?.lastWinner.toString()}
+                    : lastWinnerTrunc}
 
                   <div
                     style={{
