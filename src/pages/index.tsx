@@ -130,7 +130,7 @@ export default function Home() {
           <Item>
             <Typography variant='h5'>Pot size: <strong>210 AYIN</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 AYIN</strong></Typography>
-            <p></p>
+            <p>&nbsp;</p>
             <WalphButton variant="contained"  disabled={ true }>Soon</WalphButton>
           </Item>
         </Grid>
