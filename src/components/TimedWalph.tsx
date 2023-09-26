@@ -138,11 +138,10 @@ export const TimedWalph = () => {
 
   const numAttendees = Number(getStateFields?.numAttendees)
 
-  let lastWinner = getStateFields?.lastWinner.toString()
-  const lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
+  const lastWinner = getStateFields?.lastWinner.toString()
+  let lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
   if (lastWinner == "tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq")
-      lastWinner = '-'
-
+      lastWinnerTrunc = '-'
 
   const inc = () => {
     if (count < poolSize) setCount(count + 1)
@@ -185,6 +184,7 @@ export const TimedWalph = () => {
           fontWeight: 500,
           fontSize: 18,
           paddingLeft: 3,
+          paddingBottom: 1,
           paddingTop: 1,
         }}
         >
@@ -217,7 +217,7 @@ export const TimedWalph = () => {
                 fontSize: 30,
                 paddingLeft: 1,
                 paddingRight: 1,
-                marginTop: -3
+                marginTop: -6
               }}
               >
               <h4>Draw in&nbsp; 
@@ -227,7 +227,7 @@ export const TimedWalph = () => {
                 : ''
                 }
                 </h4>
-              <h3 style={{ marginTop: -20 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
+              <h3 style={{ marginTop: -40 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
 
               </Typography>
               
