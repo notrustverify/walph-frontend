@@ -14,7 +14,10 @@ import { Image } from 'mui-image'
 import { Footer } from '@/components/Footer';
 import { HtmlHead } from '@/components/HtmlHead'
 import { getDeployerAddresses } from '@/services/utils';
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 
 const theme = createTheme(walphTheme)
@@ -41,12 +44,48 @@ export default function Home() {
             fair and secure draw</Typography> &nbsp; 
             
     </div>
+    <div 
+        style={{
+          maxWidth: "50%",
+          marginLeft: "2em",
+          borderRadius: "10px"
+        }}
+    >
+    <Accordion
+
+    >
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>How it works</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Walph is a lucky based game running on <a href="https://alephium.org">Alephium</a> blockchain. There are multiple pools, called walph that can give you the chance to win <i>$ALPH</i>, <i>$ALF</i>, <i>$AYIN</i> or even <i>$ETH</i>. Just buy a ticket and wait for your chance to come
+            <br/>
+            <br/>
+            Pools Type:
+            <li>
+              <ol>Alephium: walphs with native tokens. The draw happen when all the tickets have been bought</ol>
+              <ol>Blitz: walphs that are drawn every x time</ol>
+              <ol>Token: walphs with token on Alephium chain, like ALF, PACA or AYIN</ol>
+            </li>
+            <br/>
+            To start playing, connect your wallet (<Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link> or <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false} rel="noopener noreferrer" target="_blank">
+                  Chrome</Link>), select a pool and buy tickets 
+            
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+      </div>
     {
     //ALPH pool
     }
     <Box sx={{ width: '100%' }} padding={5}>
 
-    <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>ALPH walph</Typography>
+    <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>Alephium walph</Typography>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid xs={6}>
           <Item>
