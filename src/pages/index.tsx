@@ -63,18 +63,18 @@ export default function Home() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Walph is a lucky based game running on <a href="https://alephium.org">Alephium</a> blockchain. There are multiple pools, called walph that can give you the chance to win <i>$ALPH</i>, <i>$ALF</i>, <i>$AYIN</i> or even <i>$ETH</i>. Just buy a ticket and wait for your chance to come
+          Walph is an exciting luck-based game running on <a href="https://alephium.org">Alephium</a> blockchain.  In this game, you can participate in various pools, known as "Walphs," for a chance to win cryptocurrencies like $ALPH, $ALF, $AYIN, or even $ETH. Simply purchase a ticket and await your opportunity to win.
             <br/>
             <br/>
-            Pools Type:
+            There are three types of pools in Walph:
             <li>
-              <ol>Alephium: walphs with native tokens. The draw happen when all the tickets have been bought</ol>
-              <ol>Blitz: walphs that are drawn every x time</ol>
-              <ol>Token: walphs with token on Alephium chain, like ALF, PACA or AYIN</ol>
+              <ol>Alephium Pools: These Walphs use native tokens. The drawing occurs once all the tickets have been sold.</ol>
+              <ol>Blitz Pools: Blitz Walphs are drawn at regular intervals.</ol>
+              <ol>Token Pools: These Walphs involve tokens on the Alephium chain, such as ALF, PACA, or AYIN.</ol>
             </li>
             <br/>
-            To start playing, connect your wallet (<Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link> or <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false} rel="noopener noreferrer" target="_blank">
-                  Chrome</Link>), select a pool and buy tickets 
+            To get started, connect your wallet (<Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link> or <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false} rel="noopener noreferrer" target="_blank">
+                  Chrome</Link>), choose a pool, and purchase your tickets. It's that easy!
             
           </Typography>
         </AccordionDetails>
