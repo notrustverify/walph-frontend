@@ -46,7 +46,7 @@ export default function Home() {
     </div>
     <div 
         style={{
-          width: "min(60%,max(600px, 55vw))",
+          width: "min(86%,max(600px, 100vw))",
           marginLeft: "2em",
           borderRadius: "10px"
         }}
