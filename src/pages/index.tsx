@@ -28,7 +28,7 @@ export default function Home() {
       <CssBaseline />
       <HtmlHead />
 
-      <div style={{ paddingLeft: '2em' }}>
+      <div style={{ paddingLeft: '2em', overflowX: "hidden" }}>
         <br />
         <div style={{ display: 'inline-flex' }}>
           <Typography variant="h2" gutterBottom sx={{ color: '#FEC26C', fontWeight: 900 }}>
