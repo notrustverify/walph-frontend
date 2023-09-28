@@ -1,18 +1,15 @@
 {
   "version": "v2.5.7",
-  "name": "BuyTimedWithoutToken",
-  "bytecodeTemplate": "0101030001000ab417001600{1}a2{1}0d0c{0}0108",
+  "name": "DestroyBlitz",
+  "bytecodeTemplate": "010103000000040c0c{0}010b",
   "fieldsSig": {
     "names": [
-      "walphContract",
-      "amount"
+      "walphContract"
     ],
     "types": [
-      "ByteVec",
-      "U256"
+      "ByteVec"
     ],
     "isMutable": [
-      false,
       false
     ]
   },

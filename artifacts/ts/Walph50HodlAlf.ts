@@ -275,8 +275,8 @@ class Factory extends ContractFactory<
 export const Walph50HodlAlf = new Factory(
   Contract.fromJson(
     Walph50HodlAlfContractJson,
-    "=6-2=2-2+2a=3-1+5=3-1+e=3-1+7=2-2+904099=3-1+e=2-2+79=3-1+e=2-2+a4=2-2+b7=2+c=1-1=11-1+4=30+0016007e0207726e6420697320=850",
-    "59484989f1f9cdb10172a19199b067a202aa6debce0632c482fb68cae6569c2a"
+    "=6-2=2-2+2a=3-1+5=3-1+e=3-1+7=2-3+9=1-1=1+099=1+0c=1-2=2-2+7c=3+141=1+7=2+b=1-1=3-1+e=11-1+4=30+0016007e0207726e6420697320=856",
+    "ec4bf56a3a5601d08040c00d94ea0c2c9964ac5869dfb48b42df9b481a8b23b4"
   )
 );
 

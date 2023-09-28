@@ -203,8 +203,8 @@ class Factory extends ContractFactory<WalfInstance, WalfTypes.Fields> {
 export const Walf = new Factory(
   Contract.fromJson(
     WalfContractJson,
-    "=6-2=2-2+2a=2-2+93=3-1+c=3-1+5=3-1+e40b7=2-2+fb=2-2+d4=2-2+e9=3-1+f=2-2+12=11-1+4=30+0016007e0207726e6420697320=992",
-    "c05a629fc8b4946ad5d68b06bd47f8d485ada48a664628a1110902b952d2c809"
+    "=6-2=2+2=1-1=3-1+8=2-2+c1=3-1+a40d3=2+d=1-1=1+1=1-2+1=2-1=1+a=3-3=1-1=3-1+54218=11-1+4=30+0016007e0207726e6420697320=1004",
+    "6670bde02683343394ad01aa60adb7bcb066ab6e502c4de3574708f20be25041"
   )
 );
 
