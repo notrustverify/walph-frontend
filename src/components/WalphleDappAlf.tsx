@@ -150,17 +150,14 @@ export const WalfDapp = () => {
         <Grid
           container
           spacing={0}
-          sx={{
-          marginTop: -2,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            maxWidth: '50%',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}
-        >
+          sx={{ marginTop: -2,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "relative",
+            margin: "auto",
+            width: "min(100%,max(600px, 60vw))",
+          }} >
           <Grid xs>
             <Item>
               <Typography

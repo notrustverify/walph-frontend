@@ -167,9 +167,8 @@ export const TimedWalph = () => {
               justifyContent: "center",
               alignItems: "center",
               position: "relative",
-              maxWidth: "50%",
-              marginLeft: "auto",
-              marginRight: "auto"
+              margin: "auto",
+              width: "min(100%,max(600px, 60vw))",
             }} >
               
           <Grid xs>
