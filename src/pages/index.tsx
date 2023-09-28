@@ -46,7 +46,7 @@ export default function Home() {
     </div>
     <div 
         style={{
-          maxWidth: "50%",
+          width: "min(60%,max(600px, 55vw))",
           marginLeft: "2em",
           borderRadius: "10px"
         }}
@@ -63,15 +63,15 @@ export default function Home() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          Walph is an exciting luck-based game running on <a href="https://alephium.org">Alephium</a> blockchain.  In this game, you can participate in various pools, known as "Walphs," for a chance to win cryptocurrencies like $ALPH, $ALF, $AYIN, or even $ETH. Simply purchase a ticket and await your opportunity to win.
+          Walph is an exciting luck-based game running on <a href="https://alephium.org">Alephium</a> blockchain.  In this game, you can participate in various pools, known as "Walphs", for a chance to win token like $ALPH, $ALF, $AYIN, or even $ETH. Simply purchase a ticket and wait your opportunity to win.
             <br/>
             <br/>
             There are three types of pools in Walph:
-            <li>
-              <ol>Alephium Pools: These Walphs use native tokens. The drawing occurs once all the tickets have been sold.</ol>
-              <ol>Blitz Pools: Blitz Walphs are drawn at regular intervals.</ol>
-              <ol>Token Pools: These Walphs involve tokens on the Alephium chain, such as ALF, PACA, or AYIN.</ol>
-            </li>
+            <ul>
+              <li>Alephium pools: These Walphs use ALPH token. The draw takes place when all tickets have been sold.</li>
+              <li>Blitz Pools: Blitz Walphs are drawn at regular intervals.</li>
+              <li>Token Pools: These Walphs involve tokens on the Alephium chain, such as ALF, PACA, or AYIN.</li>
+            </ul>
             <br/>
             To get started, connect your wallet (<Link href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/" prefetch={false} rel="noopener noreferrer" target="_blank">Firefox</Link> or <Link href="https://chrome.google.com/webstore/detail/alephium-extension-wallet/gdokollfhmnbfckbobkdbakhilldkhcj" prefetch={false} rel="noopener noreferrer" target="_blank">
                   Chrome</Link>), choose a pool, and purchase your tickets. It's that easy!
@@ -100,7 +100,7 @@ export default function Home() {
        <Item> 
             <Typography variant='h5'>Pot size: <strong>500 ALPH</strong></Typography>
             <Typography variant='h5'>Ticket price: <strong>10 ALPH</strong></Typography>
-            <p>ALF needed</p>
+            <p>1 ALF required</p>
             <WalphButton  onClick={ () => {window.location.href ='/walph50'} }variant="contained"  disabled={ connectionStatus != "connected" }>Join</WalphButton>
         </Item>
         </Grid>
