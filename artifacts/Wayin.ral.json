@@ -1,0 +1,288 @@
+{
+  "version": "v2.5.7",
+  "name": "Wayin",
+  "bytecode": "160b1d40ab40b440bd40c640cf40f441cd41e241f8420b000000010112a0040c3313067b57405640444e7117000c1600a004880200030204004044b4b245107ba00116012ace003413067b00007a130a314d112ac3a10fa00116012ace022c1340642d1702a0010c334c0fa00116022b1703ce0113c3038d7ea4c68000a8a00fce031603aba00313c3038d7ea4c680002ba1030ca1010ca104a00313c3038d7ea4c680002ba1031600a00f13c3038d7ea4c68000a71600a00fce031601aa09a00f5e010000000102a00002010000000102ce0002010000000102a00102010000000102ce0402010100000015b4ce0145107ba0020c3313067bce01a003a8ce01ce03a002ab0ca1020ca10301010105004073b41701a00116002ace00320c7ba0000f7b16000c130ace0583880c2f13077b1600ce042d17020c170316031602314c121601a0047a130a314d112ac4a0040d2aa10416030d2a17034a2a05160116005fa00116002a1704a0021600ce022c1340642d2aa102a00313c3038d7ea4c680002aa1031604ce00344c1e1604ce003413067ba004ce00ce042d2f13067bb27ace03a001a313c3038d7ea4c68000a216017ace031600a313c3038d7ea4c68000a21601160000014a0ba00116002aa101160113c3038d7ea4c68000a91601ce031600ac01000000000ca0000d7bb4ce0145107b04a100075d01000000000da000190e7bb4ce0145107b03a100065d01020000000ab4ce0145107bce01b008ce015e",
+  "codeHash": "0ae17a8632ccc831e44c7e268840efcedd9942b381fecab2d985d8c56775ceb8",
+  "fieldsSig": {
+    "names": [
+      "poolSize",
+      "poolOwner",
+      "poolFees",
+      "tokenId",
+      "ticketPrice",
+      "decimal",
+      "open",
+      "balance",
+      "feesBalance",
+      "dustBalance",
+      "numAttendees",
+      "attendees",
+      "lastWinner"
+    ],
+    "types": [
+      "U256",
+      "Address",
+      "U256",
+      "ByteVec",
+      "U256",
+      "U256",
+      "Bool",
+      "U256",
+      "U256",
+      "U256",
+      "U256",
+      "[Address;10]",
+      "Address"
+    ],
+    "isMutable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "eventsSig": [
+    {
+      "name": "TicketBought",
+      "fieldNames": [
+        "from",
+        "amount"
+      ],
+      "fieldTypes": [
+        "Address",
+        "U256"
+      ]
+    },
+    {
+      "name": "PoolOpen",
+      "fieldNames": [],
+      "fieldTypes": []
+    },
+    {
+      "name": "PoolClose",
+      "fieldNames": [],
+      "fieldTypes": []
+    },
+    {
+      "name": "Destroy",
+      "fieldNames": [
+        "from"
+      ],
+      "fieldTypes": [
+        "Address"
+      ]
+    },
+    {
+      "name": "Winner",
+      "fieldNames": [
+        "address"
+      ],
+      "fieldTypes": [
+        "Address"
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "name": "random",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "distributePrize",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": false,
+      "isPublic": false,
+      "paramNames": [
+        "lastAttendee",
+        "amount"
+      ],
+      "paramTypes": [
+        "Address",
+        "U256"
+      ],
+      "paramIsMutable": [
+        false,
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "getPoolState",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "Bool"
+      ]
+    },
+    {
+      "name": "getPoolSize",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getBalance",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "getTicketPrice",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "withdraw",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "buyTicket",
+      "usePreapprovedAssets": true,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [
+        "amount"
+      ],
+      "paramTypes": [
+        "U256"
+      ],
+      "paramIsMutable": [
+        false
+      ],
+      "returnTypes": []
+    },
+    {
+      "name": "closePool",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "openPool",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": false,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    },
+    {
+      "name": "destroyPool",
+      "usePreapprovedAssets": false,
+      "useAssetsInContract": true,
+      "isPublic": true,
+      "paramNames": [],
+      "paramTypes": [],
+      "paramIsMutable": [],
+      "returnTypes": []
+    }
+  ],
+  "constants": [],
+  "enums": [
+    {
+      "name": "ErrorCodes",
+      "fields": [
+        {
+          "name": "PoolFull",
+          "value": {
+            "type": "U256",
+            "value": "0"
+          }
+        },
+        {
+          "name": "PoolAlreadyClose",
+          "value": {
+            "type": "U256",
+            "value": "1"
+          }
+        },
+        {
+          "name": "PoolAlreadyOpen",
+          "value": {
+            "type": "U256",
+            "value": "2"
+          }
+        },
+        {
+          "name": "PoolClosed",
+          "value": {
+            "type": "U256",
+            "value": "3"
+          }
+        },
+        {
+          "name": "InvalidCaller",
+          "value": {
+            "type": "U256",
+            "value": "4"
+          }
+        },
+        {
+          "name": "PoolNotFull",
+          "value": {
+            "type": "U256",
+            "value": "6"
+          }
+        },
+        {
+          "name": "InvalidAmount",
+          "value": {
+            "type": "U256",
+            "value": "7"
+          }
+        }
+      ]
+    }
+  ]
+}

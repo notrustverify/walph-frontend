@@ -238,14 +238,17 @@ export default function Home() {
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
-                Pot size: <strong>2.1 ETH</strong>
+                Pot size: <strong>10 AYIN</strong>
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>0.01 ETH</strong>
+                Ticket price: <strong>1 AYIN</strong>
               </Typography>
               <p>&nbsp;</p>
-              <WalphButton variant="contained" disabled={true}>
-                Soon
+              <WalphButton variant="contained" onClick={() => {
+                  window.location.href = '/wayin'
+                }}
+                disabled={connectionStatus != 'connected'}>
+                Join
               </WalphButton>
             </Item>
           </Grid>
@@ -270,14 +273,13 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
-
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
-                Pot size: <strong>210 AYIN</strong>
+                Pot size: <strong>2.1 ETH</strong>
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>10 AYIN</strong>
+                Ticket price: <strong>0.01 ETH</strong>
               </Typography>
               <p>&nbsp;</p>
               <WalphButton variant="contained" disabled={true}>
@@ -285,6 +287,7 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
+          
         </Grid>
       </Box>
 
