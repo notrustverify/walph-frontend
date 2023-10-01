@@ -6,7 +6,7 @@ import '@fontsource/zen-kaku-gothic-new'
 export const walphTheme = createTheme({
   palette: {
     background: {
-      default: '#8E0CC4'
+      default: 'rgb(142, 12, 196, 0.9)',
     }
   },
   typography: {

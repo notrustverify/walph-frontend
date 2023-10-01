@@ -44,7 +44,6 @@ export default function Home() {
               borderRadius: '60%',
               margin: '28px',
               marginTop: -20,
-              backgroundColor: '#8E0CC4'
             }}
           />
         </div>
@@ -254,41 +253,6 @@ export default function Home() {
           </Grid>
         </Grid>
 
-        <Grid
-          container
-          rowSpacing={3}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        >
-          <Grid xs={12} md={6}>
-            <Item>
-              <Typography variant="h5">
-                Pot size: <strong>210 PACA</strong>
-              </Typography>
-              <Typography variant="h5">
-                Ticket price: <strong>10 PACA</strong>
-              </Typography>
-              <p>&nbsp;</p>
-              <WalphButton variant="contained" disabled={true}>
-                Soon
-              </WalphButton>
-            </Item>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Item>
-              <Typography variant="h5">
-                Pot size: <strong>2.1 ETH</strong>
-              </Typography>
-              <Typography variant="h5">
-                Ticket price: <strong>0.01 ETH</strong>
-              </Typography>
-              <p>&nbsp;</p>
-              <WalphButton variant="contained" disabled={true}>
-                Soon
-              </WalphButton>
-            </Item>
-          </Grid>
-          
-        </Grid>
       </Box>
 
       <Footer />
