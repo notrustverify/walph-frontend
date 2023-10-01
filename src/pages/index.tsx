@@ -79,6 +79,8 @@ export default function Home() {
                 <li>Token Pools: These Walphs involve tokens on the Alephium chain, such as ALF, PACA, or AYIN.</li>
               </ul>
               <br />
+              To be notified of the draws, join this <a href="https://t.me/walphLottery">Telegram Group</a>
+              <br />
               To get started, connect your wallet (
               <Link
                 href="https://addons.mozilla.org/en-US/firefox/addon/alephiumextensionwallet/"
