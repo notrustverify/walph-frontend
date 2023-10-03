@@ -22,11 +22,11 @@ export const buyTicket = async (
   return await Buy.execute(signerProvider, {
     initialFields: {
       walphContract: walpheContractId,
-      amount: BigInt(amount) * 10n ** 18n,
+      amount: BigInt(amount),
       tokenId: tokenId,
       tokenIdAmount: BigInt(tokenIdAmount)
     },
-    attoAlphAmount: BigInt(amount) * 10n ** 18n + 5n * DUST_AMOUNT,
+    attoAlphAmount: BigInt(amount) + 5n * DUST_AMOUNT,
     tokens: [{ id: tokenId, amount: BigInt(tokenIdAmount) }]
   })
 }
