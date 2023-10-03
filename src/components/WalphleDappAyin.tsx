@@ -75,7 +75,7 @@ export const WayinDapp = ({ tokenName }: tokenMetadata) => {
     if (account !== undefined && connectionStatus === 'connected') {
       const result = await buyTicket(
         signer,
-        (ticketAmount * ticketPriceHint).toString(),
+        (ticketAmount * ticketPriceHint * 10 ** 18).toString(),
         config.walpheContractId,
         getStateFields?.tokenId
       )
