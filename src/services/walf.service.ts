@@ -11,10 +11,10 @@ export const buyTicket = async (
   return await BuyTicketToken.execute(signerProvider, {
     initialFields: {
       walfContract: walfContractId,
-      amount: BigInt(amount) * 10n ** 18n,
+      amount: BigInt(amount),
       tokenId: tokenId,
     },
     attoAlphAmount: 2n*DUST_AMOUNT,
-    tokens: [{ id: tokenId, amount: BigInt(amount) * 10n ** 18n }]
+    tokens: [{ id: tokenId, amount: BigInt(amount) }]
   })
 }
