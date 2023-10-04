@@ -92,7 +92,7 @@ export const TimedWalph = ({ durationDay }: data) => {
         signer,
         (ticketAmount * ticketPriceHint).toString(),
         config.walpheContractId,
-        "",0n
+        ""
       )
       setOngoingTxId(result.txId)
     }

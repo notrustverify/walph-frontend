@@ -98,7 +98,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
         signer,
         (ticketAmount * ticketPriceHint).toString(),
         config.walpheContractId,
-        "",0n
+        getStateFields?.tokenId,
       )
       setOngoingTxId(result.txId)
     }
@@ -134,13 +134,13 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
 
   getPoolStatus()
 
-  const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 9
+  const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** Number(decimals)
 
   const slotFree = Number((getStateFields?.poolSize - getStateFields?.balance) / getStateFields?.ticketPrice)
 
-  const poolSize = Number(getStateFields?.poolSize) / 10 ** 9
+  const poolSize = Number(getStateFields?.poolSize) / 10 ** Number(decimals)
 
-  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance)/10 ** 9/100 //TODO correct this shit
+  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance)/10 ** Number(decimals/100n) //TODO correct this shit
 
   const numAttendees = Number(getStateFields?.numAttendees)
 
