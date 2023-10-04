@@ -6,5 +6,6 @@ export * from "./Walf";
 export * from "./Walph";
 export * from "./Walph50HodlAlf";
 export * from "./WalphTimed";
+export * from "./WalphTimedToken";
 export * from "./Wayin";
 export * from "./scripts";

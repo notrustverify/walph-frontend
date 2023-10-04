@@ -15,6 +15,8 @@ import {
   WalphTimedInstance,
   Wayin,
   WayinInstance,
+  WalphTimedToken,
+  WalphTimedTokenInstance,
 } from ".";
 import { default as mainnetDeployments } from "../.deployments.mainnet.json";
 import { default as testnetDeployments } from "../.deployments.testnet.json";
@@ -23,40 +25,53 @@ import { default as devnetDeployments } from "../.deployments.devnet.json";
 export type Deployments = {
   deployerAddress: string;
   contracts: {
-    Walph: DeployContractExecutionResult<WalphInstance>;
-    Walph50HodlAlf: DeployContractExecutionResult<Walph50HodlAlfInstance>;
-    Walf: DeployContractExecutionResult<WalfInstance>;
     WalphTimed: DeployContractExecutionResult<WalphTimedInstance>;
+    Walph?: DeployContractExecutionResult<WalphInstance>;
+    Walph50HodlAlf?: DeployContractExecutionResult<Walph50HodlAlfInstance>;
+    Walf?: DeployContractExecutionResult<WalfInstance>;
     Wayin?: DeployContractExecutionResult<WayinInstance>;
+    WalphTimed_BlitzOneDay?: DeployContractExecutionResult<WalphTimedInstance>;
+    WalphTimed_BlitzThreeDays?: DeployContractExecutionResult<WalphTimedInstance>;
+    WalphTimedToken_BlitzThreeDaysAlf?: DeployContractExecutionResult<WalphTimedTokenInstance>;
+    WalphTimedToken_BlitzThreeDaysAyin?: DeployContractExecutionResult<WalphTimedTokenInstance>;
   };
 };
 
 function toDeployments(json: any): Deployments {
   const contracts = {
-    Walph: {
-      ...json.contracts["Walph"],
-      contractInstance: Walph.at(
-        json.contracts["Walph"].contractInstance.address
-      ),
-    },
-    Walph50HodlAlf: {
-      ...json.contracts["Walph50HodlAlf"],
-      contractInstance: Walph50HodlAlf.at(
-        json.contracts["Walph50HodlAlf"].contractInstance.address
-      ),
-    },
-    Walf: {
-      ...json.contracts["Walf"],
-      contractInstance: Walf.at(
-        json.contracts["Walf"].contractInstance.address
-      ),
-    },
     WalphTimed: {
       ...json.contracts["WalphTimed"],
       contractInstance: WalphTimed.at(
         json.contracts["WalphTimed"].contractInstance.address
       ),
     },
+    Walph:
+      json.contracts["Walph"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["Walph"],
+            contractInstance: Walph.at(
+              json.contracts["Walph"].contractInstance.address
+            ),
+          },
+    Walph50HodlAlf:
+      json.contracts["Walph50HodlAlf"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["Walph50HodlAlf"],
+            contractInstance: Walph50HodlAlf.at(
+              json.contracts["Walph50HodlAlf"].contractInstance.address
+            ),
+          },
+    Walf:
+      json.contracts["Walf"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["Walf"],
+            contractInstance: Walf.at(
+              json.contracts["Walf"].contractInstance.address
+            ),
+          },
     Wayin:
       json.contracts["Wayin"] === undefined
         ? undefined
@@ -64,6 +79,45 @@ function toDeployments(json: any): Deployments {
             ...json.contracts["Wayin"],
             contractInstance: Wayin.at(
               json.contracts["Wayin"].contractInstance.address
+            ),
+          },
+    WalphTimed_BlitzOneDay:
+      json.contracts["WalphTimed:BlitzOneDay"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["WalphTimed:BlitzOneDay"],
+            contractInstance: WalphTimed.at(
+              json.contracts["WalphTimed:BlitzOneDay"].contractInstance.address
+            ),
+          },
+    WalphTimed_BlitzThreeDays:
+      json.contracts["WalphTimed:BlitzThreeDays"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["WalphTimed:BlitzThreeDays"],
+            contractInstance: WalphTimed.at(
+              json.contracts["WalphTimed:BlitzThreeDays"].contractInstance
+                .address
+            ),
+          },
+    WalphTimedToken_BlitzThreeDaysAlf:
+      json.contracts["WalphTimedToken:BlitzThreeDaysAlf"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["WalphTimedToken:BlitzThreeDaysAlf"],
+            contractInstance: WalphTimedToken.at(
+              json.contracts["WalphTimedToken:BlitzThreeDaysAlf"]
+                .contractInstance.address
+            ),
+          },
+    WalphTimedToken_BlitzThreeDaysAyin:
+      json.contracts["WalphTimedToken:BlitzThreeDaysAyin"] === undefined
+        ? undefined
+        : {
+            ...json.contracts["WalphTimedToken:BlitzThreeDaysAyin"],
+            contractInstance: WalphTimedToken.at(
+              json.contracts["WalphTimedToken:BlitzThreeDaysAyin"]
+                .contractInstance.address
             ),
           },
   };

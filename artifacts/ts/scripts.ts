@@ -14,6 +14,7 @@ import {
 import { default as BuyScriptJson } from "../Buy.ral.json";
 import { default as BuyWithoutTokenScriptJson } from "../BuyWithoutToken.ral.json";
 import { default as BuyTimedWithoutTokenScriptJson } from "../BuyTimedWithoutToken.ral.json";
+import { default as BuyTimedWithTokenScriptJson } from "../BuyTimedWithToken.ral.json";
 import { default as BuyTicketTokenScriptJson } from "../BuyTicketToken.ral.json";
 import { default as OpenScriptJson } from "../Open.ral.json";
 import { default as CloseScriptJson } from "../Close.ral.json";
@@ -36,6 +37,11 @@ export const BuyTimedWithoutToken = new ExecutableScript<{
   walphContract: HexString;
   amount: bigint;
 }>(Script.fromJson(BuyTimedWithoutTokenScriptJson));
+export const BuyTimedWithToken = new ExecutableScript<{
+  walphContract: HexString;
+  amount: bigint;
+  tokenId: HexString;
+}>(Script.fromJson(BuyTimedWithTokenScriptJson));
 export const BuyTicketToken = new ExecutableScript<{
   walfContract: HexString;
   amount: bigint;

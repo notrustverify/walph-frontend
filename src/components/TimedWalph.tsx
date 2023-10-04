@@ -25,6 +25,12 @@ import { WalphCountdown } from './Countdown'
 import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
 
+interface data {
+durationDay : number 
+
+}
+
+
 const theme = createTheme(walphTheme)
 
 const retryFetch = fetchRetry.default(fetch, {
@@ -33,7 +39,7 @@ const retryFetch = fetchRetry.default(fetch, {
 })
 const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
-export const TimedWalph = () => {
+export const TimedWalph = ({ durationDay }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
@@ -43,8 +49,6 @@ export const TimedWalph = () => {
   const [nextDraw, setNextDraw] = useState<string>('')
   const [fullDrawDate, setFullDrawDate] = useState<string>('')
 
-  let enoughToken = false
-
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
     return network
@@ -53,20 +57,31 @@ export const TimedWalph = () => {
   function getWalphConfig(): WalphConfig {
     const network = getNetwork()
 
+    let walpheContract = undefined
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
     if (account !== undefined && connectionStatus === 'connected') {
-      const walpheContract = loadDeployments(
+      console.log(durationDay)
+      if( durationDay == 1) {
+      walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed.contractInstance
+      ).contracts.WalphTimed_BlitzOneDay.contractInstance
+    }
 
+    if( durationDay == 3) {
+      walpheContract = loadDeployments(
+        network,
+        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+      ).contracts.WalphTimed_BlitzThreeDays.contractInstance
+    }
+    console.log(walpheContract)
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
       return { network, groupIndex, walpheContractAddress, walpheContractId }
-    }
-  }
+    
+  } }
 
   const config = getWalphConfig()
 
@@ -77,8 +92,7 @@ export const TimedWalph = () => {
         signer,
         (ticketAmount * ticketPriceHint).toString(),
         config.walpheContractId,
-        getStateFields?.tokenIdToHold,
-        getStateFields?.minTokenAmountToHold
+        "",0n
       )
       setOngoingTxId(result.txId)
     }
@@ -106,18 +120,6 @@ export const TimedWalph = () => {
     }
   }, [config, connectionStatus])
 
-
-  const checkTokenBalance = () => {
-    if (getStateFields?.minTokenAmountToHold > 0n) {
-      if (balance.tokenBalances !== undefined) {
-        const getTokenToHoldInfo = findToken(getStateFields?.tokenIdToHold, balance.tokenBalances)[0]
-        if (getTokenToHoldInfo.amount >= getStateFields?.minTokenAmountToHold) enoughToken = true
-      }
-    } else {
-      enoughToken = true
-    }
-  }
-
   useEffect(() => {
     if (signer?.nodeProvider) {
       getPoolStatus()
@@ -125,8 +127,6 @@ export const TimedWalph = () => {
   }, [signer?.nodeProvider, getPoolStatus])
 
   getPoolStatus()
-
-  if (balance !== undefined) checkTokenBalance()
 
   const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
 
@@ -277,7 +277,7 @@ export const TimedWalph = () => {
                   }}  
                   
                   >
-              {enoughToken ? (
+             
                 <div>
                   <Fab
                     variant="extended"
@@ -351,10 +351,6 @@ export const TimedWalph = () => {
                   )}
                  
                 </div>
-
-              ) : (
-                <NotEnoughToken tokenName={getTokenNameToHold()} />
-              )}
                </form>
               <br/>
             </Item>

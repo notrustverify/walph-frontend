@@ -25,7 +25,7 @@ export default function Home() {
             <div className={styles.container}>
 
   
-        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph /> : ''}
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={1}/> : ''}
         <Footer />
         </div>
       </ThemeProvider>

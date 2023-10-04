@@ -1,17 +1,16 @@
 {
   "version": "v2.5.7",
   "name": "WalphTimed",
-  "bytecode": "405c0d1d408e409740a040a940b240cd410d419f41b441ca41dd41f1000000010112a0050c3313067b57405640444e7117000c1600a005880200030002004031b4b245107ba0030c3313067ba0050c3313097b00007a134050314d13062ac3a156a0561503000000000000000000000000000000000000000000000000000000000000000046130a7ba003ce022c1340642d1700a00316002b17010ca1030ca105a0561601a80aa0565e010000000102a00202010000000102ce0002010000000102a00302010000000102ce040201020000000fb4ce0145107ba0040c3313067bce01a004a80ca10401020001001f5617001600a0003313087ba0030c324c07160013800054601343e82c2aa1004a0a160013800054601343e82c2aa100b2a003a200011206a0035e0101010400405ab4170156a00031130b7ba00316002ace00320c7ba0020f7b16000c130a131283880c2f13077b1600ce043413077ba0010c334c071601ce03a5a00134117b1600ce042d17020c170316031602314c121601a0057a134050314d13062ac4a0050d2aa10516030d2a17034a2a05160116005fa0041600ce022c1340642d2aa1041600a0032aa10316011600a901000000000ca0020d7bb4ce0145107b04a102075d01000000000da002190e7bb4ce0145107b03a102065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a1010916005e",
-  "codeHash": "7ddb99cc2933010174decd88a71f6efe3389869a95a649929c3a9e269536562b",
+  "bytecode": "40600d1d408e409740a040a940b240cd410d418c41a141b741ca41df000000010112a0050c3313067b57405640444e7117000c1600a005880200030002004031b4b245107ba0030c3313067ba0050c3313097b00007a134055314d13062ac3a15ba05b1503000000000000000000000000000000000000000000000000000000000000000046130a7ba003ce022c1340642d1700a00316002b17010ca1030ca105a05b1601a809a05b5e010000000102a00202010000000102ce0002010000000102a00302010000000102ce030201020000000fb4ce0145107ba0040c3313067bce01a004a80ca104010200010040255617001600a00033a005ce00ce032d341b13087ba0030c32a0050d2f1b4c051600a0012aa1004a081600a0012aa100b2a003a200010aa0035e0101010400404db4170156a00031130b7ba00316002ace00320c7ba0020f7b16000cce03880c2f13077b1600ce033413077b1600ce032d17020c170316031602314c121601a0057a134055314d13062ac4a0050d2aa10516030d2a17034a2a05160116005fa0041600ce022c1340642d2aa1041600a0032aa10316011600a901000000000ca0020d7bb4ce0145107b04a102075d01000000000da002190e7bb4ce0145107b03a102065d01020000000ab4ce0145107bce01b008ce015e01000101000ab4ce0145107b1600a101120616005e",
+  "codeHash": "d1ee13d9538f302ddfea28040459ddd0feded97bd8009cc9b9dc0b982e6d08e1",
   "fieldsSig": {
     "names": [
       "poolSize",
       "poolOwner",
       "poolFees",
-      "tokenIdToHold",
       "ticketPrice",
       "drawTimestamp",
-      "minTokenAmountToHold",
+      "repeatEvery",
       "open",
       "balance",
       "feesBalance",
@@ -23,7 +22,6 @@
       "U256",
       "Address",
       "U256",
-      "ByteVec",
       "U256",
       "U256",
       "U256",
@@ -31,11 +29,10 @@
       "U256",
       "U256",
       "U256",
-      "[Address;80]",
+      "[Address;85]",
       "Address"
     ],
     "isMutable": [
-      false,
       false,
       false,
       false,
@@ -82,15 +79,6 @@
       ]
     },
     {
-      "name": "NewMinTokenAmountToHold",
-      "fieldNames": [
-        "newAmount"
-      ],
-      "fieldTypes": [
-        "U256"
-      ]
-    },
-    {
       "name": "Winner",
       "fieldNames": [
         "address"
@@ -103,6 +91,15 @@
       "name": "PoolDrawn",
       "fieldNames": [
         "amount"
+      ],
+      "fieldTypes": [
+        "U256"
+      ]
+    },
+    {
+      "name": "NewRepeatEvery",
+      "fieldNames": [
+        "newRepeat"
       ],
       "fieldTypes": [
         "U256"
@@ -247,12 +244,12 @@
       "returnTypes": []
     },
     {
-      "name": "changeMinAmountToHold",
+      "name": "changeRepeatEvery",
       "usePreapprovedAssets": false,
       "useAssetsInContract": false,
       "isPublic": true,
       "paramNames": [
-        "newAmount"
+        "newRepeat"
       ],
       "paramTypes": [
         "U256"
@@ -304,13 +301,6 @@
           }
         },
         {
-          "name": "NotEnoughToken",
-          "value": {
-            "type": "U256",
-            "value": "5"
-          }
-        },
-        {
           "name": "PoolNotFull",
           "value": {
             "type": "U256",
@@ -325,7 +315,7 @@
           }
         },
         {
-          "name": "TimestampNotReached",
+          "name": "TimestampOrAttendeesNotReached",
           "value": {
             "type": "U256",
             "value": "8"
