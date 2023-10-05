@@ -27,7 +27,7 @@ import configuration from 'alephium.config'
 
 interface data {
 durationDay : number 
-
+price: number
 }
 
 
@@ -39,7 +39,7 @@ const retryFetch = fetchRetry.default(fetch, {
 })
 const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
-export const TimedWalph = ({ durationDay }: data) => {
+export const TimedWalph = ({ durationDay, price }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
@@ -61,21 +61,28 @@ export const TimedWalph = ({ durationDay }: data) => {
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
     if (account !== undefined && connectionStatus === 'connected') {
-      console.log(durationDay)
-      if( durationDay == 1) {
+
+      if( durationDay == 1 && price == 1) {
+        walpheContract = loadDeployments(
+          network,
+          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+        ).contracts.WalphTimed_BlitzOneDayOneAlph.contractInstance
+      }
+
+
+      if( durationDay == 1 && price == 5) {
       walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
       ).contracts.WalphTimed_BlitzOneDay.contractInstance
     }
 
-    if( durationDay == 3) {
+    if( durationDay == 3 && price == 10) {
       walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
       ).contracts.WalphTimed_BlitzThreeDays.contractInstance
     }
-    console.log(walpheContract)
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -131,6 +138,8 @@ export const TimedWalph = ({ durationDay }: data) => {
   const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
 
   const slotFree = Number((getStateFields?.poolSize - getStateFields?.balance) / getStateFields?.ticketPrice)
+
+  const drawTimestamp =  Number(getStateFields?.drawTimestamp)
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
 
@@ -205,7 +214,7 @@ export const TimedWalph = ({ durationDay }: data) => {
                 marginBottom: 2
               }}
               >
-                Pool status: <b>{getStateFields?.open ? 'open' : 'in progress'}</b> - Pool fees:{' '}
+                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - Pool fees:{' '}
                 <b>{poolFeesPercent} ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
@@ -315,7 +324,7 @@ export const TimedWalph = ({ durationDay }: data) => {
                     <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
                   </Fab>
                   
-                  {slotFree - count < 1 ? (
+                  {slotFree < 0 ? (
                     <WalphButton
                       variant="contained"
                       style={{ 
@@ -326,9 +335,9 @@ export const TimedWalph = ({ durationDay }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || slotFree < 0 || drawTimestamp < Date.now()}
                     >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
+                      <b>{ongoingTxId ? 'Waiting for tx' : 'Walph full'}</b>
                     </WalphButton>
                   ) : (
                    
@@ -342,7 +351,7 @@ export const TimedWalph = ({ durationDay }: data) => {
                       
                       
                       type='submit'
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
                       value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>

@@ -172,6 +172,28 @@ export default function Home() {
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+
+<Grid xs={12} md={12}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>1 day</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>1 ALPH</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/blitz1'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
@@ -212,6 +234,9 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
+
+          
+
         </Grid>
 
         {
@@ -263,6 +288,8 @@ export default function Home() {
             </Item>
           </Grid>
         </Grid>
+
+        
 
       </Box>
 

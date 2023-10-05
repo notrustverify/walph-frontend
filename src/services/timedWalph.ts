@@ -8,7 +8,7 @@ export const buyTicket = async (
   tokenId: string,
 ): Promise<ExecuteScriptResult> => {
   
-  if (tokenId === undefined) {
+  if (tokenId === undefined || tokenId === "") {
     return await BuyTimedWithoutToken.execute(signerProvider, {
       initialFields: {
         walphContract: walpheContractId,

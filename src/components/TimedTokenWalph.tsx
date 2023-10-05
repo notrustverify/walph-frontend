@@ -80,8 +80,6 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
       ).contracts.WalphTimedToken_BlitzThreeDaysAyin.contractInstance
     }
 
-
-    console.log(walpheContract)
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -96,7 +94,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
     if (account !== undefined && connectionStatus === 'connected') {
       const result = await buyTicket(
         signer,
-        (ticketAmount * ticketPriceHint).toString(),
+        (ticketAmount * ticketPriceHint * 10 ** Number(decimals)).toString(),
         config.walpheContractId,
         getStateFields?.tokenId,
       )
@@ -140,9 +138,11 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** Number(decimals)
 
-  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance)/10 ** Number(decimals/100n) //TODO correct this shit
+  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance) / Number(10n**(decimals+2n)) //TODO correct this shitm, 2n is for /100 to remove the %
 
   const numAttendees = Number(getStateFields?.numAttendees)
+
+  const drawTimestamp =  Number(getStateFields?.drawTimestamp)
 
   const lastWinner = getStateFields?.lastWinner.toString()
   let lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
@@ -332,7 +332,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
                     </WalphButton>
@@ -348,7 +348,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                       
                       
                       type='submit'
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
                       value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>

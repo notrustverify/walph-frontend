@@ -142,6 +142,7 @@ export namespace WalphTimedTypes {
   export type WinnerEvent = ContractEvent<{ address: Address }>;
   export type PoolDrawnEvent = ContractEvent<{ amount: bigint }>;
   export type NewRepeatEveryEvent = ContractEvent<{ newRepeat: bigint }>;
+  export type PoolFullEvent = Omit<ContractEvent, "fields">;
 
   export interface CallMethodTable {
     getPoolState: {
@@ -191,6 +192,7 @@ class Factory extends ContractFactory<
     Winner: 4,
     PoolDrawn: 5,
     NewRepeatEvery: 6,
+    PoolFull: 7,
   };
   consts = {
     ErrorCodes: {
@@ -318,8 +320,8 @@ class Factory extends ContractFactory<
 export const WalphTimed = new Factory(
   Contract.fromJson(
     WalphTimedContractJson,
-    "=6-2=2-2+2a=3-1+b=3-1+4=3-1+d=3-1+6=2-2+bf=1-1=2+a=2-3=2+4=1+99=2-2+ae=3-1+4=3-1+741ec=11-1+4=30+0016007e0207726e6420697320=916",
-    "4f7042514878cde5171136bf4d7081721e29b642020af02c2e33a04e3f4c0fd0"
+    "=6-2=2-2+2a=3-1+b=3-1+4=3-1+d=3-1+6=2-2+bf=1-1=2+a=2-3=2-1=2-1+a6=1+1bb=3-1+1=3-1+441f9=11-1+4=30+0016007e0207726e6420697320=942",
+    "357d515107b7bec934715fb92984d3ab81344f7e4d8b712a15107e399316ba23"
   )
 );
 
@@ -428,6 +430,19 @@ export class WalphTimedInstance extends ContractInstance {
     );
   }
 
+  subscribePoolFullEvent(
+    options: EventSubscribeOptions<WalphTimedTypes.PoolFullEvent>,
+    fromCount?: number
+  ): EventSubscription {
+    return subscribeContractEvent(
+      WalphTimed.contract,
+      this,
+      options,
+      "PoolFull",
+      fromCount
+    );
+  }
+
   subscribeAllEvents(
     options: EventSubscribeOptions<
       | WalphTimedTypes.TicketBoughtEvent
@@ -437,6 +452,7 @@ export class WalphTimedInstance extends ContractInstance {
       | WalphTimedTypes.WinnerEvent
       | WalphTimedTypes.PoolDrawnEvent
       | WalphTimedTypes.NewRepeatEveryEvent
+      | WalphTimedTypes.PoolFullEvent
     >,
     fromCount?: number
   ): EventSubscription {

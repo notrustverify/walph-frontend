@@ -16,7 +16,6 @@ export const WalphCountdown = ( { drawTimestamp }: timeWalph ) => {
             return <Completionist />;
           } else {
             // Render a countdown
-            console.log(days)
             if (days > 0)
               return <span>{days}d {hours}h {minutes}m {seconds}s</span>;
 
