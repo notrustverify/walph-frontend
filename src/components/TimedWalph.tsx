@@ -351,7 +351,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                       
                       
                       type='submit'
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
                       value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>
