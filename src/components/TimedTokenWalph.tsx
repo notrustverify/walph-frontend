@@ -6,7 +6,7 @@ import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
 import { node, groupOfAddress, NetworkId, SignerProvider, Contract, NodeProvider } from '@alephium/web3'
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
-import { WalphTimed, WalphTimedTypes } from 'artifacts/ts'
+import { WalphTimedToken, WalphTimedTokenTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
 import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTimeString } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
@@ -26,8 +26,9 @@ import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
 
 interface data {
-durationDay : number 
-price: number
+durationDay : number,
+tokenName: string,
+decimals: bigint
 }
 
 
@@ -39,10 +40,10 @@ const retryFetch = fetchRetry.default(fetch, {
 })
 const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
-export const TimedWalph = ({ durationDay, price }: data) => {
+export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
-  const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
+  const [getStateFields, setStateFields] = useState<WalphTimedTokenTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
   const { balance, updateBalanceForTx } = useBalance()
@@ -61,28 +62,24 @@ export const TimedWalph = ({ durationDay, price }: data) => {
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
     if (account !== undefined && connectionStatus === 'connected') {
-
-      if( durationDay == 1 && price == 1) {
-        walpheContract = loadDeployments(
-          network,
-          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-        ).contracts.WalphTimed_BlitzOneDayOneAlph.contractInstance
-      }
+      console.log(durationDay)
 
 
-      if( durationDay == 1 && price == 5) {
+    if( durationDay == 3 && tokenName.toLowerCase() == "alf") {
+      
       walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed_BlitzOneDay.contractInstance
+      ).contracts.WalphTimedToken_BlitzThreeDaysAlf.contractInstance
     }
 
-    if( durationDay == 3 && price == 10) {
+    if( durationDay == 3 && tokenName.toLowerCase() == "ayin") {
       walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed_BlitzThreeDays.contractInstance
+      ).contracts.WalphTimedToken_BlitzThreeDaysAyin.contractInstance
     }
+
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -97,9 +94,9 @@ export const TimedWalph = ({ durationDay, price }: data) => {
     if (account !== undefined && connectionStatus === 'connected') {
       const result = await buyTicket(
         signer,
-        (ticketAmount * ticketPriceHint).toString(),
+        (ticketAmount * ticketPriceHint * 10 ** Number(decimals)).toString(),
         config.walpheContractId,
-        ""
+        getStateFields?.tokenId,
       )
       setOngoingTxId(result.txId)
     }
@@ -120,7 +117,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
 
     if (config !== undefined && connectionStatus == "connected") {
       web3.setCurrentNodeProvider(nodeProvider)
-      const WalphState = WalphTimed.at(config.walpheContractAddress)
+      const WalphState = WalphTimedToken.at(config.walpheContractAddress)
 
       const initialState = await WalphState.fetchState()
       setStateFields(initialState.fields)
@@ -135,17 +132,17 @@ export const TimedWalph = ({ durationDay, price }: data) => {
 
   getPoolStatus()
 
-  const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** 18
+  const ticketPriceHint = Number(getStateFields?.ticketPrice) / 10 ** Number(decimals)
 
   const slotFree = Number((getStateFields?.poolSize - getStateFields?.balance) / getStateFields?.ticketPrice)
 
-  const drawTimestamp =  Number(getStateFields?.drawTimestamp)
+  const poolSize = Number(getStateFields?.poolSize) / 10 ** Number(decimals)
 
-  const poolSize = Number(getStateFields?.poolSize) / 10 ** 18
-
-  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance)/10 ** 18/100 //TODO correct this shit
+  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance) / Number(10n**(decimals+2n)) //TODO correct this shitm, 2n is for /100 to remove the %
 
   const numAttendees = Number(getStateFields?.numAttendees)
+
+  const drawTimestamp =  Number(getStateFields?.drawTimestamp)
 
   const lastWinner = getStateFields?.lastWinner.toString()
   let lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
@@ -200,7 +197,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                 address={account?.address}
                 attendees={getStateFields?.attendees.slice(0, numAttendees)}
                 ticketPrice={ticketPriceHint}
-                tokenTicker={'ALPH'}
+                tokenTicker={tokenName.toUpperCase()}
                 poolSeat={numAttendees}
               /></Typography>
 
@@ -214,8 +211,8 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                 marginBottom: 2
               }}
               >
-                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesPercent} ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
+                Pool status: <b>{getStateFields?.open ? 'open' : 'in progress'}</b> - Pool fees:{' '}
+                <b>{poolFeesPercent} {tokenName.toUpperCase()}</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
 
@@ -235,7 +232,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                 : ''
                 }
                 </h4>
-              <h3 style={{ marginTop: -40 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
+              <h3 style={{ marginTop: -40 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} {tokenName.toUpperCase()}</h3>
 
               </Typography>
               
@@ -271,7 +268,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
               {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
               <br />
               <p >
-                Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** 18} ALPH</strong>
+                Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** Number(decimals)} {tokenName.toUpperCase()}</strong>
               </p>
               </Typography>
               <br />
@@ -324,7 +321,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                     <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
                   </Fab>
                   
-                  {slotFree < 0 ? (
+                  {slotFree - count < 1 ? (
                     <WalphButton
                       variant="contained"
                       style={{ 
@@ -335,9 +332,9 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || slotFree < 0 || drawTimestamp < Date.now()}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
                     >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Walph full'}</b>
+                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
                     </WalphButton>
                   ) : (
                    
@@ -351,7 +348,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                       
                       
                       type='submit'
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
                       value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>

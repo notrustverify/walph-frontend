@@ -7,7 +7,9 @@ const configuration: Configuration = {
       nodeUrl: 'http://127.0.0.1:22973',
       privateKeys: [],
       //privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.NEXT_PRIVKEY_DEVNET!.split(','),
-      settings: {}
+      settings: {
+        addressesDeploy: ["1GBvuTs4TosNB9xTCGJL5wABn2xTYCzwa7MnXHphjcj1y"]
+      }
     },
     testnet: {
       nodeUrl: (process.env.NODE_URL as string) ?? 'https://wallet.testnet.alephium.org',

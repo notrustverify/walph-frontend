@@ -11,6 +11,7 @@ import { CssBaseline } from '@mui/material/';
 import { Footer } from '@/components/Footer'
 import { HtmlHead } from '@/components/HtmlHead'
 import { WalphDapp } from '@/components/WalphleDapp'
+import { TimedWalph } from '@/components/TimedTokenWalph'
 
 export default function Home() {
   const { account, connectionStatus } = useWallet()
@@ -23,7 +24,7 @@ export default function Home() {
 
       <div className={styles.container}>
 
-        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <WalfDapp /> : ''}
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={3} tokenName='alf' decimals={9n} /> : ''}
         <Footer />
       </div>
 

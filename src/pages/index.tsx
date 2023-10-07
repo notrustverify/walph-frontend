@@ -107,7 +107,9 @@ export default function Home() {
       {
         //ALPH pool
       }
+      
       <Box sx={{ width: '100%' }} padding={5}>
+        {/*
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
           Alephium walph
         </Typography>
@@ -157,25 +159,48 @@ export default function Home() {
             </Item>
           </Grid>
         </Grid>
-
+      */}
         {
           //blitz pool
         }
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
-          Blitz walph
+          Blitz Alephium walph
         </Typography>
+        
         <Grid
           container
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
+
+<Grid xs={12} md={12}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>1 day</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>1 ALPH</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/blitz1'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
-                Draw every <strong>6 hours</strong>
+                Draw every <strong>1 day</strong>
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>10 ALPH</strong>
+                Ticket price: <strong>5 ALPH</strong>
               </Typography>
               <p>&nbsp;</p>
               <WalphButton
@@ -192,37 +217,46 @@ export default function Home() {
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
-                Draw every <strong>12 days</strong>
+                Draw every <strong>3 days</strong>
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>5 ALPH</strong>
+                Ticket price: <strong>10 ALPH</strong>
               </Typography>
               <p>&nbsp;</p>
-              <WalphButton variant="contained" disabled={true}>
-                Soon
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/blitz3'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
               </WalphButton>
             </Item>
           </Grid>
+
+          
+
         </Grid>
 
         {
           //token pool
         }
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
-          Token walph
+          Blitz Token walph
         </Typography>
         <Grid
           container
-          rowSpacing={3}
+          rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
           <Grid xs={12} md={6}>
             <Item>
-              <Typography variant="h5">
-                Pot size: <strong>210 ALF</strong>
+            <Typography variant="h5">
+                Draw every <strong>3 days</strong>
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>10 ALF</strong>
+                Ticket price: <strong>1 ALF</strong>
               </Typography>
               <p>&nbsp;</p>
               <WalphButton
@@ -238,8 +272,8 @@ export default function Home() {
           </Grid>
           <Grid xs={12} md={6}>
             <Item>
-              <Typography variant="h5">
-                Pot size: <strong>10 AYIN</strong>
+            <Typography variant="h5">
+                Draw every <strong>3 days</strong>
               </Typography>
               <Typography variant="h5">
                 Ticket price: <strong>1 AYIN</strong>
@@ -254,6 +288,8 @@ export default function Home() {
             </Item>
           </Grid>
         </Grid>
+
+        
 
       </Box>
 

@@ -3,30 +3,32 @@ import Head from 'next/head'
 import styles from '@/styles/Home.module.css'
 import { AlephiumConnectButton, useWallet } from '@alephium/web3-react'
 import Link from 'next/link'
+import { TimedWalph } from '@/components/TimedWalph'
+import { Walph50HodlAlf } from 'artifacts/ts'
 import { walphTheme } from "../services/walphTheme";
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
 import PoolSelector from '@/components/PoolSelector'
 import { CssBaseline } from '@mui/material/';
 import { Footer } from '@/components/Footer'
 import { HtmlHead } from '@/components/HtmlHead'
-import { TimedWalph } from '@/components/TimedTokenWalph'
 
 export default function Home() {
   const { account, connectionStatus } = useWallet()
   const theme = createTheme(walphTheme)
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      <ThemeProvider theme={theme}>
             <CssBaseline />
             <HtmlHead />
 
-      <div className={styles.container}>
+            <div className={styles.container}>
 
-        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={3} tokenName={"ayin"} decimals={18n} /> : ''}
+  
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={1} price={1}/> : ''}
         <Footer />
-      </div>
-
-
+        </div>
       </ThemeProvider>
+    </>
   )
 }
