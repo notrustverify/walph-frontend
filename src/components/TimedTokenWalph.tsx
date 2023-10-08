@@ -1,14 +1,13 @@
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/timedWalph'
 import { TxStatus } from './TxStatus'
-import { useWallet, useBalance } from '@alephium/web3-react'
-import { node, groupOfAddress, NetworkId, SignerProvider, Contract, NodeProvider } from '@alephium/web3'
+import { useWallet } from '@alephium/web3-react'
+import { node, groupOfAddress, NetworkId, NodeProvider } from '@alephium/web3'
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { WalphTimedToken, WalphTimedTokenTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTimeString } from '@/services/utils'
+import { WalphConfig, getDeployerAddresses } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NumTicket } from './NumTickets'
 import { walphTheme, Item, WalphButton } from '../services/walphTheme'
@@ -22,6 +21,7 @@ import ConfettiExplosion from 'react-confetti-explosion'
 import { WalphCountdown } from './Countdown'
 import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
+import { BuyButtonLabel } from './BuyButtonLabel'
 
 interface data {
 durationDay : number,
@@ -44,9 +44,6 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
   const [getStateFields, setStateFields] = useState<WalphTimedTokenTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
-  const { balance, updateBalanceForTx } = useBalance()
-  const [nextDraw, setNextDraw] = useState<string>('')
-  const [fullDrawDate, setFullDrawDate] = useState<string>('')
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
@@ -319,8 +316,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
                   </Fab>
                   
-                  {slotFree - count < 1 ? (
-                    <WalphButton
+                  <WalphButton
                       variant="contained"
                       style={{ 
                       display: 'inline-block', marginRight: '1em', 
@@ -330,29 +326,10 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
                     >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy and draw'}</b>
+                      <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
                     </WalphButton>
-                  ) : (
-                   
-                    <WalphButton
-                      variant="contained"
-                      style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', borderRadius: "10px", fontSize:16 }}
-                      onClick={() => {
-                        setBuyAmount(count)
-                        
-                      }}
-                      
-                      
-                      type='submit'
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || drawTimestamp < Date.now()}
-                      value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
-                    >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>
-                    </WalphButton>
-                    
-                  )}
                  
                 </div>
                </form>

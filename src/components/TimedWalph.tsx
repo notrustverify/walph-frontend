@@ -1,17 +1,14 @@
 import React, { useCallback, useEffect } from 'react'
 import { useState } from 'react'
-import styles from '../styles/Home.module.css'
 import { buyTicket } from '@/services/timedWalph'
 import { TxStatus } from './TxStatus'
 import { useWallet, useBalance } from '@alephium/web3-react'
-import { node, groupOfAddress, NetworkId, SignerProvider, Contract, NodeProvider } from '@alephium/web3'
+import { node, groupOfAddress, NetworkId, NodeProvider } from '@alephium/web3'
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { WalphTimed, WalphTimedTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphConfig, getDeployerAddresses, findToken, getTokenNameToHold, getRelativeTimeString } from '@/services/utils'
+import { WalphConfig, getDeployerAddresses } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
-import { NotEnoughToken } from './NotEnoughToken'
-import Link from 'next/link'
 import { NumTicket } from './NumTickets'
 import { walphTheme, Item, WalphButton } from '../services/walphTheme'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
@@ -24,6 +21,7 @@ import ConfettiExplosion from 'react-confetti-explosion'
 import { WalphCountdown } from './Countdown'
 import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
+import { BuyButtonLabel } from './BuyButtonLabel'
 
 interface data {
 durationDay : number 
@@ -45,9 +43,6 @@ export const TimedWalph = ({ durationDay, price }: data) => {
   const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
   const [ongoingTxId, setOngoingTxId] = useState<string>()
   const [count, setCount] = React.useState<number>(1)
-  const { balance, updateBalanceForTx } = useBalance()
-  const [nextDraw, setNextDraw] = useState<string>('')
-  const [fullDrawDate, setFullDrawDate] = useState<string>('')
 
   function getNetwork(): NetworkId {
     const network = (process.env.NEXT_PUBLIC_NETWORK ?? 'devnet') as NetworkId
@@ -230,8 +225,8 @@ export const TimedWalph = ({ durationDay, price }: data) => {
               >
               <h4>Draw in&nbsp; 
                 {
-                  getStateFields?.drawTimestamp ? 
-                <WalphCountdown drawTimestamp={Number(getStateFields?.drawTimestamp)} />
+                  drawTimestamp ? 
+                <WalphCountdown drawTimestamp={drawTimestamp} />
                 : ''
                 }
                 </h4>
