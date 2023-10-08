@@ -324,7 +324,6 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                     <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
                   </Fab>
                   
-                  {slotFree < 0 ? (
                     <WalphButton
                       variant="contained"
                       style={{ 
@@ -335,30 +334,11 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize || slotFree < 0 || drawTimestamp < Date.now()}
-                    >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Walph full'}</b>
-                    </WalphButton>
-                  ) : (
-                   
-                    <WalphButton
-                      variant="contained"
-                      style={{ display: 'inline-block', marginRight: '1em', marginLeft: '1em', borderRadius: "10px", fontSize:16 }}
-                      onClick={() => {
-                        setBuyAmount(count)
-                        
-                      }}
-                      
-                      
-                      type='submit'
                       disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
-                      value={ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}
                     >
-                      <b>{ongoingTxId ? 'Waiting for tx' : 'Buy ' + count + ' ' + 'tickets'}</b>
+                      <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
                     </WalphButton>
-                    
-                  )}
-                 
+
                 </div>
                </form>
               <br/>
