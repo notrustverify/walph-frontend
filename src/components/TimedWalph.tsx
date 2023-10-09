@@ -22,6 +22,7 @@ import { WalphCountdown } from './Countdown'
 import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
 import { BuyButtonLabel } from './BuyButtonLabel'
+import { ParticipantsList } from './ParticipantList'
 
 interface data {
 durationDay : number 
@@ -166,6 +167,9 @@ export const TimedWalph = ({ durationDay, price }: data) => {
       <br/>
       <Box >
       <Grid container spacing={0}
+      rowSpacing={1}
+
+      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{ marginTop: -2,
               display: "flex",
               justifyContent: "center",
@@ -338,6 +342,12 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                </form>
               <br/>
             </Item>
+          </Grid>
+          <Grid xs={12} >
+          <Item>
+                    <ParticipantsList attendees={getStateFields?.attendees.slice(0, numAttendees)}></ParticipantsList>
+
+          </Item>
           </Grid>
         </Grid>
       </Box>

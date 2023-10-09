@@ -22,13 +22,13 @@ import { WalphCountdown } from './Countdown'
 import * as fetchRetry from 'fetch-retry'
 import configuration from 'alephium.config'
 import { BuyButtonLabel } from './BuyButtonLabel'
+import { ParticipantsList } from './ParticipantList'
 
 interface data {
-durationDay : number,
-tokenName: string,
-decimals: bigint
+  durationDay: number
+  tokenName: string
+  decimals: bigint
 }
-
 
 const theme = createTheme(walphTheme)
 
@@ -36,7 +36,11 @@ const retryFetch = fetchRetry.default(fetch, {
   retries: 10,
   retryDelay: 1000
 })
-const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
+const nodeProvider = new NodeProvider(
+  configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl,
+  undefined,
+  retryFetch
+)
 
 export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
   const { account, connectionStatus, signer } = useWallet()
@@ -59,28 +63,26 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
     if (account !== undefined && connectionStatus === 'connected') {
       console.log(durationDay)
 
+      if (durationDay == 3 && tokenName.toLowerCase() == 'alf') {
+        walpheContract = loadDeployments(
+          network,
+          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+        ).contracts.WalphTimedToken_BlitzThreeDaysAlf.contractInstance
+      }
 
-    if( durationDay == 3 && tokenName.toLowerCase() == "alf") {
-      
-      walpheContract = loadDeployments(
-        network,
-        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimedToken_BlitzThreeDaysAlf.contractInstance
-    }
-
-    if( durationDay == 3 && tokenName.toLowerCase() == "ayin") {
-      walpheContract = loadDeployments(
-        network,
-        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimedToken_BlitzThreeDaysAyin.contractInstance
-    }
+      if (durationDay == 3 && tokenName.toLowerCase() == 'ayin') {
+        walpheContract = loadDeployments(
+          network,
+          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+        ).contracts.WalphTimedToken_BlitzThreeDaysAyin.contractInstance
+      }
 
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
       return { network, groupIndex, walpheContractAddress, walpheContractId }
-    
-  } }
+    }
+  }
 
   const config = getWalphConfig()
 
@@ -91,7 +93,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
         signer,
         (ticketAmount * ticketPriceHint * 10 ** Number(decimals)).toString(),
         config.walpheContractId,
-        getStateFields?.tokenId,
+        getStateFields?.tokenId
       )
       setOngoingTxId(result.txId)
     }
@@ -109,8 +111,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
   )
 
   const getPoolStatus = useCallback(async () => {
-
-    if (config !== undefined && connectionStatus == "connected") {
+    if (config !== undefined && connectionStatus == 'connected') {
       web3.setCurrentNodeProvider(nodeProvider)
       const WalphState = WalphTimedToken.at(config.walpheContractAddress)
 
@@ -133,16 +134,16 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
 
   const poolSize = Number(getStateFields?.poolSize) / 10 ** Number(decimals)
 
-  const poolFeesPercent = Number(getStateFields?.poolFees*getStateFields?.balance) / Number(10n**(decimals+2n)) //TODO correct this shitm, 2n is for /100 to remove the %
+  const poolFeesPercent = Number(getStateFields?.poolFees * getStateFields?.balance) / Number(10n ** (decimals + 2n)) //TODO correct this shitm, 2n is for /100 to remove the %
 
   const numAttendees = Number(getStateFields?.numAttendees)
 
-  const drawTimestamp =  Number(getStateFields?.drawTimestamp)
+  const drawTimestamp = Number(getStateFields?.drawTimestamp)
 
   const lastWinner = getStateFields?.lastWinner.toString()
-  let lastWinnerTrunc = getStateFields?.lastWinner.toString().slice(0,6)+"..."+getStateFields?.lastWinner.toString().slice(-6)
-  if (lastWinner == "tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq")
-      lastWinnerTrunc = '-'
+  let lastWinnerTrunc =
+    getStateFields?.lastWinner.toString().slice(0, 6) + '...' + getStateFields?.lastWinner.toString().slice(-6)
+  if (lastWinner == 'tgx7VNFoP9DJiFMFgXXtafQZkUvyEdDHT9ryamHJYrjq') lastWinnerTrunc = '-'
 
   const inc = () => {
     if (count < poolSize) setCount(count + 1)
@@ -157,128 +158,130 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
   console.log('ongoing..', ongoingTxId)
 
   return (
-
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <br/>
-      <Box >
-      <Grid container spacing={0}
-        sx={{ marginTop: -2,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              position: "relative",
-              margin: "auto",
-              width: "min(100%,max(600px, 60vw))",
-            }} >
-              
-          <Grid xs>
-          
-   
-            <Item >
-           
-     
-        <Typography align="left"
-        
-        sx={{
-          fontWeight: 500,
-          fontSize: 18,
-          paddingLeft: 3,
-          paddingBottom: 1,
-          paddingTop: 1,
-        }}
-        >
-             <NumTicket
-                address={account?.address}
-                attendees={getStateFields?.attendees.slice(0, numAttendees)}
-                ticketPrice={ticketPriceHint}
-                tokenTicker={tokenName.toUpperCase()}
-                poolSeat={numAttendees}
-              /></Typography>
+      <br />
+      <Box>
+        <Grid
+          container
+          spacing={0}
+          rowSpacing={1}
 
-              <br/>
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{
+            marginTop: -2,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative',
+            margin: 'auto',
+            width: 'min(100%,max(600px, 60vw))'
+          }}
+        >
+          <Grid xs>
+            <Item>
               <Typography
-              sx={{
-                fontWeight: 500,
-                fontSize: 20,
-                paddingLeft: 1,
-                paddingRight: 1,
-                marginBottom: 2
-              }}
+                align="left"
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 18,
+                  paddingLeft: 3,
+                  paddingBottom: 1,
+                  paddingTop: 1
+                }}
+              >
+                <NumTicket
+                  address={account?.address}
+                  attendees={getStateFields?.attendees.slice(0, numAttendees)}
+                  ticketPrice={ticketPriceHint}
+                  tokenTicker={tokenName.toUpperCase()}
+                  poolSeat={numAttendees}
+                />
+              </Typography>
+
+              <br />
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 20,
+                  paddingLeft: 1,
+                  paddingRight: 1,
+                  marginBottom: 2
+                }}
               >
                 Pool status: <b>{getStateFields?.open ? 'open' : 'in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesPercent} {tokenName.toUpperCase()}</b> - group: <b>{config?.groupIndex}</b>{' '}
-              
+                <b>
+                  {poolFeesPercent} {tokenName.toUpperCase()}
+                </b>{' '}
+                - group: <b>{config?.groupIndex}</b>{' '}
               </Typography>
 
-                <Typography
-              sx={{
-                fontWeight: 500,
-                fontSize: 30,
-                paddingLeft: 1,
-                paddingRight: 1,
-                marginTop: -6
-              }}
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 30,
+                  paddingLeft: 1,
+                  paddingRight: 1,
+                  marginTop: -6
+                }}
               >
-              <h4>Draw in&nbsp; 
-                {
-                  getStateFields?.drawTimestamp ? 
-                <WalphCountdown drawTimestamp={Number(getStateFields?.drawTimestamp)} />
-                : ''
-                }
+                <h4>
+                  Draw in&nbsp;
+                  {getStateFields?.drawTimestamp ? (
+                    <WalphCountdown drawTimestamp={Number(getStateFields?.drawTimestamp)} />
+                  ) : (
+                    ''
+                  )}
                 </h4>
-              <h3 style={{ marginTop: -40 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} {tokenName.toUpperCase()}</h3>
-
+                <h3 style={{ marginTop: -40 }}>
+                  Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} {tokenName.toUpperCase()}
+                </h3>
               </Typography>
-              
 
-              <Typography 
-              sx={{
-                fontWeight: 500,
-                fontSize: 25,
-                paddingLeft: 1,
-                paddingRight: 1
-              }}>
-
-              Last Winner:{' '}
-              <b>
-                {  lastWinner === account?.address ? 
-                  "You 🫵": lastWinnerTrunc }
-              </b>
-              <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      position: 'relative',
-                      maxWidth: '50%',
-                      marginLeft: 'auto',
-                      marginRight: 'auto'
-                    }}
-                  >
-                    { ( lastWinner === account?.address && connectionStatus == "connected" ) && (
-                      <ConfettiExplosion force={0.6} duration={3000} particleCount={250} width={1600} />
-                    )}
-                  </div>
-              {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
-              <br />
-              <p >
-                Ticket price: <strong>{Number(getStateFields?.ticketPrice) / 10 ** Number(decimals)} {tokenName.toUpperCase()}</strong>
-              </p>
-              </Typography>
-              <br />
-              <form onSubmit={handleBuyTicket} 
-                  
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: 25,
+                  paddingLeft: 1,
+                  paddingRight: 1
+                }}
+              >
+                Last Winner: <b>{lastWinner === account?.address ? 'You 🫵' : lastWinnerTrunc}</b>
+                <div
                   style={{
-                      border: "none",
-                      display: "inline-block",
-                      boxShadow: "none",
-                      margin: "auto",
-                      padding: "auto"
-                  }}  
-                  
-                  >
-             
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'relative',
+                    maxWidth: '50%',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
+                  }}
+                >
+                  {lastWinner === account?.address && connectionStatus == 'connected' && (
+                    <ConfettiExplosion force={0.6} duration={3000} particleCount={250} width={1600} />
+                  )}
+                </div>
+                {ongoingTxId && <TxStatus txId={ongoingTxId} txStatusCallback={txStatusCallback} />}
+                <br />
+                <p>
+                  Ticket price:{' '}
+                  <strong>
+                    {Number(getStateFields?.ticketPrice) / 10 ** Number(decimals)} {tokenName.toUpperCase()}
+                  </strong>
+                </p>
+              </Typography>
+              <br />
+              <form
+                onSubmit={handleBuyTicket}
+                style={{
+                  border: 'none',
+                  display: 'inline-block',
+                  boxShadow: 'none',
+                  margin: 'auto',
+                  padding: 'auto'
+                }}
+              >
                 <div>
                   <Fab
                     variant="extended"
@@ -286,11 +289,10 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     onClick={() => {
                       dec()
                     }}
-                    
                   >
-                   <div style={{ paddingBottom: 7, fontSize: 20 }}>-</div> 
+                    <div style={{ paddingBottom: 7, fontSize: 20 }}>-</div>
                   </Fab>
-                  
+
                   <Typography
                     align="center"
                     display="inline"
@@ -301,8 +303,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                       paddingRight: 1
                     }}
                   >
-
-                  {count.toString()}
+                    {count.toString()}
                   </Typography>
 
                   <Fab
@@ -311,30 +312,35 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     onClick={() => {
                       inc()
                     }}
-                    
                   >
-                    <div style={{ paddingBottom: 3, fontSize: 20 }} >+</div>
+                    <div style={{ paddingBottom: 3, fontSize: 20 }}>+</div>
                   </Fab>
-                  
+
                   <WalphButton
-                      variant="contained"
-                      style={{ 
-                      display: 'inline-block', marginRight: '1em', 
+                    variant="contained"
+                    style={{
+                      display: 'inline-block',
+                      marginRight: '1em',
                       marginLeft: '1em',
-                      borderRadius: "10px",
-                      fontSize:16
+                      borderRadius: '10px',
+                      fontSize: 16
                     }}
-                      type='submit'
-                      onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
-                    >
-                      <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
-                    </WalphButton>
-                 
+                    type="submit"
+                    onClick={() => setBuyAmount(count)}
+                    disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                  >
+                    <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
+                  </WalphButton>
                 </div>
-               </form>
-              <br/>
+              </form>
+              <br />
             </Item>
+          </Grid>
+        <Grid xs={12} >
+          <Item>
+                    <ParticipantsList attendees={getStateFields?.attendees.slice(0, numAttendees)}></ParticipantsList>
+
+          </Item>
           </Grid>
         </Grid>
       </Box>
