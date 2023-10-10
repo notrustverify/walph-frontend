@@ -16,7 +16,6 @@ import { default as devnetDeployments } from "../.deployments.devnet.json";
 export type Deployments = {
   deployerAddress: string;
   contracts: {
-    Walph: any;
     WalphTimed_BlitzOneDay: DeployContractExecutionResult<WalphTimedInstance>;
     WalphTimed_BlitzOneDayOneAlph: DeployContractExecutionResult<WalphTimedInstance>;
     WalphTimed_BlitzThreeDays: DeployContractExecutionResult<WalphTimedInstance>;
