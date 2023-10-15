@@ -7,7 +7,7 @@ import { node, groupOfAddress, NetworkId, NodeProvider } from '@alephium/web3'
 //import { Walph50HodlAlf, Walph50HodlAlfTypes } from 'artifacts/ts'
 import { WalphTimed, WalphTimedTypes } from 'artifacts/ts'
 import { web3 } from '@alephium/web3'
-import { WalphConfig, getDeployerAddresses } from '@/services/utils'
+import { WalphConfig, formatCash, getDeployerAddresses } from '@/services/utils'
 import { loadDeployments } from 'artifacts/ts/deployments'
 import { NumTicket } from './NumTickets'
 import { walphTheme, Item, WalphButton } from '../services/walphTheme'
@@ -79,6 +79,16 @@ export const TimedWalph = ({ durationDay, price }: data) => {
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
       ).contracts.WalphTimed_BlitzThreeDays.contractInstance
     }
+
+
+    if( durationDay == 30 && price == 1000) {
+      walpheContract = loadDeployments(
+        network,
+        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+      ).contracts.WalphTimed_BlitzMexc.contractInstance
+    }
+
+
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -214,7 +224,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
               }}
               >
                 Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - Pool fees:{' '}
-                <b>{poolFeesPercent} ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
+                <b>{ formatCash(poolFeesPercent) } ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
 
@@ -234,7 +244,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                 : ''
                 }
                 </h4>
-              <h3 style={{ marginTop: -40 }}>Prize pot: {Number(getStateFields?.numAttendees) * ticketPriceHint} ALPH</h3>
+              <h3 style={{ marginTop: -40 }}>Prize pot: {formatCash(Number(getStateFields?.numAttendees) * ticketPriceHint-poolFeesPercent)} ALPH</h3>
 
               </Typography>
               
@@ -333,7 +343,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                     }}
                       type='submit'
                       onClick={() => setBuyAmount(count)}
-                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                      disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= count || count > poolSize}
                     >
                       <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
                     </WalphButton>
