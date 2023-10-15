@@ -75,6 +75,12 @@ export function getRelativeTimeString(
 }
 
 
+// https://stackoverflow.com/a/55987576/3016680
+export function formatCash(n) {
+  if (n < 1e3) return n;
+  if (n >= 1e3) return +(n / 1e3).toFixed(1) + "K";
+}
+
 export function getDeployerAddresses(){
   return configuration.networks[process.env.NEXT_PUBLIC_NETWORK].settings.addressesDeploy
 }

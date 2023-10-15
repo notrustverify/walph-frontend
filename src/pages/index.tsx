@@ -28,7 +28,7 @@ export default function Home() {
       <CssBaseline />
       <HtmlHead />
 
-      <div style={{ paddingLeft: '2em', overflowX: "hidden" }}>
+      <div style={{ paddingLeft: '2em', overflowX: 'hidden' }}>
         <br />
         <div style={{ display: 'inline-flex' }}>
           <Typography variant="h2" gutterBottom sx={{ color: '#FEC26C', fontWeight: 900 }}>
@@ -43,7 +43,7 @@ export default function Home() {
             style={{
               borderRadius: '60%',
               margin: '28px',
-              marginTop: -20,
+              marginTop: -20
             }}
           />
         </div>
@@ -104,52 +104,33 @@ export default function Home() {
           </AccordionDetails>
         </Accordion>
       </div>
+
       {
         //ALPH pool
       }
-      
+
       <Box sx={{ width: '100%' }} padding={5}>
-        {/*
+        
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
-          Alephium walph
+          Featured walph
         </Typography>
         <Grid
           container
           rowSpacing={1}
           columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         >
-          <Grid xs={12} md={6}>
+          <Grid xs={12} md={12}>
             <Item>
               <Typography variant="h5">
-                Pot size: <strong>210 ALPH</strong>
+                Draw in 30 days
               </Typography>
               <Typography variant="h5">
-                Ticket price: <strong>10 ALPH</strong>
+                Ticket price: <strong>1000 ALPH</strong>
               </Typography>
-              <p>No token required</p>
+              <p>MEXC Donation</p>
               <WalphButton
                 onClick={() => {
-                  window.location.href = '/walph'
-                }}
-                variant="contained"
-                disabled={connectionStatus != 'connected'}
-              >
-                Join
-              </WalphButton>
-            </Item>
-          </Grid>
-          <Grid xs={12} md={6}>
-            <Item>
-              <Typography variant="h5">
-                Pot size: <strong>500 ALPH</strong>
-              </Typography>
-              <Typography variant="h5">
-                Ticket price: <strong>10 ALPH</strong>
-              </Typography>
-              <p>1 ALF required</p>
-              <WalphButton
-                onClick={() => {
-                  window.location.href = '/walph50'
+                  window.location.href = '/blitzMexc'
                 }}
                 variant="contained"
                 disabled={connectionStatus != 'connected'}
@@ -159,21 +140,16 @@ export default function Home() {
             </Item>
           </Grid>
         </Grid>
-      */}
+      
         {
           //blitz pool
         }
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
           Blitz Alephium walph
         </Typography>
-        
-        <Grid
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        >
 
-<Grid xs={12} md={12}>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid xs={12} md={12}>
             <Item>
               <Typography variant="h5">
                 Draw every <strong>1 day</strong>
@@ -234,9 +210,6 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
-
-          
-
         </Grid>
 
         {
@@ -245,14 +218,10 @@ export default function Home() {
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
           Blitz Token walph
         </Typography>
-        <Grid
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        >
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid xs={12} md={6}>
             <Item>
-            <Typography variant="h5">
+              <Typography variant="h5">
                 Draw every <strong>3 days</strong>
               </Typography>
               <Typography variant="h5">
@@ -272,25 +241,25 @@ export default function Home() {
           </Grid>
           <Grid xs={12} md={6}>
             <Item>
-            <Typography variant="h5">
+              <Typography variant="h5">
                 Draw every <strong>3 days</strong>
               </Typography>
               <Typography variant="h5">
                 Ticket price: <strong>1 AYIN</strong>
               </Typography>
               <p>&nbsp;</p>
-              <WalphButton variant="contained" onClick={() => {
+              <WalphButton
+                variant="contained"
+                onClick={() => {
                   window.location.href = '/wayin'
                 }}
-                disabled={connectionStatus != 'connected'}>
+                disabled={connectionStatus != 'connected'}
+              >
                 Join
               </WalphButton>
             </Item>
           </Grid>
         </Grid>
-
-        
-
       </Box>
 
       <Footer />

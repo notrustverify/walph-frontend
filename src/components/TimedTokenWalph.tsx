@@ -327,7 +327,7 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
                     }}
                     type="submit"
                     onClick={() => setBuyAmount(count)}
-                    disabled={!!ongoingTxId || !getStateFields?.open || slotFree < count || count > poolSize}
+                    disabled={!!ongoingTxId || !getStateFields?.open || slotFree <= count || count > poolSize}
                   >
                     <b>{ongoingTxId ? 'Waiting for tx' : <BuyButtonLabel slotFree={slotFree} count={count} />}</b>
                   </WalphButton>

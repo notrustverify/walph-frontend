@@ -21,6 +21,7 @@ export type Deployments = {
     WalphTimed_BlitzThreeDays: DeployContractExecutionResult<WalphTimedInstance>;
     WalphTimedToken_BlitzThreeDaysAlf: DeployContractExecutionResult<WalphTimedTokenInstance>;
     WalphTimedToken_BlitzThreeDaysAyin: DeployContractExecutionResult<WalphTimedTokenInstance>;
+    WalphTimed_BlitzMexc: DeployContractExecutionResult<WalphTimedInstance>;
   };
 };
 
@@ -56,6 +57,12 @@ function toDeployments(json: any): Deployments {
       contractInstance: WalphTimedToken.at(
         json.contracts["WalphTimedToken:BlitzThreeDaysAyin"].contractInstance
           .address
+      ),
+    },
+    WalphTimed_BlitzMexc: {
+      ...json.contracts["WalphTimed:BlitzMexc"],
+      contractInstance: WalphTimed.at(
+        json.contracts["WalphTimed:BlitzMexc"].contractInstance.address
       ),
     },
   };
