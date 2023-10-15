@@ -26,7 +26,8 @@ import { ParticipantsList } from './ParticipantList'
 
 interface data {
 durationDay : number 
-price: number
+price: number,
+featuredWalph: boolean
 }
 
 
@@ -38,7 +39,7 @@ const retryFetch = fetchRetry.default(fetch, {
 })
 const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
-export const TimedWalph = ({ durationDay, price }: data) => {
+export const TimedWalph = ({ durationDay, price, featuredWalph }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
@@ -223,7 +224,7 @@ export const TimedWalph = ({ durationDay, price }: data) => {
                 marginBottom: 2
               }}
               >
-                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - Pool fees:{' '}
+                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - {featuredWalph ? "MEXC Donation" :"Pool fees:"}
                 <b>{ formatCash(poolFeesPercent) } ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
