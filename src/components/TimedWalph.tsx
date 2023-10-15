@@ -224,7 +224,7 @@ export const TimedWalph = ({ durationDay, price, featuredWalph }: data) => {
                 marginBottom: 2
               }}
               >
-                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - {featuredWalph ? "MEXC Donation" :"Pool fees:"}
+                Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - {featuredWalph ? "MEXC Donation: " :"Pool fees: "}
                 <b>{ formatCash(poolFeesPercent) } ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
