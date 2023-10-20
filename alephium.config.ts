@@ -20,7 +20,7 @@ const configuration: Configuration = {
     },
 
     mainnet: {
-      nodeUrl: (process.env.NODE_URL as string) ?? 'https://node-alephium.ono.re',
+      nodeUrl: (process.env.NODE_URL as string) ?? 'https://lb.notrustverify.ch',
       privateKeys: process.env.PRIVATE_KEYS === undefined ? [] : process.env.PRIVATE_KEYS.split(','),
       settings: {
         addressesDeploy: ["13grYjTToaSNbARwUyWeve8uR3p3XhVAwRktYdNrVyBWC","1EqytGSxzUkytUFKuqdAeWjLBg9WQvE4DhHZ6bffcdUX6","1G4BfFumrHAA363LTLSXb23GjLbRNoG6vHD64qeAMRpz7","1AUH1Ten8NjGcGVDgk8jXjA8Wj2pijhSa7haiJRK6LLeJ"]
