@@ -65,7 +65,7 @@ export const TimedWalph = ({ durationDay, price, featuredWalph, contractName }: 
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
       ).contracts[contractName].contractInstance
       
-      
+
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -201,7 +201,7 @@ export const TimedWalph = ({ durationDay, price, featuredWalph, contractName }: 
               }}
               >
                 Pool status: <b>{getStateFields?.open && slotFree > 0 ? 'open' : 'in progress'}</b> - {featuredWalph ? "MEXC Donation: " :"Pool fees: "}
-                <b>{ formatCash(poolFeesPercent) } ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
+                <b>{ formatCash(poolFeesPercent.toFixed(0)) } ALPH</b> - group: <b>{config?.groupIndex}</b>{' '}
               
               </Typography>
 
@@ -221,7 +221,7 @@ export const TimedWalph = ({ durationDay, price, featuredWalph, contractName }: 
                 : ''
                 }
                 </h4>
-              <h3 style={{ marginTop: -40 }}>Prize pot: {formatCash(Number(getStateFields?.numAttendees) * ticketPriceHint-poolFeesPercent)} ALPH</h3>
+              <h3 style={{ marginTop: -40 }}>Prize pot: {formatCash((Number(getStateFields?.numAttendees) * ticketPriceHint-poolFeesPercent).toFixed(0))} ALPH</h3>
 
               </Typography>
               
