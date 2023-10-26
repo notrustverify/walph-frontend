@@ -8,8 +8,8 @@
   "parser": "@typescript-eslint/parser",
   "rules": {
     "@typescript-eslint/require-await": "error",
-    "no-var": "error",
-    "object-curly-spacing": ["error", "always"],
+    "no-var": "warn",
+    "object-curly-spacing": ["warn", "always"],
     "react/no-unescaped-entities": "warn",
     "react/react-in-jsx-scope": "warn"
   },

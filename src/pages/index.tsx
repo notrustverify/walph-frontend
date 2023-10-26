@@ -139,8 +139,76 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
+
+          <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw in 5 days
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>50 ALPH</strong>
+              </Typography>
+              <p>MEXC Donation</p>
+              <WalphButton
+                onClick={() => {
+                  window.location.href = '/blitzMexc50'
+                }}
+                variant="contained"
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+
+
+          <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw in 10 days
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>100 ALPH</strong>
+              </Typography>
+              <p>MEXC Donation</p>
+              <WalphButton
+                onClick={() => {
+                  window.location.href = '/blitzMexc100'
+                }}
+                variant="contained"
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+
+          <Grid xs={12} md={12}>
+            <Item>
+              <Typography variant="h5">
+                Draw in 20 days
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>200 ALPH</strong>
+              </Typography>
+              <p>MEXC Donation</p>
+              <WalphButton
+                onClick={() => {
+                  window.location.href = '/blitzMexc200'
+                }}
+                variant="contained"
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+
         </Grid>
       
+        
+
+
         {
           //blitz pool
         }

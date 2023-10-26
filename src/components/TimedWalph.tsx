@@ -28,6 +28,7 @@ interface data {
 durationDay : number 
 price: number,
 featuredWalph: boolean
+contractName: string
 }
 
 
@@ -39,7 +40,7 @@ const retryFetch = fetchRetry.default(fetch, {
 })
 const nodeProvider = new NodeProvider(configuration.networks[process.env.NEXT_PUBLIC_NETWORK].nodeUrl, undefined, retryFetch)
 
-export const TimedWalph = ({ durationDay, price, featuredWalph }: data) => {
+export const TimedWalph = ({ durationDay, price, featuredWalph, contractName }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<WalphTimedTypes.Fields>()
@@ -53,43 +54,18 @@ export const TimedWalph = ({ durationDay, price, featuredWalph }: data) => {
 
   function getWalphConfig(): WalphConfig {
     const network = getNetwork()
-
     let walpheContract = undefined
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
+
     if (account !== undefined && connectionStatus === 'connected') {
 
-      if( durationDay == 1 && price == 1) {
-        walpheContract = loadDeployments(
-          network,
-          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-        ).contracts.WalphTimed_BlitzOneDayOneAlph.contractInstance
-      }
-
-
-      if( durationDay == 1 && price == 5) {
       walpheContract = loadDeployments(
         network,
         deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed_BlitzOneDay.contractInstance
-    }
-
-    if( durationDay == 3 && price == 10) {
-      walpheContract = loadDeployments(
-        network,
-        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed_BlitzThreeDays.contractInstance
-    }
-
-
-    if( durationDay == 30 && price == 1000) {
-      walpheContract = loadDeployments(
-        network,
-        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-      ).contracts.WalphTimed_BlitzMexc.contractInstance
-    }
-
-
+      ).contracts[contractName].contractInstance
+      
+      
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
       const walpheContractId = walpheContract.contractId
@@ -169,7 +145,7 @@ export const TimedWalph = ({ durationDay, price, featuredWalph }: data) => {
 
   if (count > slotFree) setCount(slotFree)
 
-  console.log('ongoing..', ongoingTxId)
+  //console.log('ongoing..', ongoingTxId)
 
   return (
 

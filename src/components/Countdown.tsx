@@ -23,10 +23,12 @@ export const WalphCountdown = ( { drawTimestamp }: timeWalph ) => {
           }
         };
     return (
+      <React.Fragment>
             <Countdown 
             date={dateNow + (drawTimestamp - dateNow)} 
             renderer={renderer} 
             /> 
+      </React.Fragment>
     )
 
 }

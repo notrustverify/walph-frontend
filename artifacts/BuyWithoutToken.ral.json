@@ -1,5 +1,5 @@
 {
-  "version": "v2.5.7",
+  "version": "v2.5.9",
   "name": "BuyWithoutToken",
   "bytecodeTemplate": "0101030001000ab417001600{1}a2{1}0d0c{0}0107",
   "fieldsSig": {

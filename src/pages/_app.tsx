@@ -18,6 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
               ? ('mainnet' as NetworkId)
               : (process.env.NEXT_PUBLIC_NETWORK as NetworkId)
           }
+          addressGroup={0}
         >
           <br />
           <Component {...pageProps} />
