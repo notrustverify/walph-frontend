@@ -280,6 +280,57 @@ export default function Home() {
           </Grid>
         </Grid>
 
+
+        {
+          //token pool
+        }
+        <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
+          Blitz Token walph
+        </Typography>
+        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>3 days</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>1 USDT</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/blitzUsdt'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+          <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>3 days</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>1 USDC</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/blitzUsdc'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+        </Grid>
+
+
         {
           //token pool
         }

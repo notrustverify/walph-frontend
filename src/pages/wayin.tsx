@@ -22,7 +22,7 @@ export default function Home() {
 
       <div className={styles.container}>
 
-        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={3} tokenName={"ayin"} decimals={18n} /> : ''}
+        { (connectionStatus == "connected" || connectionStatus == "connecting") ? <TimedWalph durationDay={3} tokenName={"ayin"} decimals={18n} contractName='WalphTimedToken_BlitzThreeDaysAyin' /> : ''}
         <Footer />
       </div>
 
