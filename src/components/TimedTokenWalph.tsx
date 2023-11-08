@@ -28,6 +28,7 @@ interface data {
   durationDay: number
   tokenName: string
   decimals: bigint
+  contractName: string
 }
 
 const theme = createTheme(walphTheme)
@@ -42,7 +43,7 @@ const nodeProvider = new NodeProvider(
   retryFetch
 )
 
-export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
+export const TimedWalph = ({ durationDay, tokenName, decimals, contractName }: data) => {
   const { account, connectionStatus, signer } = useWallet()
   const [ticketAmount, setBuyAmount] = useState(0)
   const [getStateFields, setStateFields] = useState<WalphTimedTokenTypes.Fields>()
@@ -61,21 +62,10 @@ export const TimedWalph = ({ durationDay, tokenName, decimals }: data) => {
     // TODO find a better way to get deployer addresses
     const deployerAddresses = getDeployerAddresses()
     if (account !== undefined && connectionStatus === 'connected') {
-      console.log(durationDay)
-
-      if (durationDay == 3 && tokenName.toLowerCase() == 'alf') {
-        walpheContract = loadDeployments(
-          network,
-          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-        ).contracts.WalphTimedToken_BlitzThreeDaysAlf.contractInstance
-      }
-
-      if (durationDay == 3 && tokenName.toLowerCase() == 'ayin') {
-        walpheContract = loadDeployments(
-          network,
-          deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
-        ).contracts.WalphTimedToken_BlitzThreeDaysAyin.contractInstance
-      }
+      walpheContract = loadDeployments(
+        network,
+        deployerAddresses.find((addr) => groupOfAddress(addr) === groupOfAddress(account.address))
+      ).contracts[contractName].contractInstance
 
       const groupIndex = walpheContract.groupIndex
       const walpheContractAddress = walpheContract.address
