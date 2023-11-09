@@ -285,7 +285,7 @@ export default function Home() {
           //token pool
         }
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
-          Blitz Token walph
+          Blitz Stable walph
         </Typography>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           <Grid xs={12} md={6}>
