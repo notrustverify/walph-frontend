@@ -14,7 +14,7 @@ export class Blockchain {
     }
 
     static alephium(): Blockchain {
-        return new Blockchain("Alephium", "main", "assets/alephium.png", ["ALPH"])
+        return new Blockchain("Alephium", "main", "assets/alephium.png", ["ALPH", "ALF"])
     }
 
     equals(other: Blockchain): boolean {

@@ -10,17 +10,16 @@ import {DrawerHeader} from "./drawerHeader";
 import {useContext, useState} from "react";
 import {ServiceContext} from "../App";
 import {
-    Box, Button, Container,
-    Dialog, DialogActions,
-    DialogContent,
-    DialogTitle,
+    Avatar,
+    Box, Button,
     FormControl, Icon,
-    InputLabel,
+    InputLabel, List, ListItem, ListItemAvatar, ListItemButton, ListItemText,
     MenuItem,
-    OutlinedInput,
     Select, SelectChangeEvent
 } from "@mui/material";
 import {Address} from "./address";
+import Typography from "@mui/material/Typography";
+import {Asset} from "../domain/asset";
 
 export const drawerWidth = 240;
 
@@ -72,6 +71,7 @@ type WalphSidebarProp = {
 export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp) => {
 
     const [seed, setSeed] = useState(1);
+    const [assets, setAssets] = useState(new Array<Asset>());
     const services = useContext(ServiceContext);
 
     const reload = () => setSeed(Math.random());
@@ -86,8 +86,11 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
         reload();
     }
 
-    const connect = (): void => {
-        services.wallet.connect().then(() => reload());
+    const connect = async (): Promise<void> => {
+        const account = await services.wallet.connect();
+        const myassets = await services.blockchain.getAssets(account);
+        setAssets(myassets);
+        reload();
     }
 
     return (
@@ -159,6 +162,34 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                         <Divider/>
                         <Box sx={{marginTop: "10px"}}/>
                         <Address account={services.wallet.account} size={9}/>
+                        <Box sx={{marginTop: "10px"}}/>
+                        <List>
+                            {assets.map((asset) => (
+                                <ListItem sx={{width: "100%"}}>
+                                    <ListItemButton sx={{width: "100%"}}>
+                                    <ListItemAvatar>
+                                        <Avatar alt={asset.symbol} src={asset.logo} />
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary={asset.symbol}
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography
+                                                    sx={{ display: 'inline', fontFamily: "Courier" }}
+                                                    component="span"
+                                                    variant="body2"
+                                                    color="text.primary"
+                                                >
+                                                    {asset.amount}
+                                                </Typography>
+                                                {" — I'll be in your neighborhood doing errands this…"}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
                     </>
                 )}
 
