@@ -1,1 +1,0 @@
-Contracts are available at [https://github.com/notrustverify/walph-contracts](https://github.com/notrustverify/walph-contracts)

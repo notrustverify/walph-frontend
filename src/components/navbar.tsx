@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled, Theme} from '@mui/material/styles';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -8,9 +8,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {drawerWidth} from "./sidebar";
 
 
+type AppBarProp = {
+    theme: Theme,
+    open: boolean
+}
+
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})(({ theme, open }: AppBarProp) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
         easing: theme.transitions.easing.sharp,
@@ -26,8 +31,14 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-export function WalphNavbar({open, handleDrawerOpen}) {
+type WalphNavbarProp = {
+    open: boolean,
+    handleDrawerOpen: () => void,
+}
+
+export function WalphNavbar({open, handleDrawerOpen}: WalphNavbarProp) {
     return (
+        // @ts-ignore
         <AppBar position="fixed" open={open}>
             <Toolbar>
                 <IconButton

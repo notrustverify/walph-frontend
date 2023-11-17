@@ -1,6 +1,6 @@
 // Sidebar.js
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import {styled, Theme} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
@@ -17,7 +17,7 @@ import {DrawerHeader} from "./drawerHeader";
 
 export  const drawerWidth = 240;
 
-const openedMixin = (theme) => ({
+const openedMixin = (theme: Theme) => ({
     width: drawerWidth,
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
@@ -26,7 +26,7 @@ const openedMixin = (theme) => ({
     overflowX: 'hidden',
 });
 
-const closedMixin = (theme) => ({
+const closedMixin = (theme: Theme) => ({
     transition: theme.transitions.create('width', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -39,6 +39,7 @@ const closedMixin = (theme) => ({
 });
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    // @ts-ignore
     ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
@@ -54,7 +55,14 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
         }),
     }),
 );
-export const WalphSidebar = ({ open, handleDrawerClose, theme }) => {
+
+type WalphSidebarProp = {
+    open: boolean,
+    handleDrawerClose: () => void,
+    theme: Theme
+}
+
+export const WalphSidebar = ({ open, handleDrawerClose, theme }: WalphSidebarProp) => {
 
     return (
         <Drawer variant="permanent" open={open}>
