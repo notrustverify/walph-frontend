@@ -14,6 +14,19 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import {DrawerHeader} from "./drawerHeader";
+import {useContext, useState} from "react";
+import {ServiceContext} from "../App";
+import {
+    Box, Button,
+    Dialog, DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl, Icon,
+    InputLabel,
+    MenuItem,
+    OutlinedInput,
+    Select, SelectChangeEvent
+} from "@mui/material";
 
 export  const drawerWidth = 240;
 
@@ -64,38 +77,51 @@ type WalphSidebarProp = {
 
 export const WalphSidebar = ({ open, handleDrawerClose, theme }: WalphSidebarProp) => {
 
+    const [seed, setSeed] = useState(1);
+    const services = useContext(ServiceContext);
+
+    const reload = () => setSeed(Math.random());
+
+    const handleBlockchain = (event: SelectChangeEvent<string>) => {
+        services.blockchain.select(event.target.value);
+        reload();
+    };
+
     return (
-        <Drawer variant="permanent" open={open}>
+        <Drawer variant="permanent" open={open} key={seed}>
             <DrawerHeader>
                 <IconButton onClick={handleDrawerClose}>
                     {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </DrawerHeader>
             <Divider />
-            <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                        <ListItemButton
-                            sx={{
-                                minHeight: 48,
-                                justifyContent: open ? 'initial' : 'center',
-                                px: 2.5,
-                            }}
-                        >
-                            <ListItemIcon
-                                sx={{
-                                    minWidth: 0,
-                                    mr: open ? 3 : 'auto',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                        </ListItemButton>
-                    </ListItem>
-                ))}
-            </List>
+            <FormControl sx={{margin: "30px 10px 0px 10px"}}>
+                <InputLabel id="blokchcain">Blockchain</InputLabel>
+                <Select
+                    id="blockchain"
+                    label="Blockchain"
+                    value={services.blockchain.selected?.name ?? ""}
+                    onChange={handleBlockchain}
+                >
+                    {services.blockchain.getAll().map(b => (
+                        <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}</MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+
+            <FormControl sx={{margin: "30px 10px 10px 10px"}}>
+                <InputLabel id="wallet">Wallet</InputLabel>
+                <Select
+                    id="wallet"
+                    label="Wallet"
+                    value={services.blockchain.selected?.name ?? ""}
+                    onChange={handleBlockchain}
+                >
+                    {services.blockchain.getAll().map(b => (
+                        <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}</MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
         </Drawer>
     );
 };
