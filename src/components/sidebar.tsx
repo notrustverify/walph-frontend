@@ -2,22 +2,15 @@
 import * as React from 'react';
 import {styled, Theme} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import {DrawerHeader} from "./drawerHeader";
 import {useContext, useState} from "react";
 import {ServiceContext} from "../App";
 import {
-    Box, Button,
+    Box, Button, Container,
     Dialog, DialogActions,
     DialogContent,
     DialogTitle,
@@ -27,8 +20,9 @@ import {
     OutlinedInput,
     Select, SelectChangeEvent
 } from "@mui/material";
+import {Address} from "./address";
 
-export  const drawerWidth = 240;
+export const drawerWidth = 240;
 
 const openedMixin = (theme: Theme) => ({
     width: drawerWidth,
@@ -51,9 +45,9 @@ const closedMixin = (theme: Theme) => ({
     },
 });
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
     // @ts-ignore
-    ({ theme, open }) => ({
+    ({theme, open}) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
@@ -75,7 +69,7 @@ type WalphSidebarProp = {
     theme: Theme
 }
 
-export const WalphSidebar = ({ open, handleDrawerClose, theme }: WalphSidebarProp) => {
+export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp) => {
 
     const [seed, setSeed] = useState(1);
     const services = useContext(ServiceContext);
@@ -87,41 +81,88 @@ export const WalphSidebar = ({ open, handleDrawerClose, theme }: WalphSidebarPro
         reload();
     };
 
+    const handleWallet = (event: SelectChangeEvent<string>): void => {
+        services.wallet.select(event.target.value);
+        reload();
+    }
+
+    const connect = (): void => {
+        services.wallet.connect().then(() => reload());
+    }
+
     return (
         <Drawer variant="permanent" open={open} key={seed}>
             <DrawerHeader>
                 <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
                 </IconButton>
             </DrawerHeader>
-            <Divider />
-            <FormControl sx={{margin: "30px 10px 0px 10px"}}>
-                <InputLabel id="blokchcain">Blockchain</InputLabel>
-                <Select
-                    id="blockchain"
-                    label="Blockchain"
-                    value={services.blockchain.selected?.name ?? ""}
-                    onChange={handleBlockchain}
-                >
-                    {services.blockchain.getAll().map(b => (
-                        <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            <Divider/>
+            <Box sx={{margin: "10px",
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'stretch',
+                justifyContent: 'center'}}>
 
-            <FormControl sx={{margin: "30px 10px 10px 10px"}}>
-                <InputLabel id="wallet">Wallet</InputLabel>
-                <Select
-                    id="wallet"
-                    label="Wallet"
-                    value={services.blockchain.selected?.name ?? ""}
-                    onChange={handleBlockchain}
-                >
-                    {services.blockchain.getAll().map(b => (
-                        <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+                <Box sx={{marginTop: "10px"}}/>
+                <FormControl>
+                    <InputLabel id="blokchcain">Blockchain</InputLabel>
+                    <Select
+                        id="blockchain"
+                        label="Blockchain"
+                        value={services.blockchain.selected?.name ?? ""}
+                        onChange={handleBlockchain}
+                    >
+                        {services.blockchain.getAll().map(b => (
+                            <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <Box sx={{marginTop: "10px"}}/>
+                <FormControl>
+                    <InputLabel id="wallet">Wallet</InputLabel>
+                    <Select
+                        id="wallet"
+                        label="Wallet"
+                        value={services.wallet.selected?.name ?? ""}
+                        onChange={handleWallet}
+                    >
+                        {services.wallet.getAll(services.blockchain.selected).map(b => (
+                            <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
+                <Box sx={{marginTop: "10px"}}/>
+                {services.wallet.account === undefined
+                    ? (<Button
+                        variant="contained"
+                        disabled={services.wallet.selected === undefined}
+                        onClick={connect}
+                    >Connected</Button>)
+                    : (<Button
+                        variant="outlined"
+                        color="warning"
+                        disabled={services.wallet.selected === undefined}
+                        onClick={connect}
+                    >Disconnect</Button>)
+                }
+
+
+
+                {services.wallet.account === undefined ? <Box/> : (
+                    <>
+                        <Box sx={{marginTop: "30px"}}/>
+                        <Divider/>
+                        <Box sx={{marginTop: "10px"}}/>
+                        <Address account={services.wallet.account} size={9}/>
+                    </>
+                )}
+
+            </Box>
         </Drawer>
     );
 };

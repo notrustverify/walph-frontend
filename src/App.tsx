@@ -7,18 +7,22 @@ import {WalphNavbar} from "./components/navbar";
 import {DrawerHeader} from "./components/drawerHeader";
 import {BlockchainService} from "./services/blockchainService";
 import * as React from 'react';
+import {WalletService} from "./services/walletService";
 
 class Services {
     blockchain: BlockchainService;
+    wallet: WalletService;
 
 
-    constructor(blockchain: BlockchainService) {
+    constructor(blockchain: BlockchainService, wallet: WalletService) {
         this.blockchain = blockchain;
+        this.wallet = wallet;
     }
 }
 
 const blockchain = new BlockchainService();
-const services = new Services(blockchain);
+const wallet = new WalletService();
+const services = new Services(blockchain, wallet);
 
 export const ServiceContext = createContext(services);
 

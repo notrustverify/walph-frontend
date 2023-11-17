@@ -12,4 +12,13 @@ export class Blockchain {
         this.logo = logo;
         this.availableTokens = availableTokens;
     }
+
+    static alephium(): Blockchain {
+        return new Blockchain("Alephium", "main", "assets/alephium.png", ["ALPH"])
+    }
+
+    equals(other: Blockchain): boolean {
+        return other.name === this.name &&
+            other.type === this.type;
+    }
 }

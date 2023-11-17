@@ -4,7 +4,7 @@ import {BlockchainClient} from "./clients/interface";
 
 export class BlockchainService {
     private readonly clients: BlockchainClient[] = [
-        new AlephiumClient(new Blockchain("Alephium", "main", "assets/alephium.png", ["ALPH"])),
+        new AlephiumClient(Blockchain.alephium()),
 
     ];
     private _selected: BlockchainClient | undefined;
