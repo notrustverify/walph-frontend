@@ -110,7 +110,7 @@ export default function Home() {
       }
 
       <Box sx={{ width: '100%' }} padding={5}>
-        
+        {/*
         <Typography variant="h6" sx={{ paddingTop: 2, paddingBottom: 1 }}>
           Featured walph
         </Typography>
@@ -160,7 +160,7 @@ export default function Home() {
               </WalphButton>
             </Item>
           </Grid>
-
+             
 
           <Grid xs={12} md={6}>
             <Item>
@@ -205,7 +205,7 @@ export default function Home() {
           </Grid>
 
         </Grid>
-      
+       */}
         
 
 
