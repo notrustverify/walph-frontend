@@ -1,12 +1,14 @@
 import React from "react";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {Home} from "../pages/home";
+import {Lotteries} from "../pages/lotteries";
 
 const MainContent = () => {
     return (
-        <div>
-            {/* Your dynamic content goes here */}
-            <h1>Main Content</h1>
-            <p>This is where your dynamic content will be rendered.</p>
-        </div>
+            <Routes>
+                <Route path="lotteries/:symbol" element={<Lotteries />} />
+                <Route path="/" element={<Home />}/>
+            </Routes>
     );
 };
 

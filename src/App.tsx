@@ -8,21 +8,26 @@ import {DrawerHeader} from "./components/drawerHeader";
 import {BlockchainService} from "./services/blockchainService";
 import * as React from 'react';
 import {WalletService} from "./services/walletService";
+import {BrowserRouter} from "react-router-dom";
+import {LotteryService} from "./services/lotteryService";
 
 class Services {
     blockchain: BlockchainService;
     wallet: WalletService;
+    lottery: LotteryService;
 
 
-    constructor(blockchain: BlockchainService, wallet: WalletService) {
+    constructor(blockchain: BlockchainService, wallet: WalletService, lottery: LotteryService) {
         this.blockchain = blockchain;
         this.wallet = wallet;
+        this.lottery = lottery;
     }
 }
 
 const blockchain = new BlockchainService();
 const wallet = new WalletService();
-const services = new Services(blockchain, wallet);
+const lottery = new LotteryService(blockchain, wallet);
+const services = new Services(blockchain, wallet, lottery);
 
 export const ServiceContext = createContext(services);
 
@@ -41,6 +46,8 @@ function App() {
 
     return (
         <ServiceContext.Provider value={services}>
+            <BrowserRouter>
+
             <Box sx={{display: "flex"}}>
                 <CssBaseline/>
                 <WalphNavbar open={open} handleDrawerOpen={handleDrawerOpen}/>
@@ -54,6 +61,7 @@ function App() {
                     <MainContent/>
                 </Box>
             </Box>
+            </BrowserRouter>
         </ServiceContext.Provider>
     );
 }

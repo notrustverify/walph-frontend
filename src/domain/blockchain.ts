@@ -1,5 +1,3 @@
-import {type} from "os";
-
 export class Blockchain {
     name: string;
     type: 'dev' | 'main' | 'test';
@@ -14,7 +12,7 @@ export class Blockchain {
     }
 
     static alephium(): Blockchain {
-        return new Blockchain("Alephium", "main", "assets/alephium.png", ["ALPH", "ALF"])
+        return new Blockchain("Alephium", "main", "/assets/alephium.png", ["ALPH", "ALF"])
     }
 
     equals(other: Blockchain): boolean {

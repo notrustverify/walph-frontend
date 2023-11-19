@@ -18,8 +18,8 @@ export class AlephiumClient implements BlockchainClient {
     getAssets(account: Account): Promise<Asset[]> {
         if (account.address.length === 0) return Promise.resolve([]);
         return Promise.resolve([
-            new Asset("Alephium", 'ALPH', 123.58, "assets/alephium.png"),
-            new Asset("Scan", "ALF", 6568.58, "assets/alephium.png")
+            new Asset("Alephium", 'ALPH', 123.58, "/assets/alephium.png", account),
+            new Asset("Scan", "ALF", 6568.58, "/assets/alephium.png", account)
         ])
     }
 }

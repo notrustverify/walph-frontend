@@ -20,6 +20,7 @@ import {
 import {Address} from "./address";
 import Typography from "@mui/material/Typography";
 import {Asset} from "../domain/asset";
+import {Link, useNavigate} from "react-router-dom";
 
 export const drawerWidth = 240;
 
@@ -73,6 +74,7 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
     const [seed, setSeed] = useState(1);
     const [assets, setAssets] = useState(new Array<Asset>());
     const services = useContext(ServiceContext);
+    const navigate = useNavigate();
 
     const reload = () => setSeed(Math.random());
 
@@ -117,7 +119,7 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                         onChange={handleBlockchain}
                     >
                         {services.blockchain.getAll().map(b => (
-                            <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}
+                            <MenuItem value={b.name} key={b.name}><Icon><img alt={b.name} src={b.logo} height={25}/></Icon> {b.name}
                             </MenuItem>
                         ))}
                     </Select>
@@ -133,7 +135,7 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                         onChange={handleWallet}
                     >
                         {services.wallet.getAll(services.blockchain.selected).map(b => (
-                            <MenuItem value={b.name} key={b.name}><Icon><img src={b.logo} height={25}/></Icon> {b.name}
+                            <MenuItem value={b.name} key={b.name}><Icon><img alt={b.name} src={b.logo} height={25}/></Icon> {b.name}
                             </MenuItem>
                         ))}
                     </Select>
@@ -165,8 +167,8 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                         <Box sx={{marginTop: "10px"}}/>
                         <List>
                             {assets.map((asset) => (
-                                <ListItem sx={{width: "100%"}}>
-                                    <ListItemButton sx={{width: "100%"}}>
+                                <ListItem sx={{width: "100%"}} key={asset.symbol}>
+                                    <ListItemButton onClick={() => navigate(`/lotteries/${asset.symbol}`)}>
                                     <ListItemAvatar>
                                         <Avatar alt={asset.symbol} src={asset.logo} />
                                     </ListItemAvatar>

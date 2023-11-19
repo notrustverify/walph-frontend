@@ -12,6 +12,6 @@ export class Wallet {
     }
 
     static alephium(): Wallet {
-        return new Wallet("Official", "assets/alephium.png", Blockchain.alephium());
+        return new Wallet("Official", "/assets/alephium.png", Blockchain.alephium());
     }
 }

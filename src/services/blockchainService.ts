@@ -22,6 +22,11 @@ export class BlockchainService {
             .filter(a => this._selected?.getBlockchain().availableTokens.includes(a.symbol));
     }
 
+    async getAsset(symbol: string, account: Account): Promise<Asset> {
+        const assets =  (await this.getAssets(account)).filter(a => a.symbol === symbol);
+        return assets.length === 0 ? Promise.reject() : assets[0];
+    }
+
     select(name: string): void {
         this._selected = this.clients.filter(e => e.getBlockchain().name === name)[0];
     }

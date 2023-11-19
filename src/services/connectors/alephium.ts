@@ -1,6 +1,7 @@
 import {WalletConnector} from "./interface";
 import {Wallet} from "../../domain/wallet";
 import {Account} from "../../domain/account";
+import {Blockchain} from "../../domain/blockchain";
 
 export class AlephiumWalletConnector implements WalletConnector {
     private readonly wallet: Wallet;
@@ -13,6 +14,6 @@ export class AlephiumWalletConnector implements WalletConnector {
     }
 
     connect(): Promise<Account> {
-        return Promise.resolve(new Account("19WzSnmNC1SQ6v7RpFFXhpcMcFSiwM4nKTSdbwgSJfSHy"));
+        return Promise.resolve(new Account("19WzSnmNC1SQ6v7RpFFXhpcMcFSiwM4nKTSdbwgSJfSHy", Blockchain.alephium()));
     }
 }
