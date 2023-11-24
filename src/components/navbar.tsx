@@ -54,7 +54,7 @@ export function WalphNavbar({open, handleDrawerOpen}: WalphNavbarProp) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap component="div">
-                    Mini variant drawer
+                    Walph
                 </Typography>
             </Toolbar>
         </AppBar>

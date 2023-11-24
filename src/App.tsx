@@ -2,7 +2,7 @@ import {createContext, useState} from "react";
 import "./App.css";
 import {WalphSidebar} from "./components/sidebar";
 import MainContent from "./components/main";
-import {Box, CssBaseline, useTheme} from "@mui/material";
+import {Box, createTheme, CssBaseline, ThemeProvider, useTheme} from "@mui/material";
 import {WalphNavbar} from "./components/navbar";
 import {DrawerHeader} from "./components/drawerHeader";
 import {BlockchainService} from "./services/blockchainService";
@@ -35,6 +35,14 @@ function App() {
     const theme = useTheme();
     const [open, setOpen] = useState(true);
 
+    const darkTheme = createTheme({
+        palette: {
+            mode: 'dark',
+            primary: {main: '#7E3FF2'},
+            secondary: {main: '#36962f'}
+        }
+    })
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -47,7 +55,7 @@ function App() {
     return (
         <ServiceContext.Provider value={services}>
             <BrowserRouter>
-
+                <ThemeProvider theme={darkTheme}>
             <Box sx={{display: "flex"}}>
                 <CssBaseline/>
                 <WalphNavbar open={open} handleDrawerOpen={handleDrawerOpen}/>
@@ -61,6 +69,7 @@ function App() {
                     <MainContent/>
                 </Box>
             </Box>
+                </ThemeProvider>
             </BrowserRouter>
         </ServiceContext.Provider>
     );

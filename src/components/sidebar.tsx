@@ -39,9 +39,9 @@ const closedMixin = (theme: Theme) => ({
         duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
+    width: `0`,
     [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
+        width: `0`,
     },
 });
 
@@ -184,7 +184,6 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                                                 >
                                                     {asset.amount}
                                                 </Typography>
-                                                {" — I'll be in your neighborhood doing errands this…"}
                                             </React.Fragment>
                                         }
                                     />

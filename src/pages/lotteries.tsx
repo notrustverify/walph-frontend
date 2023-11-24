@@ -83,7 +83,7 @@ export function Lotteries() {
                             </Grid>
                             <Grid xs={3} sx={{padding: "5px", height: "100%"}}>
                                 {[...Array(lottery.nbTicketsBuy).keys()].map(i =>
-                                    (<Box sx={{margin: "5px", display: "inline"}}><img height="20px" src="/assets/ticket.svg"/></Box>)
+                                    (<Box sx={{display: "inline"}}><img height="30px" src="/assets/ticket.svg"/></Box>)
                                 )}
                             </Grid>
                             <Grid xs={4} sx={{padding: "5px"}}>
@@ -98,6 +98,7 @@ export function Lotteries() {
                             <Grid xs={4} sx={{padding: "5px"}}>
                                 <Typography>Gain ({lottery.winningPoll} {lottery.asset.symbol}) </Typography>
                                 <LinearProgress
+                                    color="secondary"
                                     variant="determinate"
                                     value={getWiningBar(lottery)}
                                     valueBuffer={20}
@@ -106,7 +107,7 @@ export function Lotteries() {
                         </Grid>
                     </CardContent>
                     <Divider/>
-                    <CardActions>
+                    <CardActions sx={{margin: '10px'}}>
                         <Button size="small" variant="contained" sx={{width: "150px"}}>Buy a ticket</Button>
                         <Typography sx={{width: "100%", textAlign: 'right'}}>
                             {formatCountDown(lottery.end)}
