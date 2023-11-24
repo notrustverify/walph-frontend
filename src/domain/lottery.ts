@@ -23,8 +23,4 @@ export class Lottery {
     get chance() {
         return this.nbTicketsBuy / this.nbTicketsSell;
     }
-
-    get estimateGain() {
-        return this.winningPoll * this.chance;
-    }
 }

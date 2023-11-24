@@ -2,8 +2,11 @@ import Typography from "@mui/material/Typography";
 import {useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {ServiceContext} from "../App";
-import {Box, Button, Card, CardActions, CardContent, Grid, LinearProgress, Slider} from "@mui/material";
+import {Box, Button, Card, CardActions, CardContent, Grid, LinearProgress, Slider, Stack} from "@mui/material";
 import {Lottery} from "../domain/lottery";
+import IconButton from "@mui/material/IconButton";
+import {Add, AirplaneTicketOutlined} from "@mui/icons-material";
+import Divider from "@mui/material/Divider";
 
 
 export function Lotteries() {
@@ -15,24 +18,50 @@ export function Lotteries() {
 
     const reload = () => setSeed(Math.random());
 
-    useEffect(() => {
-        const fetchLotteries = async () => {
-            try {
-                const res = await services.lottery.getLotteries(symbol || '');
-                setLotteries(res);
-            } catch (error) {
-                // Handle error
-                console.error(error);
-            }
-        };
+    const formatPct = (i: number): string =>  {
+        return Number(i).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2});
+    };
 
-        fetchLotteries();
-        }, [symbol]
-    )
+    const formatCountDown = (end: number): string => {
+        const delta =  Math.floor((end - Date.now()) / 1000);
+        const hours = Math.floor(delta / 3600);
+        const minutes = Math.floor((delta % 3600) / 60);
+        const seconds = delta % 60;
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const getChanceBar = (lottery: Lottery): number => {
+        return 90 * lottery.chance / lotteries.map(l => l.chance).reduce((a, b) => Math.max(a, b));
+    }
+
+    const getWiningBar = (lottery: Lottery): number => {
+        return 90 * lottery.winningPoll / lotteries.map(l => l.winningPoll).reduce((a, b) => Math.max(a, b));
+    }
+
+    useEffect(() => {
+        console.log(`EFFECT ${symbol}`);
+        const intervalId = setInterval(() => {
+            console.log(`INTERVAL ${symbol}`);
+
+            const fetchLotteries = async () => {
+                try {
+                    const res = await services.lottery.getLotteries(symbol || '');
+                    setLotteries(res);
+                } catch (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            };
+
+            fetchLotteries();
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [symbol]);
 
 
     return (
-        <Box key={seed}>
+        <Box key={symbol}>
             {lotteries.map((lottery => (
                 <Card sx={{margin: "20px"}}>
                     <CardContent>
@@ -40,44 +69,49 @@ export function Lotteries() {
                             container
                             spacing={0}
                             columns={12}
-                            alignItems="center"
-                            justifyContent="center"
+                            sx={{height: "100%"}}
                         >
-                            <Grid xs={1}>
-                                <Typography fontSize="h5">
+                            <Grid xs={1}  sx={{height: "100%"}}>
+                                <Typography
+                                    fontSize="30px" fontFamily="Courier" lineHeight="50%" sx={{textAlign: "center", marginTop: "8%"}}>
                                     {lottery.unitPrice}
                                 </Typography>
-                                <Typography fontSize="h5">
+                                <Typography fontSize="h5" fontFamily="Courier"  sx={{textAlign: "center"}}>
                                     {lottery.asset.symbol}
                                 </Typography>
 
                             </Grid>
-                            <Grid xs={3} sx={{padding: "5px"}}>
+                            <Grid xs={3} sx={{padding: "5px", height: "100%"}}>
+                                {[...Array(lottery.nbTicketsBuy).keys()].map(i =>
+                                    (<Box sx={{margin: "5px", display: "inline"}}><img height="20px" src="/assets/ticket.svg"/></Box>)
+                                )}
                             </Grid>
                             <Grid xs={4} sx={{padding: "5px"}}>
-                                <Typography>Estimate Gain ({lottery.estimateGain}) </Typography>
+                                <Typography>Chance ({formatPct(lottery.chance)})</Typography>
                                 <LinearProgress
                                     sx={{transform: "rotate(180deg)"}}
                                     variant="determinate"
-                                    value={10}
+                                    value={getChanceBar(lottery)}
                                     valueBuffer={20}
                                 />
                             </Grid>
                             <Grid xs={4} sx={{padding: "5px"}}>
-                                <Typography>Tickets bought ({lottery.nbTicketsBuy}) </Typography>
-                                <Slider
-                                    aria-label="Temperature"
-                                    defaultValue={lottery.nbTicketsBuy}
-                                    valueLabelDisplay="auto"
-                                    step={1}
-                                    marks
-                                    min={0}
-                                    max={15}
+                                <Typography>Gain ({lottery.winningPoll} {lottery.asset.symbol}) </Typography>
+                                <LinearProgress
+                                    variant="determinate"
+                                    value={getWiningBar(lottery)}
+                                    valueBuffer={20}
                                 />
                             </Grid>
                         </Grid>
-
                     </CardContent>
+                    <Divider/>
+                    <CardActions>
+                        <Button size="small" variant="contained" sx={{width: "150px"}}>Buy a ticket</Button>
+                        <Typography sx={{width: "100%", textAlign: 'right'}}>
+                            {formatCountDown(lottery.end)}
+                        </Typography>
+                    </CardActions>
                 </Card>
             )))}
         </Box>
