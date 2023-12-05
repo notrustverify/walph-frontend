@@ -3,6 +3,7 @@ import {AlephiumWalletConnector} from "./connectors/alephium";
 import {Wallet} from "../domain/wallet";
 import {Blockchain} from "../domain/blockchain";
 import {Account} from "../domain/account";
+import {Transaction} from "../domain/transaction";
 
 export class WalletService {
     private readonly connectors: WalletConnector[] = [
@@ -38,4 +39,9 @@ export class WalletService {
         return this._account;
     }
 
+    async send(number: number, address: string): Promise<Transaction> {
+        if (this._selected === undefined) return Promise.reject();
+
+        return this._selected.send(number, address);
+    }
 }
