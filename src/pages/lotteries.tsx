@@ -2,10 +2,8 @@ import Typography from "@mui/material/Typography";
 import {useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {ServiceContext} from "../App";
-import {Box, Button, Card, CardActions, CardContent, Grid, LinearProgress, Slider, Stack} from "@mui/material";
+import {Box, Button, Card, CardActions, CardContent, Grid, LinearProgress} from "@mui/material";
 import {Lottery} from "../domain/lottery";
-import IconButton from "@mui/material/IconButton";
-import {Add, AirplaneTicketOutlined} from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
 
 
@@ -47,6 +45,7 @@ export function Lotteries() {
             const fetchLotteries = async () => {
                 try {
                     const res = await services.lottery.getLotteries(symbol || '');
+                    console.log(res);
                     setLotteries(res);
                 } catch (error) {
                     // Handle error
@@ -55,7 +54,7 @@ export function Lotteries() {
             };
 
             fetchLotteries();
-        }, 1000);
+        }, 5000);
         return () => clearInterval(intervalId);
     }, [symbol]);
 

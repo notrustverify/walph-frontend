@@ -1,3 +1,4 @@
+import * as React from "react";
 import {createContext, useState} from "react";
 import "./App.css";
 import {WalphSidebar} from "./components/sidebar";
@@ -6,7 +7,6 @@ import {Box, createTheme, CssBaseline, ThemeProvider, useTheme} from "@mui/mater
 import {WalphNavbar} from "./components/navbar";
 import {DrawerHeader} from "./components/drawerHeader";
 import {BlockchainService} from "./services/blockchainService";
-import * as React from 'react';
 import {WalletService} from "./services/walletService";
 import {BrowserRouter} from "react-router-dom";
 import {LotteryService} from "./services/lotteryService";

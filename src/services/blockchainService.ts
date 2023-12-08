@@ -5,6 +5,7 @@ import {Account} from "../domain/account";
 import {Asset} from "../domain/asset";
 import {Contract} from "../domain/contract";
 import {Transaction} from "../domain/transaction";
+import {ContractState} from "../domain/contractState";
 
 export class BlockchainService {
     private readonly clients: BlockchainClient[] = [
@@ -29,9 +30,9 @@ export class BlockchainService {
         return assets.length === 0 ? Promise.reject() : assets[0];
     }
 
-    async getTransactions(contract: Contract, after: number): Promise<Transaction[]> {
-        if (this._selected === undefined) return Promise.reject([]);
-        return this._selected.getTransactions(contract, after);
+    async getContractState(contract: Contract, account: Account): Promise<ContractState>  {
+        if (this._selected === undefined) return Promise.reject("Blockchain not selected");
+        return this._selected.getContractState(contract, account);
     }
 
     async getContracts(symbol: string): Promise<Contract[]> {

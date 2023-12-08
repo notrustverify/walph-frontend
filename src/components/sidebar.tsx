@@ -1,5 +1,6 @@
 // Sidebar.js
 import * as React from 'react';
+import {useContext, useState} from 'react';
 import {styled, Theme} from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
@@ -7,20 +8,27 @@ import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import {DrawerHeader} from "./drawerHeader";
-import {useContext, useState} from "react";
 import {ServiceContext} from "../App";
 import {
     Avatar,
-    Box, Button,
-    FormControl, Icon,
-    InputLabel, List, ListItem, ListItemAvatar, ListItemButton, ListItemText,
+    Box,
+    Button,
+    FormControl,
+    Icon,
+    InputLabel,
+    List,
+    ListItem,
+    ListItemAvatar,
+    ListItemButton,
+    ListItemText,
     MenuItem,
-    Select, SelectChangeEvent
+    Select,
+    SelectChangeEvent
 } from "@mui/material";
 import {Address} from "./address";
 import Typography from "@mui/material/Typography";
 import {Asset} from "../domain/asset";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 export const drawerWidth = 240;
 

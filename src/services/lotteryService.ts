@@ -5,6 +5,7 @@ import {Asset} from "../domain/asset";
 import {Contract} from "../domain/contract";
 import {Spent, Transaction} from "../domain/transaction";
 import {Account} from "../domain/account";
+import {ContractState} from "../domain/contractState";
 
 export class LotteryService {
     private readonly blockchain: BlockchainService;
@@ -18,29 +19,6 @@ export class LotteryService {
         this.now = Date.now();
     }
 
-    _extractTicket(tx: Transaction[], contract: Contract): number {
-        const extractSpentAmount = (spents: Spent[], contract: Contract): number => {
-            return spents
-                .filter((s) => s.address === contract.address)
-                .map((s) => s.amount)
-                .reduce((a, b) => a + b);
-        }
-
-        const from: number = tx
-            .map((t) => extractSpentAmount(t.inputs, contract))
-            .reduce((a, b) => a+b);
-        const to: number = tx
-            .map((t) => extractSpentAmount(t.output, contract))
-            .reduce((a, b) => a + b);
-
-        return Math.floor((to-from) / contract.unitPrice);
-    }
-
-    isFromAccount(tx: Transaction, account?: Account): boolean {
-        if (account === undefined) return false;
-        return tx.inputs.some((i) => i.address === account.address);
-    }
-
     async getLotteries(symbol: string): Promise<Lottery[]> {
         if (this.wallet.account === undefined) return [];
         try {
@@ -49,21 +27,13 @@ export class LotteryService {
             const lotteries: Lottery[] = [];
 
             for(let contract of contracts) {
-                const start = Math.floor(Date.now() / 1000) % (contract.periodMinute * 60)
-                const end = start + contract.periodMinute * 60;
-                const tx: Transaction[] = await this.blockchain.getTransactions(contract, start)
-
-                const sell: number = this._extractTicket(tx, contract);
-                const buy: number = this._extractTicket(
-                    tx.filter((t) => this.isFromAccount(t, this.wallet.account)),
-                    contract);
-
-                lotteries.push(new Lottery(contract.unitPrice, buy, sell, end, asset, contract));
+                const state: ContractState = await this.blockchain.getContractState(contract, this.wallet.account)
+                lotteries.push(new Lottery(contract.unitPrice, state.buy, state.attendees, state.end, asset, contract));
             }
 
             return lotteries;
         } catch (e) {
-            return Promise.reject();
+            return Promise.reject(e);
         }
     }
 

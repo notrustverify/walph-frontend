@@ -15,7 +15,7 @@ export class AlephiumWalletConnector implements WalletConnector {
     }
 
     connect(): Promise<Account> {
-        return Promise.resolve(new Account("19WzSnmNC1SQ6v7RpFFXhpcMcFSiwM4nKTSdbwgSJfSHy", Blockchain.alephium()));
+        return Promise.resolve(new Account("1JDi2dx4gYVde7K9YFsvSva8Md2tt4BeRBHvpueJ5FsjX", Blockchain.alephium()));
     }
 
     async send(number: number, address: string): Promise<Transaction> {
