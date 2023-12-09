@@ -11,6 +11,7 @@ import {
   WalphTimedTokenInstance,
 } from ".";
 import { default as mainnetDeployments } from "../.deployments.mainnet.json";
+import { default as testnetDeployments } from "../.deployments.testnet.json";
 import { default as devnetDeployments } from "../.deployments.devnet.json";
 
 export type Deployments = {
@@ -21,12 +22,10 @@ export type Deployments = {
     WalphTimed_BlitzThreeDays: DeployContractExecutionResult<WalphTimedInstance>;
     WalphTimedToken_BlitzThreeDaysAlf: DeployContractExecutionResult<WalphTimedTokenInstance>;
     WalphTimedToken_BlitzThreeDaysAyin: DeployContractExecutionResult<WalphTimedTokenInstance>;
-    WalphTimed_BlitzMexc: DeployContractExecutionResult<WalphTimedInstance>;
-    WalphTimed_BlitzMexcFiveDays: DeployContractExecutionResult<WalphTimedInstance>;
-    WalphTimed_BlitzMexcTenDays: DeployContractExecutionResult<WalphTimedInstance>;
-    WalphTimed_BlitzMexcTwentyDays: DeployContractExecutionResult<WalphTimedInstance>;
     WalphTimedToken_BlitzThreeDaysUSDT?: DeployContractExecutionResult<WalphTimedTokenInstance>;
     WalphTimedToken_BlitzThreeDaysUSDC?: DeployContractExecutionResult<WalphTimedTokenInstance>;
+    WalphTimedToken_BlitzThreeDaysNgu?: DeployContractExecutionResult<WalphTimedTokenInstance>;
+    WalphTimedToken_BlitzFiveDaysNgu?: DeployContractExecutionResult<WalphTimedTokenInstance>;
   };
 };
 
@@ -64,31 +63,6 @@ function toDeployments(json: any): Deployments {
           .address
       ),
     },
-    WalphTimed_BlitzMexc: {
-      ...json.contracts["WalphTimed:BlitzMexc"],
-      contractInstance: WalphTimed.at(
-        json.contracts["WalphTimed:BlitzMexc"].contractInstance.address
-      ),
-    },
-    WalphTimed_BlitzMexcFiveDays: {
-      ...json.contracts["WalphTimed:BlitzMexcFiveDays"],
-      contractInstance: WalphTimed.at(
-        json.contracts["WalphTimed:BlitzMexcFiveDays"].contractInstance.address
-      ),
-    },
-    WalphTimed_BlitzMexcTenDays: {
-      ...json.contracts["WalphTimed:BlitzMexcTenDays"],
-      contractInstance: WalphTimed.at(
-        json.contracts["WalphTimed:BlitzMexcTenDays"].contractInstance.address
-      ),
-    },
-    WalphTimed_BlitzMexcTwentyDays: {
-      ...json.contracts["WalphTimed:BlitzMexcTwentyDays"],
-      contractInstance: WalphTimed.at(
-        json.contracts["WalphTimed:BlitzMexcTwentyDays"].contractInstance
-          .address
-      ),
-    },
     WalphTimedToken_BlitzThreeDaysUSDT:
       json.contracts["WalphTimedToken:BlitzThreeDaysUSDT"] === undefined
         ? undefined
@@ -109,6 +83,26 @@ function toDeployments(json: any): Deployments {
                 .contractInstance.address
             ),
           },
+          WalphTimedToken_BlitzThreeDaysNgu:
+          json.contracts["WalphTimedToken:BlitzThreeDaysNgu"] === undefined
+            ? undefined
+            : {
+                ...json.contracts["WalphTimedToken:BlitzThreeDaysNgu"],
+                contractInstance: WalphTimedToken.at(
+                  json.contracts["WalphTimedToken:BlitzThreeDaysNgu"]
+                    .contractInstance.address
+                ),
+              },
+              WalphTimedToken_BlitzFiveDaysNgu:
+              json.contracts["WalphTimedToken:BlitzFiveDaysNgu"] === undefined
+                ? undefined
+                : {
+                    ...json.contracts["WalphTimedToken:BlitzFiveDaysNgu"],
+                    contractInstance: WalphTimedToken.at(
+                      json.contracts["WalphTimedToken:BlitzFiveDaysNgu"]
+                        .contractInstance.address
+                    ),
+                  },
   };
   return {
     ...json,
@@ -123,6 +117,8 @@ export function loadDeployments(
   const deployments =
     networkId === "mainnet"
       ? mainnetDeployments
+      : networkId === "testnet"
+      ? testnetDeployments
       : networkId === "devnet"
       ? devnetDeployments
       : undefined;

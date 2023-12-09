@@ -338,6 +338,46 @@ export default function Home() {
           Blitz Token walph
         </Typography>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>3 days</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>500 NGU</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/wngu'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
+          <Grid xs={12} md={6}>
+            <Item>
+              <Typography variant="h5">
+                Draw every <strong>5 days</strong>
+              </Typography>
+              <Typography variant="h5">
+                Ticket price: <strong>1000 NGU</strong>
+              </Typography>
+              <p>&nbsp;</p>
+              <WalphButton
+                variant="contained"
+                onClick={() => {
+                  window.location.href = '/wngu5'
+                }}
+                disabled={connectionStatus != 'connected'}
+              >
+                Join
+              </WalphButton>
+            </Item>
+          </Grid>
           <Grid xs={12} md={6}>
             <Item>
               <Typography variant="h5">
