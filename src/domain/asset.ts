@@ -18,6 +18,7 @@ interface Network {
 export class Asset {
     private readonly mainnet: Network = mainnetJson;
 
+    id: string;
     name: string;
     symbol: string;
     amount: number;
@@ -30,6 +31,7 @@ export class Asset {
         ? this.mainnet.tokens.filter((t) => t.id === id)[0]
             : this.mainnet.tokens.filter((t) => t.symbol === symbol)[0];
 
+        this.id = token.id;
         this.name = token.name;
         this.symbol = token.symbol;
         this.amount = amount / Math.pow(10, token.decimals);

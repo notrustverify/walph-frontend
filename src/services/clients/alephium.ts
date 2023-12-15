@@ -11,8 +11,16 @@ export class AlephiumClient implements BlockchainClient {
     private blockchain: Blockchain;
     private provider: NodeProvider
     private static CONTRACTS = [
-        new Contract("29Qcr1sH2a74W7z9upaty8pacos6YK2zdsuUknBKMaVZi", 1,"ALPH", 60 * 24, 5),
+        new Contract(
+            "dab039d59282b573fc9badb7f936fb868a16313c01667b63fa41fd15d3b6a101",
+            "29Qcr1sH2a74W7z9upaty8pacos6YK2zdsuUknBKMaVZi",
+            1,"ALPH", 60 * 24, 5
+        ),
     ]
+    /*
+              "address": "29Qcr1sH2a74W7z9upaty8pacos6YK2zdsuUknBKMaVZi",
+          "contractId": "dab039d59282b573fc9badb7f936fb868a16313c01667b63fa41fd15d3b6a101",
+     */
 
 
     constructor(blockchain: Blockchain) {
@@ -37,7 +45,6 @@ export class AlephiumClient implements BlockchainClient {
         }
 
         return assets;
-
     }
 
     async getContractState(contract: Contract, account: Account): Promise<ContractState> {

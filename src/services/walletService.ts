@@ -4,6 +4,7 @@ import {Wallet} from "../domain/wallet";
 import {Blockchain} from "../domain/blockchain";
 import {Account} from "../domain/account";
 import {Transaction} from "../domain/transaction";
+import {Lottery} from "../domain/lottery";
 
 export class WalletService {
     private readonly connectors: WalletConnector[] = [
@@ -39,9 +40,9 @@ export class WalletService {
         return this._account;
     }
 
-    async send(number: number, address: string): Promise<Transaction> {
-        if (this._selected === undefined) return Promise.reject();
+    async send(amount: number, lottery: Lottery): Promise<Transaction> {
+        if (this._selected === undefined || this._account === undefined) return Promise.reject();
 
-        return this._selected.send(number, address);
+        return this._selected.send(amount * 10 ** lottery.asset.decimals, this._account, lottery);
     }
 }

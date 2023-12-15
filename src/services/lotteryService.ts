@@ -38,6 +38,6 @@ export class LotteryService {
     }
 
     async buyTicket(lottery: Lottery, nb: number): Promise<Transaction> {
-        return this.wallet.send(nb * lottery.unitPrice, lottery.contract.address);
+        return this.wallet.send(nb * lottery.unitPrice, lottery);
     }
 }

@@ -24,6 +24,6 @@ export class Lottery {
     }
 
     get chance() {
-        return this.nbTicketsBuy / this.nbTicketsSell;
+        return (this.nbTicketsBuy + 1) / (this.nbTicketsSell + 1);
     }
 }
