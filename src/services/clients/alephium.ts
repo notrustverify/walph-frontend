@@ -5,6 +5,7 @@ import {Asset} from "../../domain/asset";
 import {Contract} from "../../domain/contract";
 import {NodeProvider} from "@alephium/web3";
 import {ContractState} from "../../domain/contractState";
+import {Balance} from "@alephium/web3/dist/src/api/api-alephium";
 
 export class AlephiumClient implements BlockchainClient {
     private blockchain: Blockchain;
@@ -23,30 +24,32 @@ export class AlephiumClient implements BlockchainClient {
         return this.blockchain;
     }
 
-    getAssets(account: Account): Promise<Asset[]> {
+    async getAssets(account: Account): Promise<Asset[]> {
         if (account.address.length === 0) return Promise.resolve([]);
-        return Promise.resolve([
-            new Asset("Alephium", 'ALPH', 123.58, "/assets/alephium.png", account),
-            new Asset("Scan", "ALF", 6568.58, "/assets/alephium.png", account)
-        ])
+
+        const balance: Balance = await this.provider.addresses.getAddressesAddressBalance(account.address);
+        const assets: Asset[] = (balance.tokenBalances ?? []).map((token) =>
+            new Asset("", token.id, parseFloat(token.amount), account)
+        );
+
+        if (balance.balance) {
+            assets.push(new Asset("ALPH", "", parseFloat(balance.balance), account))
+        }
+
+        return assets;
+
     }
 
     async getContractState(contract: Contract, account: Account): Promise<ContractState> {
-        // const events: ContractEvents = await this.provider.events.getEventsContractContractaddress(contract.address, {start: 0, limit: 100, group: contract.index})
         const state = await this.provider.contracts.getContractsAddressState(contract.address, {group: contract.index});
 
-        state.mutFields.forEach((e) => console.log(e));
         const end = parseInt(state.mutFields[0].value as string);
-        console.log(`END ${end}`);
         const sell = parseInt(state.mutFields[5].value as string);
-        console.log(`SELL ${sell}`);
 
         const buy = state.mutFields
             .slice(6, 6+sell)
             .filter((add) => (add.value as string) === account.address)
             .length
-        console.log(`BUY ${buy}`);
-
 
         return new ContractState(sell, buy, end);
     }
