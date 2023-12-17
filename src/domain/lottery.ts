@@ -20,7 +20,7 @@ export class Lottery {
     }
 
     get winningPoll() {
-        return this.unitPrice * this.nbTicketsSell;
+        return this.unitPrice * (this.nbTicketsSell - this.nbTicketsBuy);
     }
 
     get chance() {

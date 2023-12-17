@@ -13,10 +13,6 @@ export class Blockchain {
         this.node = node;
     }
 
-    static alephium(): Blockchain {
-        return new Blockchain("Alephium", "mainnet", "/assets/alephium.png", ["ALPH", "ALF"], "https://lb.notrustverify.ch")
-    }
-
     equals(other: Blockchain): boolean {
         return other.name === this.name &&
             other.type === this.type;

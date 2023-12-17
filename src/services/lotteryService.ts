@@ -3,8 +3,7 @@ import {WalletService} from "./walletService";
 import {Lottery} from "../domain/lottery";
 import {Asset} from "../domain/asset";
 import {Contract} from "../domain/contract";
-import {Spent, Transaction} from "../domain/transaction";
-import {Account} from "../domain/account";
+import {Transaction} from "../domain/transaction";
 import {ContractState} from "../domain/contractState";
 
 export class LotteryService {

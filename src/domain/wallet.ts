@@ -10,8 +10,4 @@ export class Wallet {
         this.logo = logo;
         this.blockchain = blockchain;
     }
-
-    static alephium(): Wallet {
-        return new Wallet("Official", "/assets/alephium.png", Blockchain.alephium());
-    }
 }
