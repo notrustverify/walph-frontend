@@ -24,10 +24,11 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
     }
 
     const getChanceBar = (lottery: Lottery): number => {
-        return 90 * lottery.chance / lotteries.map(l => l.chance).reduce((a, b) => Math.max(a, b));
+        return 100 * lottery.chance / lotteries.map(l => l.chance).reduce((a, b) => Math.max(a, b));
     }
 
     const getWiningBar = (lottery: Lottery): number => {
+        if (lottery.winningPoll === 0) return 0;
         return 90 * lottery.winningPoll / lotteries.map(l => l.winningPoll).reduce((a, b) => Math.max(a, b));
     }
 
@@ -47,7 +48,7 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
                 columns={12}
                 sx={{height: "100%"}}
             >
-                <Grid xs={1}  sx={{height: "100%"}}>
+                <Grid md={1} xs={2}  sx={{height: "100%"}}>
                     <Typography
                         fontSize="30px" fontFamily="Courier" lineHeight="50%" sx={{textAlign: "center", marginTop: "8%"}}>
                         {lottery.unitPrice}
@@ -57,12 +58,12 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
                     </Typography>
 
                 </Grid>
-                <Grid xs={3} sx={{padding: "5px", height: "100%"}}>
+                <Grid md={3} xs={10} sx={{padding: "5px", height: "100%"}}>
                     {[...Array(lottery.nbTicketsBuy).keys()].map(i =>
                         (<Box sx={{display: "inline"}}><img height="30px" src="/assets/ticket.svg"/></Box>)
                     )}
                 </Grid>
-                <Grid xs={4} sx={{padding: "5px"}}>
+                <Grid md={4} xs={12} sx={{padding: "5px"}}>
                     <Typography>Chance ({formatPct(lottery.chance)})</Typography>
                     <LinearProgress
                         sx={{transform: "rotate(180deg)"}}
@@ -71,7 +72,7 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
                         valueBuffer={20}
                     />
                 </Grid>
-                <Grid xs={4} sx={{padding: "5px"}}>
+                <Grid md={4} xs={12} sx={{padding: "5px"}}>
                     <Typography>Gain ({lottery.winningPoll} {lottery.asset.symbol}) </Typography>
                     <LinearProgress
                         color="secondary"
@@ -90,7 +91,7 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
                 justifyContent="flex-start"
                 alignItems="center"
             >
-                <Grid item xs={1}>
+                <Grid item md={1} xs={1}>
                     <TextField
                         id="standard-basic"
                         variant="standard"
@@ -101,14 +102,18 @@ export function LotteryComponent({lottery, lotteries}: LotteryProps) {
                         fullWidth
                     />
                 </Grid>
-                <Grid item xs={1}/>
-                <Grid item xs={6}>
+                <Grid item md={1} xs={1}/>
+                <Grid item md={2} xs={4} sx={{marginBottom: "10px"}}>
                     <Button size="small" variant="contained" sx={{width: "150px"}} onClick={onBuy}>Buy tickets</Button>
                 </Grid>
+                <Grid item md={4} xs={7}/>
+                <Grid item md={4} xs={5}>
+                    <Typography sx={{width: "100%", textAlign: 'right'}}>
+                        {formatCountDown(lottery.end)}
+                    </Typography>
+                </Grid>
             </Grid>
-            <Typography sx={{width: "100%", textAlign: 'right'}}>
-                {formatCountDown(lottery.end)}
-            </Typography>
+
         </CardActions>
     </Card>
 }

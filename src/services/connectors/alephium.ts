@@ -13,11 +13,12 @@ import {
 } from "@alephium/web3";
 import {Lottery} from "../../domain/lottery";
 import {ALEPHIUM} from "../../config/blockchains";
+import {getLastConnectedAccount} from "@alephium/web3-react/build/utils/storage";
 
 export class AlephiumWalletConnector implements WalletConnector {
     private readonly wallet: Wallet;
     private account: AlephiumAccount | undefined;
-    private window: AlephiumWindowObject | undefined;
+    private window: SignerProvider | undefined;
     constructor(wallet: Wallet) {
         this.wallet = wallet;
     }
@@ -26,16 +27,17 @@ export class AlephiumWalletConnector implements WalletConnector {
         return this.wallet;
     }
 
-    async connect(): Promise<Account> {
-        this.window = await getDefaultAlephiumWallet();
-        this.account = await this.window?.enable({networkId: this.wallet.blockchain.type, onDisconnected: () => {}});
+    async connect(signer: SignerProvider): Promise<Account> {
+
+        this.window = signer
+        this.account = await this.window?.getSelectedAccount();
 
         if (this.account) {
             return Promise.resolve(new Account(this.account.address, ALEPHIUM));
         } else {
             return Promise.reject("Can't connect to wallet")
         }
-
+        return Promise.reject("Can't connect to wallet")
     }
 
     async send(amount: number, account: Account, lottery: Lottery): Promise<Transaction> {

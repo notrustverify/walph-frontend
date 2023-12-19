@@ -10,6 +10,7 @@ import {BlockchainService} from "./services/blockchainService";
 import {WalletService} from "./services/walletService";
 import {BrowserRouter} from "react-router-dom";
 import {LotteryService} from "./services/lotteryService";
+import {AlephiumWalletProvider} from "@alephium/web3-react";
 
 class Services {
     blockchain: BlockchainService;
@@ -53,6 +54,7 @@ function App() {
 
 
     return (
+        <AlephiumWalletProvider network="mainnet">
         <ServiceContext.Provider value={services}>
             <BrowserRouter>
                 <ThemeProvider theme={darkTheme}>
@@ -72,6 +74,7 @@ function App() {
                 </ThemeProvider>
             </BrowserRouter>
         </ServiceContext.Provider>
+        </AlephiumWalletProvider>
     );
 }
 

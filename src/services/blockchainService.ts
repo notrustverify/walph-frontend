@@ -5,9 +5,10 @@ import {Asset} from "../domain/asset";
 import {Contract} from "../domain/contract";
 import {ContractState} from "../domain/contractState";
 import {CLIENTS} from "../config/blockchains";
+import {AlephiumClient} from "./clients/alephium";
 
 export class BlockchainService {
-    private _selected: BlockchainClient | undefined;
+    private _selected: BlockchainClient | undefined = CLIENTS[0];
 
     getAll(): Blockchain[] {
         return CLIENTS.map(e => e.getBlockchain());
