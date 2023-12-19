@@ -5,6 +5,7 @@
   "dependencies": {
     "@alephium/get-extension-wallet": "^0.27.0",
     "@alephium/web3": "^0.24.0",
+    "@alephium/web3-react": "^0.27.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.16",

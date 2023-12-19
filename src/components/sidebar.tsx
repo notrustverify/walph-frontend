@@ -29,6 +29,9 @@ import {Address} from "./address";
 import Typography from "@mui/material/Typography";
 import {Asset} from "../domain/asset";
 import {useNavigate} from "react-router-dom";
+import {AlephiumConnectButton} from "@alephium/web3-react";
+import {ConnectButton} from "./connect";
+import {SignerProvider} from "@alephium/web3";
 
 export const drawerWidth = 240;
 
@@ -80,6 +83,7 @@ type WalphSidebarProp = {
 export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp) => {
 
     const [seed, setSeed] = useState(1);
+    const [already, setAlready] = useState(false);
     const [assets, setAssets] = useState(new Array<Asset>());
     const services = useContext(ServiceContext);
     const navigate = useNavigate();
@@ -96,11 +100,13 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
         reload();
     }
 
-    const connect = async (): Promise<void> => {
-        const account = await services.wallet.connect();
+    const connect = async (signer: SignerProvider): Promise<void> => {
+        if (already) return;
+
+        setAlready(true);
+        const account = await services.wallet.connect(signer);
         const myassets = await services.blockchain.getAssets(account);
         setAssets(myassets);
-        reload();
     }
 
     return (
@@ -150,21 +156,7 @@ export const WalphSidebar = ({open, handleDrawerClose, theme}: WalphSidebarProp)
                 </FormControl>
 
                 <Box sx={{marginTop: "10px"}}/>
-                {services.wallet.account === undefined
-                    ? (<Button
-                        variant="contained"
-                        disabled={services.wallet.selected === undefined}
-                        onClick={connect}
-                    >Connected</Button>)
-                    : (<Button
-                        variant="outlined"
-                        color="warning"
-                        disabled={services.wallet.selected === undefined}
-                        onClick={connect}
-                    >Disconnect</Button>)
-                }
-
-
+                    <ConnectButton onConnect={connect}/>
 
                 {services.wallet.account === undefined ? <Box/> : (
                     <>

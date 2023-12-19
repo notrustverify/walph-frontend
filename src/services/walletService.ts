@@ -5,9 +5,10 @@ import {Account} from "../domain/account";
 import {Transaction} from "../domain/transaction";
 import {Lottery} from "../domain/lottery";
 import {CONNECTORS} from "../config/wallets";
+import {SignerProvider} from "@alephium/web3";
 
 export class WalletService {
-    private _selected: WalletConnector | undefined;
+    private _selected: WalletConnector | undefined = CONNECTORS[0];
     private _account: Account | undefined;
 
     getAll(blockchain: Blockchain | undefined): Wallet[] {
@@ -22,12 +23,13 @@ export class WalletService {
         this._selected = CONNECTORS.filter(e => e.getWallet().name === name)[0];
     }
 
-    async connect(): Promise<Account> {
+    async connect(signer: SignerProvider): Promise<Account> {
         if (this._selected === undefined) return Promise.reject();
 
-        this._account = await this._selected.connect();
+        this._account = await this._selected.connect(signer);
         return this._account;
     }
+
 
     get selected(): Wallet | undefined {
         return this._selected?.getWallet();
