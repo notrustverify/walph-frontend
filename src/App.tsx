@@ -54,7 +54,7 @@ function App() {
 
 
     return (
-        <AlephiumWalletProvider network="mainnet">
+        <AlephiumWalletProvider network="mainnet"  addressGroup={1}>
         <ServiceContext.Provider value={services}>
             <BrowserRouter>
                 <ThemeProvider theme={darkTheme}>
